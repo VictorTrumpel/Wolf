@@ -1,0 +1,21 @@
+{
+  "frames": [
+    {
+      "filename": "01Knight.png",
+      "frame": { "x": 0, "y": 0, "w": 384, "h": 288 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 384, "h": 288 },
+      "sourceSize": { "w": 384, "h": 288 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "cherry-knight.png",
+    "format": "RGBA8888",
+    "size": { "w": 384, "h": 288 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:45beee2e79926aad6023178aa34f8172:2412925c720b35f348c5bfec4f7f3359:e4ddca8175feab9d0b73ae814865ac41$"
+  }
+}
