@@ -1,4 +1,4 @@
-import { Scene, GameObjects, Input } from "phaser";
+import { Scene, GameObjects } from "phaser";
 import type * as PhaserTypes from "phaser";
 
 export class GameScene extends Scene {
