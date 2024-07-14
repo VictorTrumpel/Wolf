@@ -1,11 +1,15 @@
-import { Scene, GameObjects, Math as PhaserMath } from "phaser";
-import type * as PhaserTypes from "phaser";
+import { Scene, Math as PhaserMath, GameObjects, Physics } from "phaser";
+import type { Types as PhaserTypes } from "phaser";
+
+const HERO_SPEED = 5;
+const ENEMY_SPEED = 2;
 
 export class GameScene extends Scene {
-  private mainHero: Hero | null = null;
-  private enemy: Hero | null = null;
+  private mainHero: PhaserTypes.Physics.Arcade.ImageWithDynamicBody | null =
+    null;
+  private enemy: PhaserTypes.Physics.Arcade.ImageWithDynamicBody | null = null;
 
-  private cursors: PhaserTypes.Types.Input.Keyboard.CursorKeys | null = null;
+  private cursors: PhaserTypes.Input.Keyboard.CursorKeys | null = null;
 
   private WKey: Phaser.Input.Keyboard.Key | null = null;
   private AKey: Phaser.Input.Keyboard.Key | null = null;
@@ -17,17 +21,20 @@ export class GameScene extends Scene {
   }
 
   create() {
-    this.mainHero = new Hero(this, "wolf");
-
-    this.enemy = new Hero(this, "ork");
-    this.enemy.speed = 0.5;
-
     const image = this.add.image(-1600, -1500, "ground").setOrigin(0);
+    image.x = -100;
 
-    image.scale = 8;
+    image.scale = 2;
 
-    this.add.existing(this.mainHero);
-    this.add.existing(this.enemy);
+    this.mainHero = this.physics.add.image(400, 300, "wolf");
+    this.enemy = this.physics.add.image(500, 200, "ork");
+
+    this.mainHero.setCollideWorldBounds(true);
+    this.enemy.setCollideWorldBounds(true);
+
+    this.physics.add.collider(this.mainHero, this.enemy);
+
+    this.mainHero.setPushable(false);
 
     this.cursors = this.input.keyboard!.createCursorKeys();
 
@@ -42,58 +49,37 @@ export class GameScene extends Scene {
   update(): void {
     if (!this.cursors) return;
     if (!this.mainHero) return;
-    if (!this.enemy) return;
+
+    this.mainHero.setVelocity(0);
 
     if (this.cursors.left.isDown || this.AKey?.isDown) {
-      this.mainHero.x = this.mainHero.x - this.mainHero.speed;
-
-      this.mainHero.rotation = 0;
-      this.mainHero.flipX = false;
+      this.mainHero.setVelocityX(-200);
+    } else if (this.cursors.right.isDown || this.DKey?.isDown) {
+      this.mainHero.setVelocityX(200);
     }
-    if (this.cursors.right.isDown || this.DKey?.isDown) {
-      this.mainHero.x = this.mainHero.x + this.mainHero.speed;
 
-      this.mainHero.flipX = true;
-    }
     if (this.cursors.up.isDown || this.WKey?.isDown) {
-      this.mainHero.y = this.mainHero.y - this.mainHero.speed;
+      this.mainHero.setVelocityY(-200);
+    } else if (this.cursors.down.isDown || this.SKey?.isDown) {
+      this.mainHero.setVelocityY(200);
     }
-    if (this.cursors.down.isDown || this.SKey?.isDown) {
-      this.mainHero.y = this.mainHero.y + this.mainHero.speed;
+
+    if (this.enemy) {
+      this.physics.moveToObject(this.enemy, this.mainHero, 100);
     }
-    this.enemy?.moveToPoint(this.mainHero.x, this.mainHero.y);
-    this.cameras.main.centerOn(this.mainHero.x, this.mainHero.y);
   }
 }
 
-class Hero extends GameObjects.Sprite {
+class Hero extends Physics.Arcade.Sprite {
   speed = 6;
   radius = 20;
 
+  prevMoveAngle: number | null = null;
+
   constructor(scene: Scene, assetName: string) {
     super(scene, 350, 300, assetName);
-    this.setDisplayOrigin(this.originX, this.originY);
-    this;
-  }
+    console.log("this.body :>> ", this.body);
 
-  moveToPoint(x: number, y: number) {
-    const distance = PhaserMath.Distance.Between(this.x, this.y, x, y);
-
-    if (distance <= this.radius) return;
-
-    const point = new PhaserMath.Vector2();
-
-    const angle = PhaserMath.Angle.Between(this.x, this.y, x, y);
-
-    const pointTo = PhaserMath.RotateTo(
-      point,
-      this.x,
-      this.y,
-      angle,
-      this.speed
-    );
-
-    this.x = pointTo.x;
-    this.y = pointTo.y;
+    // this.body?.enable = true;
   }
 }

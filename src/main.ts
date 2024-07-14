@@ -9,6 +9,10 @@ const config: Phaser.Types.Core.GameConfig = {
   height: 720,
   roundPixels: false,
   pixelArt: true,
+  physics: {
+    default: "arcade",
+    arcade: { debug: true, debugShowVelocity: true, gravity: { x: 0, y: 0 } },
+  },
   scene: [PreloadScene, GameScene],
 };
 
