@@ -11,7 +11,9 @@ const config: Phaser.Types.Core.GameConfig = {
   pixelArt: true,
   physics: {
     default: "arcade",
-    arcade: { debug: true, debugShowVelocity: true, gravity: { x: 0, y: 0 } },
+    arcade: {
+      debug: true,
+    },
   },
   scene: [PreloadScene, GameScene],
 };

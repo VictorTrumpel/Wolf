@@ -1,0 +1,61 @@
+{
+  "frames": [
+    {
+      "filename": "swordSplash1",
+      "frame": { "x": 0, "y": 0, "w": 550, "h": 400 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 550, "h": 400 },
+      "sourceSize": { "w": 550, "h": 400 }
+    },
+    {
+      "filename": "swordSplash2",
+      "frame": { "x": 550, "y": 0, "w": 550, "h": 400 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 550, "h": 400 },
+      "sourceSize": { "w": 550, "h": 400 }
+    },
+    {
+      "filename": "swordSplash3",
+      "frame": { "x": 1100, "y": 0, "w": 550, "h": 400 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 550, "h": 400 },
+      "sourceSize": { "w": 550, "h": 400 }
+    },
+    {
+      "filename": "swordSplash4",
+      "frame": { "x": 0, "y": 400, "w": 550, "h": 400 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 550, "h": 400 },
+      "sourceSize": { "w": 550, "h": 400 }
+    },
+    {
+      "filename": "swordSplash5",
+      "frame": { "x": 550, "y": 400, "w": 550, "h": 400 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 550, "h": 400 },
+      "sourceSize": { "w": 550, "h": 400 }
+    },
+    {
+      "filename": "swordSplash6",
+      "frame": { "x": 1100, "y": 400, "w": 550, "h": 400 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 550, "h": 400 },
+      "sourceSize": { "w": 550, "h": 400 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "splash.png",
+    "format": "RGBA8888",
+    "size": { "w": 1650, "h": 800 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:e7e489dc255dc0d90ef267d0291f348a:2325a482273472de2dda3805c1c852f5:17912d807795a397b5ccd2ab39a16cd0$"
+  }
+}

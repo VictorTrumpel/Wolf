@@ -1,40 +1,44 @@
-import { Scene, Math as PhaserMath, GameObjects, Physics } from "phaser";
+import { Scene, Physics } from "phaser";
+import { Hero } from "../entities/Hero";
+import { Enemy } from "../entities/Enemy";
 import type { Types as PhaserTypes } from "phaser";
 
-const HERO_SPEED = 5;
-const ENEMY_SPEED = 2;
-
 export class GameScene extends Scene {
-  private mainHero: PhaserTypes.Physics.Arcade.ImageWithDynamicBody | null =
-    null;
-  private enemy: PhaserTypes.Physics.Arcade.ImageWithDynamicBody | null = null;
-
   private cursors: PhaserTypes.Input.Keyboard.CursorKeys | null = null;
+
+  private hero: Hero | null = null;
+  private heroInstance: Physics.Arcade.Image | null = null;
+  private enemy: Physics.Arcade.Image | null = null;
+
+  private ground: any = null;
 
   private WKey: Phaser.Input.Keyboard.Key | null = null;
   private AKey: Phaser.Input.Keyboard.Key | null = null;
   private SKey: Phaser.Input.Keyboard.Key | null = null;
   private DKey: Phaser.Input.Keyboard.Key | null = null;
+  private EnterKey: Phaser.Input.Keyboard.Key | null = null;
 
   constructor() {
     super("GameScene");
   }
 
   create() {
-    const image = this.add.image(-1600, -1500, "ground").setOrigin(0);
-    image.x = -100;
+    this.ground = this.add
+      .tileSprite(256, 256, 512, 512, "ground")
+      .setScrollFactor(0, 0);
 
-    image.scale = 2;
+    const hero = new Hero(this);
+    this.hero = hero;
+    const enemy = new Enemy(this);
 
-    this.mainHero = this.physics.add.image(400, 300, "wolf");
-    this.enemy = this.physics.add.image(500, 200, "ork");
+    this.heroInstance = hero.create();
+    this.enemy = enemy.create();
 
-    this.mainHero.setCollideWorldBounds(true);
-    this.enemy.setCollideWorldBounds(true);
+    this.physics.add.collider(this.heroInstance, this.enemy, () => {
+      hero.hurt(10);
+    });
 
-    this.physics.add.collider(this.mainHero, this.enemy);
-
-    this.mainHero.setPushable(false);
+    this.heroInstance.setBounce(1);
 
     this.cursors = this.input.keyboard!.createCursorKeys();
 
@@ -42,44 +46,49 @@ export class GameScene extends Scene {
     this.AKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.SKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.DKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.EnterKey = this.input.keyboard!.addKey(
+      Phaser.Input.Keyboard.KeyCodes.ENTER
+    );
 
-    this.input.setDefaultCursor;
+    this.EnterKey.onDown = () => {
+      const splash = hero.attack();
+
+      if (!splash) return;
+      if (!this.enemy) return;
+
+      let isHurted = false;
+
+      this.physics.add.overlap(splash, this.enemy, () => {
+        if (isHurted) return;
+        enemy.hurt(50);
+        isHurted = true;
+      });
+    };
   }
 
   update(): void {
+    if (!this.heroInstance?.active) return;
+    if (!this.enemy) return;
     if (!this.cursors) return;
-    if (!this.mainHero) return;
 
-    this.mainHero.setVelocity(0);
+    this.heroInstance.setVelocity(0);
+    this.hero?.update();
 
     if (this.cursors.left.isDown || this.AKey?.isDown) {
-      this.mainHero.setVelocityX(-200);
+      this.heroInstance.setVelocityX(-200);
+      this.heroInstance.flipX = false;
     } else if (this.cursors.right.isDown || this.DKey?.isDown) {
-      this.mainHero.setVelocityX(200);
+      this.heroInstance.setVelocityX(200);
+      this.heroInstance.flipX = true;
     }
-
     if (this.cursors.up.isDown || this.WKey?.isDown) {
-      this.mainHero.setVelocityY(-200);
+      this.heroInstance.setVelocityY(-200);
     } else if (this.cursors.down.isDown || this.SKey?.isDown) {
-      this.mainHero.setVelocityY(200);
+      this.heroInstance.setVelocityY(200);
     }
 
-    if (this.enemy) {
-      this.physics.moveToObject(this.enemy, this.mainHero, 100);
+    if (this.enemy.active) {
+      this.physics.moveTo(this.enemy, this.heroInstance.x, this.heroInstance.y);
     }
-  }
-}
-
-class Hero extends Physics.Arcade.Sprite {
-  speed = 6;
-  radius = 20;
-
-  prevMoveAngle: number | null = null;
-
-  constructor(scene: Scene, assetName: string) {
-    super(scene, 350, 300, assetName);
-    console.log("this.body :>> ", this.body);
-
-    // this.body?.enable = true;
   }
 }
