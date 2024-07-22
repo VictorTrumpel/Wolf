@@ -17,15 +17,17 @@ export class HealthBar {
     height: 8,
   };
 
-  private progressBox: GameObjects.Rectangle;
+  private progressBox!: GameObjects.Rectangle;
 
-  constructor(scene: Scene, options: HealthBarOptions) {
+  constructor(private scene: Scene, options: HealthBarOptions) {
     this.x = options.x - this.style.width / 2;
     this.y = options.y;
 
     this.style.boxColor = options.color;
+  }
 
-    this.progressBox = scene.add.rectangle(
+  create() {
+    this.progressBox = this.scene.add.rectangle(
       this.x + this.style.width / 2,
       this.y,
       this.style.width,
