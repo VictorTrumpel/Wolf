@@ -6,6 +6,8 @@ export class Ork {
   sprite: Sprite;
   characteristics: Characteristics;
 
+  private health = 200;
+
   constructor(scene: Scene) {
     this.sprite = new Sprite(scene);
     this.characteristics = new Characteristics({
@@ -17,10 +19,17 @@ export class Ork {
 
   create(x: number, y: number) {
     this.sprite.create(x, y, "ork");
+    this.sprite.body.onOverlap = true;
     this.sprite.sprite.userInfo = new Map([["creator", this]]);
   }
 
-  hurt() {
+  hurt(hp: number) {
+    this.health -= hp;
+
+    if (this.health <= 0) {
+      this.sprite.sprite.destroy();
+    }
+
     this.playHurtAnimation();
   }
 
@@ -31,6 +40,6 @@ export class Ork {
 
     setTimeout(() => {
       this.sprite.sprite.setTint(defaultTint);
-    }, 1);
+    }, 300);
   }
 }

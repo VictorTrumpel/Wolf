@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "typescript": "^5.2.2",
     "vite": "^5.3.1"
   },
   "dependencies": {
+    "lodash.debounce": "^4.0.8",
     "phaser": "^3.80.1"
   }
 }

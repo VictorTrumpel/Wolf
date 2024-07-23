@@ -1,3 +1,4 @@
+import { Sprite } from "./../shared/Sprite";
 import { Scene } from "phaser";
 import { Ork } from "./../entities/Ork";
 import { Wolf } from "../entities/Wolf";
@@ -8,6 +9,9 @@ export class GameScene extends Scene {
 
   private wolf: Wolf;
   private ork: Ork;
+  private ork2: Ork;
+
+  private enemiesGroup: Physics.Arcade.Group;
 
   private WKey: Phaser.Input.Keyboard.Key | null = null;
   private AKey: Phaser.Input.Keyboard.Key | null = null;
@@ -15,17 +19,11 @@ export class GameScene extends Scene {
   private DKey: Phaser.Input.Keyboard.Key | null = null;
   private EnterKey: Phaser.Input.Keyboard.Key | null = null;
 
-  handleAttackEnemy = (enemy: Physics.Arcade.Sprite) => {
-    const classCreator = enemy.userInfo?.get("creator");
-    if (classCreator instanceof Ork) {
-      classCreator.hurt();
-    }
-  };
-
   constructor() {
     super("GameScene");
     this.wolf = new Wolf(this);
     this.ork = new Ork(this);
+    this.ork2 = new Ork(this);
   }
 
   get cursors() {
@@ -41,29 +39,25 @@ export class GameScene extends Scene {
       .tileSprite(256, 256, 512, 512, "ground")
       .setScrollFactor(0, 0);
 
+    ground.setScale(5);
+    ground.setX(700);
+
     const enemiesGroup = this.physics.add.group({
       collideWorldBounds: true,
     });
+    this.enemiesGroup = enemiesGroup;
 
     this.ork.create(250, 350);
+    this.ork2.create(200, 350);
 
     this.wolf.create(350, 350);
 
     this.wolf.sprite.sprite.setCollideWorldBounds(true);
 
-    this.physics.add.collider(this.wolf.sprite.sprite, enemiesGroup, () => {});
-
-    this.physics.add.overlap(this.wolf.redSword.sprite.sprite, enemiesGroup);
-
-    this.physics.add.overlap(
-      this.wolf.redSword.sprite.sprite,
-      enemiesGroup,
-      (_, obj2) => {
-        this.handleAttackEnemy(obj2 as Physics.Arcade.Sprite);
-      }
-    );
+    this.physics.add.collider(this.wolf.sprite.sprite, enemiesGroup);
 
     enemiesGroup.add(this.ork.sprite.sprite);
+    enemiesGroup.add(this.ork2.sprite.sprite);
 
     this._cursors = this.input.keyboard!.createCursorKeys();
 
@@ -75,10 +69,40 @@ export class GameScene extends Scene {
       Phaser.Input.Keyboard.KeyCodes.ENTER
     );
 
+    const hurtSet = new Set<Physics.Arcade.Sprite>();
+
     this.EnterKey.onDown = () => {
       if (!this.wolf.isReadyToAttack()) return;
+      hurtSet.clear();
       this.wolf.attack();
     };
+
+    const attackEnemy = function (
+      this: { hurtSet: Set<Physics.Arcade.Sprite> },
+      _: any,
+      enemy: Physics.Arcade.Sprite
+    ) {
+      if (this.hurtSet.has(enemy)) return;
+      const creator = enemy.userInfo?.get("creator");
+      if (creator instanceof Ork) {
+        creator.hurt(50);
+        this.hurtSet.add(enemy);
+      }
+    };
+
+    this.physics.add.overlap(
+      this.wolf.redSword.sprite.sprite,
+      enemiesGroup,
+      attackEnemy as any,
+      undefined,
+      { hurtSet }
+    );
+
+    setInterval(() => {
+      const ork = new Ork(this);
+      ork.create(100, 200);
+      enemiesGroup.add(ork.sprite.sprite);
+    }, 1000);
   }
 
   update(): void {
@@ -97,5 +121,10 @@ export class GameScene extends Scene {
     } else if (this.cursors.down.isDown || this.SKey?.isDown) {
       this.wolf.sprite.setVelocityY(this.wolf.characteristics.speed);
     }
+
+    this.enemiesGroup.children.each((ch) => {
+      this.physics.moveToObject(ch, this.wolf.sprite.sprite, 50);
+      return true;
+    });
   }
 }

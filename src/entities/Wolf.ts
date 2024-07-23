@@ -31,6 +31,7 @@ export class Wolf {
     this.sprite.create(x, y, "wolf");
     this.redSword.create();
     this.healthBar.create();
+    this.sprite.sprite.userInfo = new Map([["creator", this]]);
   }
 
   updateWeaponPosition() {

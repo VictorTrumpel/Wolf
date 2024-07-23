@@ -28,6 +28,7 @@ export class RedSword {
     this.sprite.create(0, 0, "swordSplash");
 
     this.sprite.sprite.setScale(0.2, 0.2);
+    this.sprite.sprite.userInfo = new Map([["creator", this]]);
     this.setActive(false);
   }
 
