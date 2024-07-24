@@ -32,10 +32,11 @@ export class GameScene extends Scene {
   }
 
   create() {
-    this.createGround();
     this.createEnemiesGroup();
     this.createWolf();
+    this.createCastle();
 
+    if (!this.wolf) return;
     if (!this.enemiesGroup) return;
 
     this.startWolfAttack();
@@ -53,7 +54,7 @@ export class GameScene extends Scene {
       if (this.countOfEnemies >= this.maxCountOfEnemies) return;
       this.countOfEnemies += 1;
       let ork: Ork | null = new Ork(this);
-      ork.create(100, 200);
+      ork.create(400, 350);
       this.enemiesGroup.add(ork.sprite.sprite);
       ork.onKill = () => {
         this.countOfEnemies -= 1;
@@ -62,18 +63,21 @@ export class GameScene extends Scene {
   }
 
   createWolf() {
-    this.wolf.create(350, 350);
+    this.wolf.create(500, 350);
 
     this.wolf.sprite.sprite.setCollideWorldBounds(true);
   }
 
-  createGround() {
-    const ground = this.add
-      .tileSprite(256, 256, 512, 512, "ground")
-      .setScrollFactor(0, 0);
+  createCastle() {
+    const staticBody = this.physics.add.staticImage(200, 190, "castle");
+    staticBody.flipX = true;
+    staticBody.setCircle(225);
+    staticBody.setPushable(false);
+    staticBody.setDepth(-1);
 
-    ground.setScale(5);
-    ground.setX(700);
+    this.physics.add.collider(this.wolf.sprite.sprite, staticBody);
+    if (this.enemiesGroup)
+      this.physics.add.collider(this.enemiesGroup, staticBody);
   }
 
   createEnemiesGroup() {

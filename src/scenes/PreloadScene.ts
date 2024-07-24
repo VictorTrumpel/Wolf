@@ -5,6 +5,7 @@ import ground from "../assets/ground.png";
 import splash from "../assets/splash.png";
 import swordSplashJson from "../assets/sword-splash/splash.json";
 import swordSplash from "../assets/sword-splash/splash.png";
+import castle from "../assets/castle.png";
 
 export class PreloadScene extends Scene {
   constructor() {
@@ -16,7 +17,7 @@ export class PreloadScene extends Scene {
     this.load.image("ork", ork);
     this.load.image("ground", ground);
     this.load.image("splash", splash);
-    console.log("swordSplashJson :>> ", swordSplashJson);
+    this.load.image("castle", castle);
     this.load.atlas("swordSplash", swordSplash, swordSplashJson);
   }
 

@@ -17,6 +17,8 @@ export class Wolf {
 
   onKill: Function | null = null;
 
+  defaultTint = 0;
+
   constructor(scene: Scene) {
     this.sprite = new Sprite(scene);
     this.redSword = new RedSword(scene);
@@ -37,6 +39,7 @@ export class Wolf {
     this.redSword.create();
     this.healthBar.create();
     this.sprite.sprite.userInfo = new Map([["creator", this]]);
+    this.defaultTint = this.sprite.sprite.tint;
   }
 
   updateWeaponPosition() {
@@ -98,12 +101,10 @@ export class Wolf {
   }
 
   private playHurtAnimation() {
-    const defaultTint = this.sprite.sprite.tint;
-
     this.sprite.sprite.setTint(0xff0000);
 
     setTimeout(() => {
-      this.sprite.sprite.setTint(defaultTint);
-    }, 1);
+      this.sprite.sprite.setTint(this.defaultTint);
+    }, 100);
   }
 }
