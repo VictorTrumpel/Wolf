@@ -8,10 +8,8 @@ export class GameScene extends Scene {
   private _cursors: PhaserTypes.Input.Keyboard.CursorKeys | null = null;
 
   private wolf: Wolf;
-  private ork: Ork;
-  private ork2: Ork;
 
-  private enemiesGroup: Physics.Arcade.Group;
+  private enemiesGroup: Physics.Arcade.Group | null = null;
 
   private WKey: Phaser.Input.Keyboard.Key | null = null;
   private AKey: Phaser.Input.Keyboard.Key | null = null;
@@ -19,11 +17,12 @@ export class GameScene extends Scene {
   private DKey: Phaser.Input.Keyboard.Key | null = null;
   private EnterKey: Phaser.Input.Keyboard.Key | null = null;
 
+  countOfEnemies = 0;
+  maxCountOfEnemies = 10;
+
   constructor() {
     super("GameScene");
     this.wolf = new Wolf(this);
-    this.ork = new Ork(this);
-    this.ork2 = new Ork(this);
   }
 
   get cursors() {
@@ -47,17 +46,11 @@ export class GameScene extends Scene {
     });
     this.enemiesGroup = enemiesGroup;
 
-    this.ork.create(250, 350);
-    this.ork2.create(200, 350);
-
     this.wolf.create(350, 350);
 
     this.wolf.sprite.sprite.setCollideWorldBounds(true);
 
     this.physics.add.collider(this.wolf.sprite.sprite, enemiesGroup);
-
-    enemiesGroup.add(this.ork.sprite.sprite);
-    enemiesGroup.add(this.ork2.sprite.sprite);
 
     this._cursors = this.input.keyboard!.createCursorKeys();
 
@@ -73,6 +66,7 @@ export class GameScene extends Scene {
 
     this.EnterKey.onDown = () => {
       if (!this.wolf.isReadyToAttack()) return;
+      this.children.bringToTop(this.wolf.redSword.sprite.sprite);
       hurtSet.clear();
       this.wolf.attack();
     };
@@ -99,10 +93,15 @@ export class GameScene extends Scene {
     );
 
     setInterval(() => {
-      const ork = new Ork(this);
+      if (this.countOfEnemies >= this.maxCountOfEnemies) return;
+      this.countOfEnemies += 1;
+      let ork: Ork | null = new Ork(this);
       ork.create(100, 200);
       enemiesGroup.add(ork.sprite.sprite);
-    }, 1000);
+      ork.onKill = () => {
+        this.countOfEnemies -= 1;
+      };
+    }, 5000);
   }
 
   update(): void {
@@ -122,7 +121,7 @@ export class GameScene extends Scene {
       this.wolf.sprite.setVelocityY(this.wolf.characteristics.speed);
     }
 
-    this.enemiesGroup.children.each((ch) => {
+    this.enemiesGroup?.children.each((ch) => {
       this.physics.moveToObject(ch, this.wolf.sprite.sprite, 50);
       return true;
     });

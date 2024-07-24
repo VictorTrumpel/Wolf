@@ -8,6 +8,8 @@ export class Ork {
 
   private health = 200;
 
+  onKill: Function | null = null;
+
   constructor(scene: Scene) {
     this.sprite = new Sprite(scene);
     this.characteristics = new Characteristics({
@@ -28,6 +30,7 @@ export class Ork {
 
     if (this.health <= 0) {
       this.sprite.sprite.destroy();
+      this.onKill?.();
     }
 
     this.playHurtAnimation();
