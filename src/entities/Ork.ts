@@ -6,7 +6,7 @@ export class Ork {
   sprite: Sprite;
   characteristics: Characteristics;
 
-  private health = 200;
+  private health = 100;
 
   onKill: Function | null = null;
 

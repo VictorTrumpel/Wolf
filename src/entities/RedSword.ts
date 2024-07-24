@@ -46,6 +46,7 @@ export class RedSword {
   setActive(active: boolean) {
     this.sprite.sprite.setVisible(active);
     this.sprite.body.enable = active;
+    this.sprite.sprite.stop();
     active
       ? this.sprite.body.setSize(this.swordWidth, this.swordHeight)
       : this.sprite.body.setSize(0.1, 0.1);

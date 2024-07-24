@@ -8,9 +8,14 @@ export class Wolf {
   sprite: Sprite;
   characteristics: Characteristics;
   redSword: RedSword;
+
+  private health = 100;
+
   healthBar: HealthBar;
 
   attackReloadTimer: number | null = null;
+
+  onKill: Function | null = null;
 
   constructor(scene: Scene) {
     this.sprite = new Sprite(scene);
@@ -59,7 +64,23 @@ export class Wolf {
     return this.attackReloadTimer == null;
   }
 
+  hurt(hp: number) {
+    this.health -= hp;
+
+    if (this.health <= 0) {
+      this.sprite.sprite.destroy();
+      this.redSword.setActive(false);
+      this.onKill?.();
+    }
+
+    this.healthBar.change(this.health / 100);
+
+    this.playHurtAnimation();
+  }
+
   attack() {
+    if (!this.sprite.sprite.active) return;
+
     if (this.attackReloadTimer !== null) {
       clearTimeout(this.attackReloadTimer as number);
     }
@@ -74,5 +95,15 @@ export class Wolf {
   update() {
     this.updateWeaponPosition();
     this.updateHealthBarPosition();
+  }
+
+  private playHurtAnimation() {
+    const defaultTint = this.sprite.sprite.tint;
+
+    this.sprite.sprite.setTint(0xff0000);
+
+    setTimeout(() => {
+      this.sprite.sprite.setTint(defaultTint);
+    }, 1);
   }
 }

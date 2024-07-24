@@ -1,4 +1,3 @@
-import { Sprite } from "./../shared/Sprite";
 import { Scene } from "phaser";
 import { Ork } from "./../entities/Ork";
 import { Wolf } from "../entities/Wolf";
@@ -15,7 +14,6 @@ export class GameScene extends Scene {
   private AKey: Phaser.Input.Keyboard.Key | null = null;
   private SKey: Phaser.Input.Keyboard.Key | null = null;
   private DKey: Phaser.Input.Keyboard.Key | null = null;
-  private EnterKey: Phaser.Input.Keyboard.Key | null = null;
 
   countOfEnemies = 0;
   maxCountOfEnemies = 10;
@@ -34,23 +32,14 @@ export class GameScene extends Scene {
   }
 
   create() {
-    const ground = this.add
-      .tileSprite(256, 256, 512, 512, "ground")
-      .setScrollFactor(0, 0);
+    this.createGround();
+    this.createEnemiesGroup();
+    this.createWolf();
 
-    ground.setScale(5);
-    ground.setX(700);
+    if (!this.enemiesGroup) return;
 
-    const enemiesGroup = this.physics.add.group({
-      collideWorldBounds: true,
-    });
-    this.enemiesGroup = enemiesGroup;
-
-    this.wolf.create(350, 350);
-
-    this.wolf.sprite.sprite.setCollideWorldBounds(true);
-
-    this.physics.add.collider(this.wolf.sprite.sprite, enemiesGroup);
+    this.startWolfAttack();
+    this.startOrkAttack();
 
     this._cursors = this.input.keyboard!.createCursorKeys();
 
@@ -58,18 +47,53 @@ export class GameScene extends Scene {
     this.AKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.SKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.DKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.EnterKey = this.input.keyboard!.addKey(
-      Phaser.Input.Keyboard.KeyCodes.ENTER
-    );
+
+    setInterval(() => {
+      if (!this.enemiesGroup) return;
+      if (this.countOfEnemies >= this.maxCountOfEnemies) return;
+      this.countOfEnemies += 1;
+      let ork: Ork | null = new Ork(this);
+      ork.create(100, 200);
+      this.enemiesGroup.add(ork.sprite.sprite);
+      ork.onKill = () => {
+        this.countOfEnemies -= 1;
+      };
+    }, 3000);
+  }
+
+  createWolf() {
+    this.wolf.create(350, 350);
+
+    this.wolf.sprite.sprite.setCollideWorldBounds(true);
+  }
+
+  createGround() {
+    const ground = this.add
+      .tileSprite(256, 256, 512, 512, "ground")
+      .setScrollFactor(0, 0);
+
+    ground.setScale(5);
+    ground.setX(700);
+  }
+
+  createEnemiesGroup() {
+    const enemiesGroup = this.physics.add.group({
+      collideWorldBounds: true,
+    });
+    this.enemiesGroup = enemiesGroup;
+  }
+
+  startWolfAttack() {
+    if (!this.enemiesGroup) return;
 
     const hurtSet = new Set<Physics.Arcade.Sprite>();
 
-    this.EnterKey.onDown = () => {
+    setInterval(() => {
       if (!this.wolf.isReadyToAttack()) return;
       this.children.bringToTop(this.wolf.redSword.sprite.sprite);
       hurtSet.clear();
       this.wolf.attack();
-    };
+    }, 2500);
 
     const attackEnemy = function (
       this: { hurtSet: Set<Physics.Arcade.Sprite> },
@@ -78,52 +102,65 @@ export class GameScene extends Scene {
     ) {
       if (this.hurtSet.has(enemy)) return;
       const creator = enemy.userInfo?.get("creator");
-      if (creator instanceof Ork) {
-        creator.hurt(50);
-        this.hurtSet.add(enemy);
-      }
+      const isOrk = creator instanceof Ork;
+      if (!isOrk) return;
+      creator.hurt(25);
+      this.hurtSet.add(enemy);
     };
 
     this.physics.add.overlap(
       this.wolf.redSword.sprite.sprite,
-      enemiesGroup,
+      this.enemiesGroup,
       attackEnemy as any,
       undefined,
       { hurtSet }
     );
+  }
 
-    setInterval(() => {
-      if (this.countOfEnemies >= this.maxCountOfEnemies) return;
-      this.countOfEnemies += 1;
-      let ork: Ork | null = new Ork(this);
-      ork.create(100, 200);
-      enemiesGroup.add(ork.sprite.sprite);
-      ork.onKill = () => {
-        this.countOfEnemies -= 1;
-      };
-    }, 5000);
+  startOrkAttack() {
+    if (!this.enemiesGroup) return;
+
+    const attackWolf = () => {
+      if (!this.wolf) return;
+      this.wolf.hurt(0.1);
+    };
+
+    this.physics.add.collider(
+      this.wolf.sprite.sprite,
+      this.enemiesGroup,
+      attackWolf
+    );
   }
 
   update(): void {
-    this.wolf.update();
+    if (this.wolf.sprite.sprite.active) {
+      this.wolf.update();
+      this.wolf.sprite.sprite.setVelocity(0);
 
-    this.wolf.sprite.sprite.setVelocity(0);
-    if (this.cursors.left.isDown || this.AKey?.isDown) {
-      this.wolf.sprite.setVelocityX(-this.wolf.characteristics.speed);
-      this.wolf.sprite.sprite.flipX = false;
-    } else if (this.cursors.right.isDown || this.DKey?.isDown) {
-      this.wolf.sprite.setVelocityX(this.wolf.characteristics.speed);
-      this.wolf.sprite.sprite.flipX = true;
-    }
-    if (this.cursors.up.isDown || this.WKey?.isDown) {
-      this.wolf.sprite.setVelocityY(-this.wolf.characteristics.speed);
-    } else if (this.cursors.down.isDown || this.SKey?.isDown) {
-      this.wolf.sprite.setVelocityY(this.wolf.characteristics.speed);
+      if (this.cursors.left.isDown || this.AKey?.isDown) {
+        this.wolf.sprite.setVelocityX(-this.wolf.characteristics.speed);
+        this.wolf.sprite.sprite.flipX = false;
+      } else if (this.cursors.right.isDown || this.DKey?.isDown) {
+        this.wolf.sprite.setVelocityX(this.wolf.characteristics.speed);
+        this.wolf.sprite.sprite.flipX = true;
+      }
+
+      if (this.cursors.up.isDown || this.WKey?.isDown) {
+        this.wolf.sprite.setVelocityY(-this.wolf.characteristics.speed);
+      } else if (this.cursors.down.isDown || this.SKey?.isDown) {
+        this.wolf.sprite.setVelocityY(this.wolf.characteristics.speed);
+      }
     }
 
     this.enemiesGroup?.children.each((ch) => {
-      this.physics.moveToObject(ch, this.wolf.sprite.sprite, 50);
+      (ch as Physics.Arcade.Sprite).setVelocity(0);
       return true;
     });
+    if (this.wolf.sprite.sprite.active) {
+      this.enemiesGroup?.children.each((ch) => {
+        this.physics.moveToObject(ch, this.wolf.sprite.sprite, 50);
+        return true;
+      });
+    }
   }
 }
