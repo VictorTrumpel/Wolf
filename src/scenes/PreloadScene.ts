@@ -1,5 +1,5 @@
 import { Scene } from "phaser";
-import wolf from "../assets/wolf.png";
+import wolf from "../assets/hero.png";
 import ork from "../assets/ork.png";
 import ground from "../assets/ground.png";
 import splash from "../assets/splash.png";

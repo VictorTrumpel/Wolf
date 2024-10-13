@@ -30,6 +30,10 @@ export class Sprite {
     this.sprite.setVelocityY(velocity);
   }
 
+  setScale(scale: number) {
+    this.sprite.setScale(scale)
+  }
+
   moveTo(x: number, y: number, velocity = 100, maxTime?: number) {
     this.scene.physics.moveTo(this.sprite, x, y, velocity, maxTime);
   }

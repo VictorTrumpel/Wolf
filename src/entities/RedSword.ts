@@ -50,7 +50,5 @@ export class RedSword {
     active
       ? this.sprite.body.setSize(this.swordWidth, this.swordHeight)
       : this.sprite.body.setSize(0.1, 0.1);
-
-    //
   }
 }

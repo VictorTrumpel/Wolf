@@ -36,6 +36,7 @@ export class Wolf {
 
   create(x: number, y: number) {
     this.sprite.create(x, y, "wolf");
+    this.sprite.setScale(2)
     this.redSword.create();
     this.healthBar.create();
     this.sprite.sprite.userInfo = new Map([["creator", this]]);
@@ -47,11 +48,11 @@ export class Wolf {
     const wolfPositionY = this.sprite.sprite.y;
     const wolfFlipX = this.sprite.sprite.flipX;
 
-    const offset = !wolfFlipX ? -79 : 79;
+    const offset = wolfFlipX ? -79 : 79;
 
     this.redSword.sprite.sprite.setX(wolfPositionX + offset);
     this.redSword.sprite.sprite.setY(wolfPositionY);
-    this.redSword.sprite.sprite.flipX = !wolfFlipX;
+    this.redSword.sprite.sprite.flipX = wolfFlipX;
   }
 
   updateHealthBarPosition() {

@@ -143,10 +143,10 @@ export class GameScene extends Scene {
 
       if (this.cursors.left.isDown || this.AKey?.isDown) {
         this.wolf.sprite.setVelocityX(-this.wolf.characteristics.speed);
-        this.wolf.sprite.sprite.flipX = false;
+        this.wolf.sprite.sprite.flipX = true;
       } else if (this.cursors.right.isDown || this.DKey?.isDown) {
         this.wolf.sprite.setVelocityX(this.wolf.characteristics.speed);
-        this.wolf.sprite.sprite.flipX = true;
+        this.wolf.sprite.sprite.flipX = false;
       }
 
       if (this.cursors.up.isDown || this.WKey?.isDown) {
