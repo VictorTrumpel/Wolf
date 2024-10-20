@@ -8,7 +8,13 @@ vi.mock("../../shared/PhysicsSprite", () => {
     setScale = vi.fn();
     body = {
       setCircle: vi.fn(),
+      setVelocityX: vi.fn(),
+      setVelocityY: vi.fn(),
+      setVelocity: vi.fn(),
     };
+    getBody() {
+      return this.body;
+    }
     play = vi.fn();
     anims = {
       generateFrameNames: vi.fn((...args) => args),
@@ -74,29 +80,45 @@ describe("Спецификация класса RusHero", () => {
     expect(mockCreate.mock.calls[1][0].frames).toStrictEqual(frames);
   });
   test("При вызове метода playIdle() вызывается метод play с анимацией покоя", () => {
-    class Test extends RusHero {
-      testIdle() {
-        this.playIdle();
-      }
-    }
-
-    const rusHero = new Test({} as unknown as Scene, 0, 0);
-    rusHero.testIdle();
+    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+    rusHero.playIdle();
 
     expect(rusHero.play).toBeCalledTimes(1);
     expect(rusHero.play).toBeCalledWith("idle", true);
   });
   test("При вызове метода playRun() вызывается метод play с анимацией бега", () => {
-    class Test extends RusHero {
-      testRun() {
-        this.playRun();
-      }
-    }
-
-    const rusHero = new Test({} as unknown as Scene, 0, 0);
-    rusHero.testRun();
+    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+    rusHero.playRun();
 
     expect(rusHero.play).toBeCalledTimes(1);
     expect(rusHero.play).toBeCalledWith("run", true);
+  });
+  test("При вызове moveX(), body спрайта начинает двигаться с переданной скоростью по оси X", () => {
+    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+
+    rusHero.moveX(200);
+
+    // @ts-ignore
+    expect(rusHero.body.setVelocityX).toBeCalledTimes(1);
+    // @ts-ignore
+    expect(rusHero.body.setVelocityX).toBeCalledWith(200);
+  });
+  test("При вызове moveY(), body спрайта начинает двигаться с переданной скоростью по оси Y", () => {
+    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+
+    rusHero.moveY(200);
+
+    // @ts-ignore
+    expect(rusHero.body.setVelocityY).toBeCalledTimes(1);
+    // @ts-ignore
+    expect(rusHero.body.setVelocityY).toBeCalledWith(200);
+  });
+  test("Метод stopMoving() останавливает персонажа", () => {
+    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+
+    rusHero.stopMoving();
+
+    // @ts-ignore
+    expect(rusHero.body.setVelocity).toBeCalledTimes(1);
   });
 });

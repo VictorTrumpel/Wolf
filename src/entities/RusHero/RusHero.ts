@@ -1,5 +1,5 @@
 import { PhysicsSprite } from "../../shared/PhysicsSprite";
-import { Scene, Physics } from "phaser";
+import { Scene } from "phaser";
 
 const RUN_ANIMATION = "run";
 const IDLE_ANIMATION = "idle";
@@ -13,19 +13,34 @@ export class RusHero extends PhysicsSprite {
 
     this.setScale(2);
 
-    this.body = this.body as Physics.Arcade.Body;
-    this.body.setCircle(this.width / 2.5, HITBOX_OFFSET_X, HITBOX_OFFSET_Y);
+    const body = this.getBody();
+    body.setCircle(this.width / 2.5, HITBOX_OFFSET_X, HITBOX_OFFSET_Y);
 
     this.createIdleAnimation();
     this.createRunAnimation();
   }
 
-  protected playIdle() {
+  playIdle() {
     this.play(IDLE_ANIMATION, true);
   }
 
-  protected playRun() {
+  playRun() {
     this.play(RUN_ANIMATION, true);
+  }
+
+  moveX(speed: number) {
+    const body = this.getBody();
+    body.setVelocityX(speed);
+  }
+
+  moveY(speed: number) {
+    const body = this.getBody();
+    body.setVelocityY(speed);
+  }
+
+  stopMoving() {
+    const body = this.getBody();
+    body.setVelocity(0);
   }
 
   private createIdleAnimation() {

@@ -9,6 +9,9 @@ export class GameScene extends Scene {
 
   private wolf: Wolf;
 
+  // @ts-ignore
+  private rusHero: RusHero;
+
   private enemiesGroup: Physics.Arcade.Group | null = null;
 
   private WKey: Phaser.Input.Keyboard.Key | null = null;
@@ -37,7 +40,12 @@ export class GameScene extends Scene {
     this.createWolf();
     this.createCastle();
 
-    new RusHero(this, 800, 200);
+    this.rusHero = new RusHero(this, 800, 200);
+
+    // @ts-ignore
+    // this.rusHero.body.setVelocityX(100);
+
+    console.log("this.rusHero :>> ", this.rusHero);
 
     if (!this.wolf) return;
     if (!this.enemiesGroup) return;
@@ -51,18 +59,6 @@ export class GameScene extends Scene {
     this.AKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.SKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.DKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-    // setInterval(() => {
-    //   if (!this.enemiesGroup) return;
-    //   if (this.countOfEnemies >= this.maxCountOfEnemies) return;
-    //   this.countOfEnemies += 1;
-    //   let ork: Ork | null = new Ork(this);
-    //   ork.create(400, 350);
-    //   this.enemiesGroup.add(ork.sprite.sprite);
-    //   ork.onKill = () => {
-    //     this.countOfEnemies -= 1;
-    //   };
-    // }, 3000);
   }
 
   createWolf() {
@@ -163,6 +159,7 @@ export class GameScene extends Scene {
       (ch as Physics.Arcade.Sprite).setVelocity(0);
       return true;
     });
+
     if (this.wolf.sprite.sprite.active) {
       this.enemiesGroup?.children.each((ch) => {
         this.physics.moveToObject(ch, this.wolf.sprite.sprite, 50);

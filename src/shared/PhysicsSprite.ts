@@ -1,4 +1,4 @@
-import { GameObjects, Scene } from "phaser";
+import { GameObjects, Scene, Physics } from "phaser";
 
 export class PhysicsSprite extends GameObjects.Sprite {
   constructor(
@@ -12,5 +12,9 @@ export class PhysicsSprite extends GameObjects.Sprite {
 
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
+  }
+
+  getBody() {
+    return this.body as Physics.Arcade.Body;
   }
 }
