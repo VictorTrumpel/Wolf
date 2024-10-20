@@ -12,9 +12,9 @@ const config: Phaser.Types.Core.GameConfig = {
   backgroundColor: 0x706d6d,
   physics: {
     default: "arcade",
-    // arcade: {
-    //   debug: true,
-    // },
+    arcade: {
+      // debug: true,
+    },
   },
   scene: [PreloadScene, GameScene],
 };

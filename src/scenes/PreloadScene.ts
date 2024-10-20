@@ -1,11 +1,13 @@
 import { Scene } from "phaser";
-import wolf from "../assets/hero.png";
+import wolf from "../assets/wolf.png";
 import ork from "../assets/ork.png";
 import ground from "../assets/ground.png";
 import splash from "../assets/splash.png";
 import swordSplashJson from "../assets/sword-splash/splash.json";
 import swordSplash from "../assets/sword-splash/splash.png";
 import castle from "../assets/castle.png";
+import heroRunJson from "../assets/heroAtlas/heroAtlas.json";
+import heroRunAtlas from "../assets/heroAtlas/heroAtlas.png";
 
 export class PreloadScene extends Scene {
   constructor() {
@@ -19,6 +21,7 @@ export class PreloadScene extends Scene {
     this.load.image("splash", splash);
     this.load.image("castle", castle);
     this.load.atlas("swordSplash", swordSplash, swordSplashJson);
+    this.load.atlas("heroAtlas", heroRunAtlas, heroRunJson);
   }
 
   create() {

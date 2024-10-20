@@ -1,6 +1,7 @@
 import { Scene } from "phaser";
 import { Ork } from "./../entities/Ork";
 import { Wolf } from "../entities/Wolf";
+import { RusHero } from "../entities/RusHero/RusHero";
 import type { Types as PhaserTypes, Physics } from "phaser";
 
 export class GameScene extends Scene {
@@ -36,10 +37,12 @@ export class GameScene extends Scene {
     this.createWolf();
     this.createCastle();
 
+    new RusHero(this, 800, 200);
+
     if (!this.wolf) return;
     if (!this.enemiesGroup) return;
 
-    this.startWolfAttack();
+    // this.startWolfAttack();
     this.startOrkAttack();
 
     this._cursors = this.input.keyboard!.createCursorKeys();
@@ -49,17 +52,17 @@ export class GameScene extends Scene {
     this.SKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.DKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-    setInterval(() => {
-      if (!this.enemiesGroup) return;
-      if (this.countOfEnemies >= this.maxCountOfEnemies) return;
-      this.countOfEnemies += 1;
-      let ork: Ork | null = new Ork(this);
-      ork.create(400, 350);
-      this.enemiesGroup.add(ork.sprite.sprite);
-      ork.onKill = () => {
-        this.countOfEnemies -= 1;
-      };
-    }, 3000);
+    // setInterval(() => {
+    //   if (!this.enemiesGroup) return;
+    //   if (this.countOfEnemies >= this.maxCountOfEnemies) return;
+    //   this.countOfEnemies += 1;
+    //   let ork: Ork | null = new Ork(this);
+    //   ork.create(400, 350);
+    //   this.enemiesGroup.add(ork.sprite.sprite);
+    //   ork.onKill = () => {
+    //     this.countOfEnemies -= 1;
+    //   };
+    // }, 3000);
   }
 
   createWolf() {
