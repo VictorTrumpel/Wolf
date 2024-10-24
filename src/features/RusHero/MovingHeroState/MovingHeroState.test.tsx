@@ -1,6 +1,6 @@
 import { describe, test, vi, expect } from "vitest";
 import { MovingHeroState } from "./MovingHeroState";
-import { RusHeroContext } from "../RusHeroContext";
+import { RusHeroContext } from "../RusHeroContext/RusHeroContext";
 
 describe("Спецификация класса MovingHeroState", () => {
   test(`

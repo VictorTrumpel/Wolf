@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from "vitest";
 import { IdleHeroState } from "./IdleHeroState";
-import { RusHeroContext } from "../RusHeroContext";
+import { RusHeroContext } from "../RusHeroContext/RusHeroContext";
 
 describe("спецификация компонента IdleHeroState", () => {
   test(`

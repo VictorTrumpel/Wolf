@@ -1,9 +1,9 @@
 import { RusHeroSprite } from "@entities";
-import { IRusHeroState } from "./IRusHeroState";
-import { MovingHeroState } from "./MovingHeroState";
-import { IdleHeroState } from "./IdleHeroState";
+import { IRusHeroState } from "../IRusHeroState";
+import { MovingHeroState } from "../MovingHeroState";
+import { IdleHeroState } from "../IdleHeroState";
 
-export class RusHeroContext {
+export class RusHeroContext implements IRusHeroState {
   private heroState: IRusHeroState;
 
   constructor(private rusHeroSprite: RusHeroSprite) {
@@ -29,4 +29,12 @@ export class RusHeroContext {
   getIdleHeroState(): IRusHeroState {
     return new IdleHeroState(this);
   }
+
+  moveBottom(): void {}
+  moveLeft(): void {}
+  moveTop(): void {}
+  moveRight(): void {}
+  stopMoving(): void {}
+  attack(): void {}
+  getHurt(): void {}
 }
