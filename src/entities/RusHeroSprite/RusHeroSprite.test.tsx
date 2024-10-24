@@ -1,5 +1,5 @@
 import { describe, test, vi, expect, beforeEach } from "vitest";
-import { RusHero } from "./RusHero";
+import { RusHeroSprite } from "./RusHeroSprite";
 import { Scene } from "phaser";
 
 vi.mock("../../shared/PhysicsSprite", () => {
@@ -27,13 +27,13 @@ vi.mock("../../shared/PhysicsSprite", () => {
   };
 });
 
-describe("Спецификация класса RusHero", () => {
+describe("Спецификация класса RusHeroSprite", () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   test("Когда создается инстанс RusHero, то он увеличивается в 2 раза", () => {
-    const hero = new RusHero({} as unknown as Scene, 0, 0);
+    const hero = new RusHeroSprite({} as unknown as Scene, 0, 0);
 
     expect(hero.setScale).toBeCalledTimes(1);
     expect(hero.setScale).toBeCalledWith(2);
@@ -42,7 +42,7 @@ describe("Спецификация класса RusHero", () => {
     Когда создается инстанс RusHero, ему присваивется круглый хитбокс, радиусом в половину ширины / 2.5,
     и отступами 2px по X и 4px по Y
   `, () => {
-    const hero = new RusHero({} as unknown as Scene, 0, 0);
+    const hero = new RusHeroSprite({} as unknown as Scene, 0, 0);
 
     const heroWidth = hero.width;
 
@@ -52,7 +52,7 @@ describe("Спецификация класса RusHero", () => {
     expect(hero.body.setCircle).toBeCalledWith(heroWidth / 2.5, 2, 4);
   });
   test("Когда создается инстанс RusHero, то первой создается анимация покоя", () => {
-    const hero = new RusHero({} as unknown as Scene, 0, 0);
+    const hero = new RusHeroSprite({} as unknown as Scene, 0, 0);
 
     const mockCreate = hero.anims.create as ReturnType<typeof vi.fn>;
 
@@ -66,7 +66,7 @@ describe("Спецификация класса RusHero", () => {
     expect(mockCreate.mock.calls[0][0].frames).toStrictEqual(frames);
   });
   test("Когда создается инстанс RusHero, то после анимации покоя создается анимация бега", () => {
-    const hero = new RusHero({} as unknown as Scene, 0, 0);
+    const hero = new RusHeroSprite({} as unknown as Scene, 0, 0);
 
     const mockCreate = hero.anims.create as ReturnType<typeof vi.fn>;
 
@@ -80,21 +80,21 @@ describe("Спецификация класса RusHero", () => {
     expect(mockCreate.mock.calls[1][0].frames).toStrictEqual(frames);
   });
   test("При вызове метода playIdle() вызывается метод play с анимацией покоя", () => {
-    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+    const rusHero = new RusHeroSprite({} as unknown as Scene, 0, 0);
     rusHero.playIdle();
 
     expect(rusHero.play).toBeCalledTimes(1);
     expect(rusHero.play).toBeCalledWith("idle", true);
   });
   test("При вызове метода playRun() вызывается метод play с анимацией бега", () => {
-    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+    const rusHero = new RusHeroSprite({} as unknown as Scene, 0, 0);
     rusHero.playRun();
 
     expect(rusHero.play).toBeCalledTimes(1);
     expect(rusHero.play).toBeCalledWith("run", true);
   });
   test("При вызове moveX(), body спрайта начинает двигаться с переданной скоростью по оси X", () => {
-    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+    const rusHero = new RusHeroSprite({} as unknown as Scene, 0, 0);
 
     rusHero.moveX(200);
 
@@ -104,7 +104,7 @@ describe("Спецификация класса RusHero", () => {
     expect(rusHero.body.setVelocityX).toBeCalledWith(200);
   });
   test("При вызове moveY(), body спрайта начинает двигаться с переданной скоростью по оси Y", () => {
-    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+    const rusHero = new RusHeroSprite({} as unknown as Scene, 0, 0);
 
     rusHero.moveY(200);
 
@@ -114,7 +114,7 @@ describe("Спецификация класса RusHero", () => {
     expect(rusHero.body.setVelocityY).toBeCalledWith(200);
   });
   test("Метод stopMoving() останавливает персонажа", () => {
-    const rusHero = new RusHero({} as unknown as Scene, 0, 0);
+    const rusHero = new RusHeroSprite({} as unknown as Scene, 0, 0);
 
     rusHero.stopMoving();
 

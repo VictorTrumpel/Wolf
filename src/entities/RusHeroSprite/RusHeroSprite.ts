@@ -7,7 +7,7 @@ const IDLE_ANIMATION = "idle";
 const HITBOX_OFFSET_X = 2;
 const HITBOX_OFFSET_Y = 4;
 
-export class RusHero extends PhysicsSprite {
+export class RusHeroSprite extends PhysicsSprite {
   constructor(scene: Scene, x: number, y: number) {
     super(scene, x, y, "heroAtlas", "idle_");
 
@@ -53,7 +53,7 @@ export class RusHero extends PhysicsSprite {
       key: IDLE_ANIMATION,
       frames,
       frameRate: 10,
-      repeat: Infinity,
+      repeat: -1,
     });
   }
 
@@ -68,7 +68,7 @@ export class RusHero extends PhysicsSprite {
       key: RUN_ANIMATION,
       frames,
       frameRate: 10,
-      repeat: Infinity,
+      repeat: -1,
     });
   }
 }
