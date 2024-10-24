@@ -3,7 +3,11 @@ import { MovingHeroState } from "./MovingHeroState";
 import { RusHeroContext } from "../RusHeroContext";
 
 describe("Спецификация класса MovingHeroState", () => {
-  test("При вызове moveBottom(), из контекста достается спрайт персонажа и на нем вызывается метод moveY()", () => {
+  test(`
+    При вызове moveBottom(), из контекста достается спрайт персонажа и на нем вызывается метод 
+    - moveY() для перемещение тела
+    - playRun() для проигрывания анимации бега
+  `, () => {
     const SpriteContext = {
       moveY: vi.fn(),
       playRun: vi.fn(),
@@ -24,7 +28,11 @@ describe("Спецификация класса MovingHeroState", () => {
     expect(SpriteContext.playRun).toBeCalledTimes(1);
   });
 
-  test("При вызове moveTop(), из контекста достается спрайт персонажа и на нем вызывается метод moveY()", () => {
+  test(`
+    При вызове moveTop(), из контекста достается спрайт персонажа и на нем вызывается метод 
+    - moveY() для перемещения тела
+    - playRun() для проигрывания анимации бега
+  `, () => {
     const SpriteContext = {
       moveY: vi.fn(),
       playRun: vi.fn(),
@@ -45,10 +53,16 @@ describe("Спецификация класса MovingHeroState", () => {
     expect(SpriteContext.playRun).toBeCalledTimes(1);
   });
 
-  test("При вызове moveLeft(), из контекста достается спрайт персонажа и на нем вызывается метод moveX()", () => {
+  test(`
+    При вызове moveLeft(), из контекста достается спрайт персонажа и на нем вызывается метод 
+    - moveX() для перемещения тела
+    - вызывается метод playRun() для проигрывания анимации бега
+    - разворачивается лицом в отрицательное направление оси X
+  `, () => {
     const SpriteContext = {
       moveX: vi.fn(),
       playRun: vi.fn(),
+      flipX: false,
     };
 
     const MockHeroContext = {
@@ -64,12 +78,19 @@ describe("Спецификация класса MovingHeroState", () => {
     expect(MockHeroContext.getSprite).toBeCalledTimes(1);
     expect(SpriteContext.moveX).toBeCalledTimes(1);
     expect(SpriteContext.playRun).toBeCalledTimes(1);
+    expect(SpriteContext.flipX).toBeTruthy();
   });
 
-  test("При вызове moveRight(), из контекста достается спрайт персонажа и на нем вызывается метод moveX()", () => {
+  test(`
+    При вызове moveRight(), из контекста достается спрайт персонажа и на нем вызывается метод 
+    - moveX() для перемещения тела
+    - вызывается метод playRun() для проигрывания анимации бега
+    - разворачивается лицом в положительное направление оси X
+  `, () => {
     const SpriteContext = {
       moveX: vi.fn(),
       playRun: vi.fn(),
+      flipX: true,
     };
 
     const MockHeroContext = {
@@ -85,6 +106,7 @@ describe("Спецификация класса MovingHeroState", () => {
     expect(MockHeroContext.getSprite).toBeCalledTimes(1);
     expect(SpriteContext.moveX).toBeCalledTimes(1);
     expect(SpriteContext.playRun).toBeCalledTimes(1);
+    expect(SpriteContext.flipX).toBeFalsy();
   });
 
   test(`

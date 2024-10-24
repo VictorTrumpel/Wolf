@@ -1,14 +1,10 @@
 import { Scene } from "phaser";
 import { RusHeroSprite } from "../entities/RusHeroSprite/RusHeroSprite";
 import { RusHeroContext } from "@features";
-import type { Types as PhaserTypes } from "phaser";
-
-// Нужно использовать шаблон проектирования Состояние. Загуглить, изучить, прочитать.
 
 export class GameScene extends Scene {
   private rusHeroContext: RusHeroContext | null = null;
 
-  private _cursors: PhaserTypes.Input.Keyboard.CursorKeys | null = null;
   private WKey: Phaser.Input.Keyboard.Key | null = null;
   private AKey: Phaser.Input.Keyboard.Key | null = null;
   private SKey: Phaser.Input.Keyboard.Key | null = null;
@@ -18,21 +14,12 @@ export class GameScene extends Scene {
     super("GameScene");
   }
 
-  get cursors() {
-    if (this._cursors == null) {
-      this._cursors = this.input.keyboard!.createCursorKeys();
-      return this._cursors;
-    }
-    return this._cursors;
-  }
-
   create() {
     this.createCastle();
 
     const rusHeroSprite = new RusHeroSprite(this, 700, 200);
     this.rusHeroContext = new RusHeroContext(rusHeroSprite);
 
-    this._cursors = this.input.keyboard!.createCursorKeys();
     this.WKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.AKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.SKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
