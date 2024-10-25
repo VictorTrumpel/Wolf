@@ -1,8 +1,15 @@
 import { Scene } from "phaser";
 import { RusHeroSprite } from "../entities/RusHeroSprite/RusHeroSprite";
-import { RusHeroContext } from "@features";
+import {
+  RusHeroKeyboardBinder,
+  RusHeroContext,
+  RusHeroKeyboardHandler,
+} from "@features";
+
+type Keyboard = ReturnType<RusHeroKeyboardBinder["getKeyboard"]>;
 
 export class GameScene extends Scene {
+  private keyboard: Keyboard | null = null;
   private rusHeroContext: RusHeroContext | null = null;
 
   constructor() {
@@ -15,7 +22,7 @@ export class GameScene extends Scene {
     const rusHeroSprite = new RusHeroSprite(this, 700, 200);
     this.rusHeroContext = new RusHeroContext(rusHeroSprite);
 
-    console.log("this.rusHeroContext :>> ", this.rusHeroContext);
+    this.initKeyboard();
   }
 
   createCastle() {
@@ -26,5 +33,20 @@ export class GameScene extends Scene {
     staticBody.setDepth(-1);
   }
 
-  update(): void {}
+  initKeyboard() {
+    const keyboardPlugin = this.input.keyboard;
+    const hero = this.rusHeroContext;
+
+    if (!keyboardPlugin || !hero) return;
+
+    const keyboardHandler = new RusHeroKeyboardHandler(keyboardPlugin);
+
+    const keyboardBinder = new RusHeroKeyboardBinder(hero, keyboardHandler);
+
+    this.keyboard = keyboardBinder.getKeyboard();
+  }
+
+  update(): void {
+    this.keyboard?.executeKeyCommands();
+  }
 }

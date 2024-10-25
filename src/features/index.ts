@@ -1,3 +1,4 @@
 export * from "./RusHero";
-export * from "./KeyboardHandler";
+export * from "./RusHeroKeyboardHandler";
 export * from "./RusHeroCommands";
+export * from "./RusHeroKeyboardBinder";
