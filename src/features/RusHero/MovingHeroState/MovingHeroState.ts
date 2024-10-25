@@ -1,5 +1,5 @@
-import { IRusHeroState } from "../IRusHeroState";
-import { RusHeroContext } from "../RusHeroContext/RusHeroContext";
+import { IRusHeroState } from "@entities";
+import { RusHeroContext } from "../RusHeroContext";
 
 export class MovingHeroState implements IRusHeroState {
   constructor(private rusHeroContext: RusHeroContext) {}

@@ -1,5 +1,4 @@
-import { RusHeroSprite } from "@entities";
-import { IRusHeroState } from "../IRusHeroState";
+import { RusHeroSprite, IRusHeroState } from "@entities";
 import { MovingHeroState } from "../MovingHeroState";
 import { IdleHeroState } from "../IdleHeroState";
 

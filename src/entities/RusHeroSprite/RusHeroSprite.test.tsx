@@ -49,7 +49,7 @@ describe("Спецификация класса RusHeroSprite", () => {
     // @ts-ignore
     expect(hero.body.setCircle).toBeCalledTimes(1);
     // @ts-ignore
-    expect(hero.body.setCircle).toBeCalledWith(heroWidth / 2.5, 2, 4);
+    expect(hero.body.setCircle).toBeCalledWith(heroWidth / 2.5, 4, 4);
   });
   test("Когда создается инстанс RusHero, то первой создается анимация покоя", () => {
     const hero = new RusHeroSprite({} as unknown as Scene, 0, 0);

@@ -4,7 +4,7 @@ import { Scene } from "phaser";
 const RUN_ANIMATION = "run";
 const IDLE_ANIMATION = "idle";
 
-const HITBOX_OFFSET_X = 2;
+const HITBOX_OFFSET_X = 4;
 const HITBOX_OFFSET_Y = 4;
 
 export class RusHeroSprite extends PhysicsSprite {

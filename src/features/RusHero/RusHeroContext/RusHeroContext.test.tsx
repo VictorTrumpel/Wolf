@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from "vitest";
 import { RusHeroContext } from "./RusHeroContext";
 import { RusHeroSprite } from "@entities";
-import { IRusHeroState } from "../IRusHeroState";
+import { IRusHeroState } from "../../../entities/IRusHeroState";
 import { MovingHeroState } from "../MovingHeroState";
 import { IdleHeroState } from "../IdleHeroState";
 
