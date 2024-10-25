@@ -66,6 +66,20 @@ describe("Спецификация компонента RusHeroContext", () => {
     rusHeroContext.getHurt();
     expect(mockState.getHurt).toBeCalledTimes(1);
   });
+  test("Метод stopMovingX() вызовет метод stopMovingX() на текущем состоянии", () => {
+    const mockState = { stopMovingX: vi.fn() } as unknown as IRusHeroState;
+    const rusHeroContext = new RusHeroContext({} as unknown as RusHeroSprite);
+    rusHeroContext.setState(mockState);
+    rusHeroContext.stopMovingX();
+    expect(mockState.stopMovingX).toBeCalledTimes(1);
+  });
+  test("Метод stopMovingY() вызовет метод stopMovingX() на текущем состоянии", () => {
+    const mockState = { stopMovingY: vi.fn() } as unknown as IRusHeroState;
+    const rusHeroContext = new RusHeroContext({} as unknown as RusHeroSprite);
+    rusHeroContext.setState(mockState);
+    rusHeroContext.stopMovingY();
+    expect(mockState.stopMovingY).toBeCalledTimes(1);
+  });
   test("Метод getMovingHeroState() возвращает состояние типа MovingHeroState", () => {
     const rusHeroContext = new RusHeroContext({} as unknown as RusHeroSprite);
     const movingState = rusHeroContext.getMovingHeroState();

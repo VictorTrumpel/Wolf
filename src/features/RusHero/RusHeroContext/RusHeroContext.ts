@@ -45,6 +45,12 @@ export class RusHeroContext implements IRusHeroState {
   stopMoving(): void {
     this.heroState.stopMoving();
   }
+  stopMovingX(): void {
+    this.heroState.stopMovingX();
+  }
+  stopMovingY(): void {
+    this.heroState.stopMovingY();
+  }
   attack(): void {
     this.heroState.attack();
   }

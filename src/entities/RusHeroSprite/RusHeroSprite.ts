@@ -38,6 +38,16 @@ export class RusHeroSprite extends PhysicsSprite {
     body.setVelocityY(speed);
   }
 
+  stopMoveY() {
+    const body = this.getBody();
+    body.setVelocityY(0);
+  }
+
+  stopMoveX() {
+    const body = this.getBody();
+    body.setVelocityX(0);
+  }
+
   stopMoving() {
     const body = this.getBody();
     body.setVelocity(0);

@@ -1,4 +1,4 @@
-import { Scene } from "phaser";
+import { Scene, Input } from "phaser";
 import { RusHeroSprite } from "../entities/RusHeroSprite/RusHeroSprite";
 import { RusHeroContext } from "@features";
 
@@ -20,10 +20,10 @@ export class GameScene extends Scene {
     const rusHeroSprite = new RusHeroSprite(this, 700, 200);
     this.rusHeroContext = new RusHeroContext(rusHeroSprite);
 
-    this.WKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.AKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.SKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.DKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    this.WKey = this.input.keyboard!.addKey(Input.Keyboard.KeyCodes.W);
+    this.AKey = this.input.keyboard!.addKey(Input.Keyboard.KeyCodes.A);
+    this.SKey = this.input.keyboard!.addKey(Input.Keyboard.KeyCodes.S);
+    this.DKey = this.input.keyboard!.addKey(Input.Keyboard.KeyCodes.D);
   }
 
   createCastle() {
@@ -39,24 +39,32 @@ export class GameScene extends Scene {
 
     let isMoving = false;
 
+    if (this.AKey?.isUp || this.DKey?.isUp) {
+      this.rusHeroContext.stopMovingX();
+    }
+
+    if (this.WKey?.isUp || this.SKey?.isDown) {
+      this.rusHeroContext.stopMovingY();
+    }
+
     if (this.AKey?.isDown) {
-      this.rusHeroContext.getState().moveLeft();
+      this.rusHeroContext.moveLeft();
       isMoving = true;
     } else if (this.DKey?.isDown) {
-      this.rusHeroContext.getState().moveRight();
+      this.rusHeroContext.moveRight();
       isMoving = true;
     }
 
     if (this.WKey?.isDown) {
-      this.rusHeroContext.getState().moveTop();
+      this.rusHeroContext.moveTop();
       isMoving = true;
     } else if (this.SKey?.isDown) {
-      this.rusHeroContext.getState().moveBottom();
+      this.rusHeroContext.moveBottom();
       isMoving = true;
     }
 
     if (!isMoving) {
-      this.rusHeroContext.getState().stopMoving();
+      this.rusHeroContext.stopMoving();
     }
   }
 }

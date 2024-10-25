@@ -135,4 +135,42 @@ describe("Спецификация класса MovingHeroState", () => {
     ).toBeTruthy();
     expect(MockIdleHeroState.stopMoving).toBeCalledTimes(1);
   });
+
+  test("При вызове метода stopMovingX() на спрайте вызывается метод stopMovingX()", () => {
+    const MockSprite = {
+      stopMoveX: vi.fn(),
+    };
+
+    const MockContext = {
+      getSprite: vi.fn(() => MockSprite),
+    };
+
+    const movingHeroState = new MovingHeroState(
+      MockContext as unknown as RusHeroContext
+    );
+
+    movingHeroState.stopMovingX();
+
+    expect(MockContext.getSprite).toBeCalledTimes(1);
+    expect(MockSprite.stopMoveX).toBeCalledTimes(1);
+  });
+
+  test("При вызове метода stopMovingY() на спрайте вызывается метод stopMovingY()", () => {
+    const MockSprote = {
+      stopMoveY: vi.fn(),
+    };
+
+    const MockContext = {
+      getSprite: vi.fn(() => MockSprote),
+    };
+
+    const movingHeroState = new MovingHeroState(
+      MockContext as unknown as RusHeroContext
+    );
+
+    movingHeroState.stopMovingY();
+
+    expect(MockContext.getSprite).toBeCalledTimes(1);
+    expect(MockSprote.stopMoveY).toBeCalledTimes(1);
+  });
 });

@@ -121,4 +121,24 @@ describe("Спецификация класса RusHeroSprite", () => {
     // @ts-ignore
     expect(rusHero.body.setVelocity).toBeCalledTimes(1);
   });
+  test("Метод stopMoveY() останавливает движение персонажа по оси Y", () => {
+    const rusHero = new RusHeroSprite({} as unknown as Scene, 0, 0);
+
+    rusHero.stopMoveY();
+
+    // @ts-ignore
+    expect(rusHero.body.setVelocityY).toBeCalledTimes(1);
+    // @ts-ignore
+    expect(rusHero.body.setVelocityY).toBeCalledWith(0);
+  });
+  test("Метод stopMoveX() останавливает движение персонажа по оси X", () => {
+    const rusHero = new RusHeroSprite({} as unknown as Scene, 0, 0);
+
+    rusHero.stopMoveX();
+
+    // @ts-ignore
+    expect(rusHero.body.setVelocityX).toBeCalledTimes(1);
+    // @ts-ignore
+    expect(rusHero.body.setVelocityX).toBeCalledWith(0);
+  });
 });
