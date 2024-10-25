@@ -30,11 +30,25 @@ export class RusHeroContext implements IRusHeroState {
     return new IdleHeroState(this);
   }
 
-  moveBottom(): void {}
-  moveLeft(): void {}
-  moveTop(): void {}
-  moveRight(): void {}
-  stopMoving(): void {}
-  attack(): void {}
-  getHurt(): void {}
+  moveBottom(): void {
+    this.heroState.moveBottom();
+  }
+  moveTop(): void {
+    this.heroState.moveTop();
+  }
+  moveLeft(): void {
+    this.heroState.moveLeft();
+  }
+  moveRight(): void {
+    this.heroState.moveRight();
+  }
+  stopMoving(): void {
+    this.heroState.stopMoving();
+  }
+  attack(): void {
+    this.heroState.attack();
+  }
+  getHurt(): void {
+    this.heroState.getHurt();
+  }
 }
