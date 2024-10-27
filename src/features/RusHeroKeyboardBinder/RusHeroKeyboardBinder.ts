@@ -34,11 +34,9 @@ export class RusHeroKeyboardBinder {
     this.keyboard.bindMoveTopCommand(moveTopCommand);
     this.keyboard.bindMoveBottomCommand(moveBottomCommand);
     this.keyboard.bindStopMoveYCommand(stopMoveYCommand);
-
     this.keyboard.bindMoveLeftCommand(moveLeftCommand);
     this.keyboard.bindMoveRightCommand(moveRightCommand);
     this.keyboard.bindStopMoveXCommand(stopMoveXCommand);
-
     this.keyboard.bindStopMoveCommand(stopMoveCommand);
   }
 
