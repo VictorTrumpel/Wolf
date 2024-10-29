@@ -65,37 +65,92 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
   }
 
   executeKeyCommands() {
-    let isMoving = false;
+    this.processMoveTop();
+    this.processMoveBottom();
+    this.processStopMoveY();
 
-    if (this.moveTopKey?.isDown) {
-      isMoving = true;
-      this.moveTopCommand?.execute();
-    }
+    this.processMoveLeft();
+    this.processMoveRight();
+    this.processStopMoveX();
 
-    if (this.moveBottomKey?.isDown) {
-      isMoving = true;
-      this.moveBottomCommand?.execute();
-    }
+    this.processStopMove();
+  }
 
-    if (this.moveLeftKey?.isDown) {
-      isMoving = true;
-      this.moveLeftCommand?.execute();
-    }
+  private checkIsAllUnpressed() {
+    const isAllUnpressed =
+      this.moveTopKey?.isUp &&
+      this.moveBottomKey?.isUp &&
+      this.moveLeftKey?.isUp &&
+      this.moveRightKey?.isUp;
+    return isAllUnpressed;
+  }
 
-    if (this.moveRightKey?.isDown) {
-      isMoving = true;
-      this.moveRightCommand?.execute();
-    }
+  private processMoveTop() {
+    if (this.moveTopKey?.isUp) return;
+    if (this.moveBottomKey?.isDown) return;
+    this.moveTopCommand?.execute();
+  }
 
-    if (this.moveTopKey?.isUp && this.moveBottomKey?.isUp) {
+  private processMoveBottom() {
+    if (this.moveBottomKey?.isUp) return;
+    if (this.moveTopKey?.isDown) return;
+    this.moveBottomCommand?.execute();
+  }
+
+  private processStopMoveY() {
+    const isBothKeyPressed =
+      this.moveTopKey?.isDown && this.moveBottomKey?.isDown;
+    const isBothKeyUnpressed =
+      this.moveTopKey?.isUp && this.moveBottomKey?.isUp;
+    const isMoveXKeysUnpressed =
+      this.moveLeftKey?.isUp && this.moveRightKey?.isUp;
+
+    const needStopMoveY = isBothKeyPressed || isBothKeyUnpressed;
+
+    if (needStopMoveY) {
       this.stopMoveYCommand?.execute();
     }
 
-    if (this.moveLeftKey?.isUp && this.moveRightKey?.isUp) {
+    if (isMoveXKeysUnpressed && needStopMoveY) {
+      this.stopMoveCommand?.execute();
+    }
+  }
+
+  private processMoveLeft() {
+    if (this.moveLeftKey?.isUp) return;
+    if (this.moveRightKey?.isDown) return;
+    this.moveLeftCommand?.execute();
+  }
+
+  private processMoveRight() {
+    if (this.moveRightKey?.isUp) return;
+    if (this.moveLeftKey?.isDown) return;
+    this.moveRightCommand?.execute();
+  }
+
+  private processStopMoveX() {
+    const isBothKeyPressed =
+      this.moveLeftKey?.isDown && this.moveRightKey?.isDown;
+    const isBothKeyUnpressed =
+      this.moveLeftKey?.isUp && this.moveRightKey?.isUp;
+    const isMoveYKeysUnpressed =
+      this.moveTopKey?.isUp && this.moveBottomKey?.isUp;
+
+    const needStopMoveX = isBothKeyPressed || isBothKeyUnpressed;
+
+    if (needStopMoveX) {
       this.stopMoveXCommand?.execute();
     }
 
-    if (!isMoving) {
+    if (isMoveYKeysUnpressed && needStopMoveX) {
+      this.stopMoveCommand?.execute();
+    }
+  }
+
+  private processStopMove() {
+    const isAllUnpressed = this.checkIsAllUnpressed();
+
+    if (isAllUnpressed) {
       this.stopMoveCommand?.execute();
     }
   }
