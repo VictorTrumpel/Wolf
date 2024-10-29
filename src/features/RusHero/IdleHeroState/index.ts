@@ -1,1 +1,1 @@
-export { IdleHeroState } from "./IdleHeroState";
+export { IdleHeroState } from './IdleHeroState'

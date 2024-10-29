@@ -1,8 +1,8 @@
-import { describe, test, expect, vi } from "vitest";
-import { IdleHeroState } from "./IdleHeroState";
-import { RusHeroContext } from "../RusHeroContext/RusHeroContext";
+import { describe, expect, test, vi } from 'vitest'
+import { RusHeroContext } from '../RusHeroContext/RusHeroContext'
+import { IdleHeroState } from './IdleHeroState'
 
-describe("спецификация компонента IdleHeroState", () => {
+describe('спецификация компонента IdleHeroState', () => {
   test(`
     Вызов метода moveBottom() 
     - получает состояние MovingHeroState
@@ -11,27 +11,25 @@ describe("спецификация компонента IdleHeroState", () => {
   `, () => {
     const MockMoveHeroState = {
       moveBottom: vi.fn(),
-    };
+    }
 
     const MockContext = {
       getMovingHeroState: vi.fn(() => MockMoveHeroState),
       setState: vi.fn(),
-    };
+    }
 
-    const idleHeroState = new IdleHeroState(
-      MockContext as unknown as RusHeroContext
-    );
+    const idleHeroState = new IdleHeroState(MockContext as unknown as RusHeroContext)
 
-    idleHeroState.moveBottom();
+    idleHeroState.moveBottom()
 
-    expect(MockContext.getMovingHeroState).toBeCalledTimes(1);
-    expect(MockMoveHeroState.moveBottom).toBeCalledTimes(1);
-    expect(MockContext.setState).toBeCalledTimes(1);
+    expect(MockContext.getMovingHeroState).toBeCalledTimes(1)
+    expect(MockMoveHeroState.moveBottom).toBeCalledTimes(1)
+    expect(MockContext.setState).toBeCalledTimes(1)
 
-    const settedState = MockContext.setState.mock.calls[0][0];
+    const settedState = MockContext.setState.mock.calls[0][0]
 
-    expect(MockMoveHeroState === settedState).toBeTruthy();
-  });
+    expect(MockMoveHeroState === settedState).toBeTruthy()
+  })
 
   test(`
     Вызов метода moveLeft() 
@@ -41,27 +39,25 @@ describe("спецификация компонента IdleHeroState", () => {
   `, () => {
     const MockMoveHeroState = {
       moveLeft: vi.fn(),
-    };
+    }
 
     const MockContext = {
       getMovingHeroState: vi.fn(() => MockMoveHeroState),
       setState: vi.fn(),
-    };
+    }
 
-    const idleHeroState = new IdleHeroState(
-      MockContext as unknown as RusHeroContext
-    );
+    const idleHeroState = new IdleHeroState(MockContext as unknown as RusHeroContext)
 
-    idleHeroState.moveLeft();
+    idleHeroState.moveLeft()
 
-    expect(MockContext.getMovingHeroState).toBeCalledTimes(1);
-    expect(MockMoveHeroState.moveLeft).toBeCalledTimes(1);
-    expect(MockContext.setState).toBeCalledTimes(1);
+    expect(MockContext.getMovingHeroState).toBeCalledTimes(1)
+    expect(MockMoveHeroState.moveLeft).toBeCalledTimes(1)
+    expect(MockContext.setState).toBeCalledTimes(1)
 
-    const settedState = MockContext.setState.mock.calls[0][0];
+    const settedState = MockContext.setState.mock.calls[0][0]
 
-    expect(MockMoveHeroState === settedState).toBeTruthy();
-  });
+    expect(MockMoveHeroState === settedState).toBeTruthy()
+  })
 
   test(`
     Вызов метода moveTop() 
@@ -71,27 +67,25 @@ describe("спецификация компонента IdleHeroState", () => {
   `, () => {
     const MockMoveHeroState = {
       moveTop: vi.fn(),
-    };
+    }
 
     const MockContext = {
       getMovingHeroState: vi.fn(() => MockMoveHeroState),
       setState: vi.fn(),
-    };
+    }
 
-    const idleHeroState = new IdleHeroState(
-      MockContext as unknown as RusHeroContext
-    );
+    const idleHeroState = new IdleHeroState(MockContext as unknown as RusHeroContext)
 
-    idleHeroState.moveTop();
+    idleHeroState.moveTop()
 
-    expect(MockContext.getMovingHeroState).toBeCalledTimes(1);
-    expect(MockMoveHeroState.moveTop).toBeCalledTimes(1);
-    expect(MockContext.setState).toBeCalledTimes(1);
+    expect(MockContext.getMovingHeroState).toBeCalledTimes(1)
+    expect(MockMoveHeroState.moveTop).toBeCalledTimes(1)
+    expect(MockContext.setState).toBeCalledTimes(1)
 
-    const settedState = MockContext.setState.mock.calls[0][0];
+    const settedState = MockContext.setState.mock.calls[0][0]
 
-    expect(MockMoveHeroState === settedState).toBeTruthy();
-  });
+    expect(MockMoveHeroState === settedState).toBeTruthy()
+  })
 
   test(`
     Вызов метода moveRight() 
@@ -101,46 +95,42 @@ describe("спецификация компонента IdleHeroState", () => {
   `, () => {
     const MockMoveHeroState = {
       moveRight: vi.fn(),
-    };
+    }
 
     const MockContext = {
       getMovingHeroState: vi.fn(() => MockMoveHeroState),
       setState: vi.fn(),
-    };
+    }
 
-    const idleHeroState = new IdleHeroState(
-      MockContext as unknown as RusHeroContext
-    );
+    const idleHeroState = new IdleHeroState(MockContext as unknown as RusHeroContext)
 
-    idleHeroState.moveRight();
+    idleHeroState.moveRight()
 
-    expect(MockContext.getMovingHeroState).toBeCalledTimes(1);
-    expect(MockMoveHeroState.moveRight).toBeCalledTimes(1);
-    expect(MockContext.setState).toBeCalledTimes(1);
+    expect(MockContext.getMovingHeroState).toBeCalledTimes(1)
+    expect(MockMoveHeroState.moveRight).toBeCalledTimes(1)
+    expect(MockContext.setState).toBeCalledTimes(1)
 
-    const settedState = MockContext.setState.mock.calls[0][0];
+    const settedState = MockContext.setState.mock.calls[0][0]
 
-    expect(MockMoveHeroState === settedState).toBeTruthy();
-  });
+    expect(MockMoveHeroState === settedState).toBeTruthy()
+  })
 
-  test("При вызове метода stopMoving() на спрайте внутри контекста вызывается метод stopMoving() и playIdle()", () => {
+  test('При вызове метода stopMoving() на спрайте внутри контекста вызывается метод stopMoving() и playIdle()', () => {
     const MockSprote = {
       stopMoving: vi.fn(),
       playIdle: vi.fn(),
-    };
+    }
 
     const MockContext = {
       getSprite: vi.fn(() => MockSprote),
-    };
+    }
 
-    const idleHeroState = new IdleHeroState(
-      MockContext as unknown as RusHeroContext
-    );
+    const idleHeroState = new IdleHeroState(MockContext as unknown as RusHeroContext)
 
-    idleHeroState.stopMoving();
+    idleHeroState.stopMoving()
 
-    expect(MockContext.getSprite).toBeCalledTimes(1);
-    expect(MockSprote.stopMoving).toBeCalledTimes(1);
-    expect(MockSprote.playIdle).toBeCalledTimes(1);
-  });
-});
+    expect(MockContext.getSprite).toBeCalledTimes(1)
+    expect(MockSprote.stopMoving).toBeCalledTimes(1)
+    expect(MockSprote.playIdle).toBeCalledTimes(1)
+  })
+})

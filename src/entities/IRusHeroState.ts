@@ -1,14 +1,14 @@
 export interface IRusHeroState {
-  moveTop(): void;
-  moveBottom(): void;
+  moveTop(): void
+  moveBottom(): void
 
-  moveLeft(): void;
-  moveRight(): void;
+  moveLeft(): void
+  moveRight(): void
 
-  stopMoving(): void;
-  stopMovingX(): void;
-  stopMovingY(): void;
+  stopMoving(): void
+  stopMovingX(): void
+  stopMovingY(): void
 
-  attack(): void;
-  getHurt(): void;
+  attack(): void
+  getHurt(): void
 }

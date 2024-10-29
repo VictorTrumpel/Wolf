@@ -1,1 +1,1 @@
-export { MoveHeroBottomCommand } from "./MoveHeroBottomCommand";
+export { MoveHeroBottomCommand } from './MoveHeroBottomCommand'

@@ -1,1 +1,1 @@
-export { RusHeroSprite } from "./RusHeroSprite";
+export { RusHeroSprite } from './RusHeroSprite'

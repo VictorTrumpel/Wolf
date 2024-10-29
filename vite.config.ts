@@ -1,22 +1,22 @@
-import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import checker from "vite-plugin-checker";
+import { defineConfig } from 'vite'
+import checker from 'vite-plugin-checker'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-  base: "./",
+  base: './',
 
   plugins: [tsconfigPaths(), checker({ typescript: true })],
 
   server: {
     port: 5173,
-    host: "localhost",
+    host: 'localhost',
     hmr: {
-      protocol: "ws",
-      host: "localhost",
+      protocol: 'ws',
+      host: 'localhost',
     },
   },
 
   build: {
-    outDir: "build",
+    outDir: 'build',
   },
-});
+})

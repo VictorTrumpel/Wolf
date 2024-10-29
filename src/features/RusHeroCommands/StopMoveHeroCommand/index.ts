@@ -1,1 +1,1 @@
-export { StopMoveHeroCommand } from "./StopMoveHeroCommand";
+export { StopMoveHeroCommand } from './StopMoveHeroCommand'

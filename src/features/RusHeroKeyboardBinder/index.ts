@@ -1,1 +1,1 @@
-export { RusHeroKeyboardBinder } from "./RusHeroKeyboardBinder";
+export { RusHeroKeyboardBinder } from './RusHeroKeyboardBinder'

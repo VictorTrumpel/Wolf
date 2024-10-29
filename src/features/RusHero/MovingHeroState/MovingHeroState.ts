@@ -1,47 +1,47 @@
-import { IRusHeroState } from "@entities";
-import { RusHeroContext } from "../RusHeroContext";
+import { IRusHeroState } from '@entities'
+import { RusHeroContext } from '../RusHeroContext'
 
 export class MovingHeroState implements IRusHeroState {
   constructor(private rusHeroContext: RusHeroContext) {}
 
   moveBottom(): void {
-    const heroSprite = this.rusHeroContext.getSprite();
-    heroSprite.moveY(100);
-    heroSprite.playRun();
+    const heroSprite = this.rusHeroContext.getSprite()
+    heroSprite.moveY(100)
+    heroSprite.playRun()
   }
   moveTop(): void {
-    const heroSprite = this.rusHeroContext.getSprite();
-    heroSprite.moveY(-100);
-    heroSprite.playRun();
+    const heroSprite = this.rusHeroContext.getSprite()
+    heroSprite.moveY(-100)
+    heroSprite.playRun()
   }
 
   moveLeft(): void {
-    const heroSprite = this.rusHeroContext.getSprite();
-    heroSprite.moveX(-100);
-    heroSprite.flipX = true;
-    heroSprite.playRun();
+    const heroSprite = this.rusHeroContext.getSprite()
+    heroSprite.moveX(-100)
+    heroSprite.flipX = true
+    heroSprite.playRun()
   }
   moveRight(): void {
-    const heroSprite = this.rusHeroContext.getSprite();
-    heroSprite.moveX(100);
-    heroSprite.flipX = false;
-    heroSprite.playRun();
+    const heroSprite = this.rusHeroContext.getSprite()
+    heroSprite.moveX(100)
+    heroSprite.flipX = false
+    heroSprite.playRun()
   }
 
   stopMoving(): void {
-    const idleHeroState = this.rusHeroContext.getIdleHeroState();
-    idleHeroState.stopMoving();
-    this.rusHeroContext.setState(idleHeroState);
+    const idleHeroState = this.rusHeroContext.getIdleHeroState()
+    idleHeroState.stopMoving()
+    this.rusHeroContext.setState(idleHeroState)
   }
 
   stopMovingX(): void {
-    const heroSprite = this.rusHeroContext.getSprite();
-    heroSprite.stopMoveX();
+    const heroSprite = this.rusHeroContext.getSprite()
+    heroSprite.stopMoveX()
   }
 
   stopMovingY(): void {
-    const heroSprite = this.rusHeroContext.getSprite();
-    heroSprite.stopMoveY();
+    const heroSprite = this.rusHeroContext.getSprite()
+    heroSprite.stopMoveY()
   }
 
   attack(): void {}

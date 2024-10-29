@@ -1,7 +1,7 @@
-import * as Phaser from "phaser";
-import { PreloadScene } from "./scenes/PreloadScene";
-import { GameScene } from "./scenes/GameScene";
-import "./style.css";
+import * as Phaser from 'phaser'
+import { GameScene } from './scenes/GameScene'
+import { PreloadScene } from './scenes/PreloadScene'
+import './style.css'
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -11,12 +11,12 @@ const config: Phaser.Types.Core.GameConfig = {
   pixelArt: true,
   backgroundColor: 0x706d6d,
   physics: {
-    default: "arcade",
+    default: 'arcade',
     arcade: {
       debug: true,
     },
   },
   scene: [PreloadScene, GameScene],
-};
+}
 
-new Phaser.Game(config);
+new Phaser.Game(config)

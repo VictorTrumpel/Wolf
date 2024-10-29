@@ -1,1 +1,1 @@
-export { MovingHeroState } from "./MovingHeroState";
+export { MovingHeroState } from './MovingHeroState'
