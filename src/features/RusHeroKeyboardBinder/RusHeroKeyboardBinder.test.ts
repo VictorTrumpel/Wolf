@@ -236,4 +236,15 @@ describe("Спецификация компонента RusHeroKeyboardBinder", 
       stopMoveXCommand
     );
   });
+  test("Метод getKeyboard() возвращает инстанс клавиатуры", () => {
+    const hero = {} as unknown as IRusHeroState;
+    const keyboardHandler = new RusHeroKeyboardBinder(
+      hero,
+      MockKeybordHandlerBinder
+    );
+
+    const keyboard = keyboardHandler.getKeyboard();
+
+    expect(keyboard === MockKeybordHandlerBinder).toBeTruthy();
+  });
 });
