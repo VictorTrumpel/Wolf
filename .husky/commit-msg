@@ -1,0 +1,21 @@
+#!/bin/sh
+
+BOLD='\033[1m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+# Получаем сообщение коммита
+commit_message=$(cat "$1")
+
+# Регулярное выражение для проверки сообщения коммита
+commit_regex='^(feat|fix|style|refactor|test): [А-Яа-яЁё].{1,250}$'
+
+echo $commit_regex "GLKDSDGJLSDJGKL"
+
+if ! echo "$commit_message" | grep -Eq "$commit_regex"; then
+  echo "${RED}Коммит сообщение не соответствует формату.${NC}"
+  echo "${BOLD}Должно начинаться с:\n${GREEN}feat: ,\nfix:,\nstyle:,\nrefactor:,\ntest:\n${NC}"
+  echo "${GREEN}Пример: feat: add user registration${NC}"
+  exit 1
+fi

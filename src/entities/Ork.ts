@@ -8,7 +8,7 @@ export class Ork {
 
   private health = 100
 
-  onKill: Function | null = null
+  onKill: (() => void) | null = null
 
   constructor(scene: Scene) {
     this.sprite = new Sprite(scene)

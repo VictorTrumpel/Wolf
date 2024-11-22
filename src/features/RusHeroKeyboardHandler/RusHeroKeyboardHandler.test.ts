@@ -1,5 +1,4 @@
-import { Input } from 'phaser'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { RusHeroKeyboardHandler } from './RusHeroKeyboardHandler'
 
 describe(`Спецификация компонента ${RusHeroKeyboardHandler.name}`, () => {

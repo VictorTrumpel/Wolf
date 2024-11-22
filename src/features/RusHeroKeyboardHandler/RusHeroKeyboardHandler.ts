@@ -13,10 +13,13 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
 
   private stopMoveCommand: ICommand | null = null
 
+  private attackCommand: ICommand | null = null
+
   private moveTopKey: Phaser.Input.Keyboard.Key | null = null
   private moveBottomKey: Phaser.Input.Keyboard.Key | null = null
   private moveLeftKey: Phaser.Input.Keyboard.Key | null = null
   private moveRightKey: Phaser.Input.Keyboard.Key | null = null
+  private attackKey: Phaser.Input.Keyboard.Key | null = null
 
   constructor(private keyboard: Input.Keyboard.KeyboardPlugin) {}
 
@@ -52,6 +55,10 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
     this.moveRightKey = this.keyboard.addKey(keyCode)
   }
 
+  bindAttackKey(keyCode: number) {
+    this.attackKey = this.keyboard.addKey(keyCode)
+  }
+
   bindMoveRightCommand(command: ICommand) {
     this.moveRightCommand = command
   }
@@ -64,6 +71,10 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
     this.stopMoveCommand = command
   }
 
+  bindAttackCommand(command: ICommand) {
+    this.attackCommand = command
+  }
+
   executeKeyCommands() {
     this.processMoveTop()
     this.processMoveBottom()
@@ -74,6 +85,8 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
     this.processStopMoveX()
 
     this.processStopMove()
+
+    this.processAttack()
   }
 
   private checkIsAllUnpressed() {
@@ -83,6 +96,11 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
       this.moveLeftKey?.isUp &&
       this.moveRightKey?.isUp
     return isAllUnpressed
+  }
+
+  private processAttack() {
+    if (this.attackKey?.isUp) return
+    this.attackCommand?.execute()
   }
 
   private processMoveTop() {

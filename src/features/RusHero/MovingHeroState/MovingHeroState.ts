@@ -44,6 +44,17 @@ export class MovingHeroState implements IRusHeroState {
     heroSprite.stopMoveY()
   }
 
-  attack(): void {}
+  playAttack(): void {
+    const sprite = this.rusHeroContext.getSprite()
+    sprite.playAttack()
+  }
+
+  attack(): void {
+    this.stopMoving()
+    const attackHeroState = this.rusHeroContext.getHeroAttackState()
+    attackHeroState.attack()
+    this.rusHeroContext.setState(attackHeroState)
+  }
+
   getHurt(): void {}
 }

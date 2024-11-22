@@ -1,5 +1,6 @@
 import { Input } from 'phaser'
 import {
+  HeroAttackCommand,
   IRusHeroKeyboardHandler,
   MoveHeroBottomCommand,
   MoveHeroLeftCommand,
@@ -20,6 +21,7 @@ export class RusHeroKeyboardBinder {
     this.keyboard.bindMoveBottomKey(Input.Keyboard.KeyCodes.S)
     this.keyboard.bindMoveRightKey(Input.Keyboard.KeyCodes.D)
     this.keyboard.bindMoveLeftKey(Input.Keyboard.KeyCodes.A)
+    this.keyboard.bindAttackKey(Input.Keyboard.KeyCodes.ENTER)
 
     const moveTopCommand = new MoveHeroTopCommand(this.rusHero)
     const moveBottomCommand = new MoveHeroBottomCommand(this.rusHero)
@@ -38,6 +40,10 @@ export class RusHeroKeyboardBinder {
     this.keyboard.bindMoveRightCommand(moveRightCommand)
     this.keyboard.bindStopMoveXCommand(stopMoveXCommand)
     this.keyboard.bindStopMoveCommand(stopMoveCommand)
+
+    const attackCommand = new HeroAttackCommand(this.rusHero)
+
+    this.keyboard.bindAttackCommand(attackCommand)
   }
 
   getKeyboard() {

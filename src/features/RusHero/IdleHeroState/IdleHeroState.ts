@@ -44,6 +44,11 @@ export class IdleHeroState implements IRusHeroState {
     sprite.stopMoveY()
   }
 
-  attack(): void {}
+  attack(): void {
+    const attackHeroState = this.rusHeroContext.getHeroAttackState()
+    attackHeroState.attack()
+    this.rusHeroContext.setState(attackHeroState)
+  }
+
   getHurt(): void {}
 }

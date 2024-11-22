@@ -46,5 +46,6 @@ export default [
       'no-unreachable-loop': 'warn',
       yoda: 'warn',
     },
+    ignores: ['node_modules/', 'dist/', '**/*.min.js'],
   },
 ]

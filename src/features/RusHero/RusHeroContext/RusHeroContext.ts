@@ -1,4 +1,5 @@
 import { IRusHeroState, RusHeroSprite } from '@entities'
+import { HeroAttackState } from '../HeroAttackState'
 import { IdleHeroState } from '../IdleHeroState'
 import { MovingHeroState } from '../MovingHeroState'
 
@@ -27,6 +28,10 @@ export class RusHeroContext implements IRusHeroState {
 
   getIdleHeroState(): IRusHeroState {
     return new IdleHeroState(this)
+  }
+
+  getHeroAttackState(): IRusHeroState {
+    return new HeroAttackState(this)
   }
 
   moveBottom(): void {

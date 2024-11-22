@@ -15,7 +15,7 @@ export class Wolf {
 
   attackReloadTimer: number | null = null
 
-  onKill: Function | null = null
+  onKill: (() => void) | null = null
 
   defaultTint = 0
 

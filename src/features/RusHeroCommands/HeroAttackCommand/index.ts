@@ -1,0 +1,1 @@
+export { HeroAttackCommand } from './HeroAttackCommand'
