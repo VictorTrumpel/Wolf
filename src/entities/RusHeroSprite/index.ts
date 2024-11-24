@@ -1,0 +1,1 @@
+export { RusHeroSprite } from './RusHeroSprite'

@@ -1,0 +1,1 @@
+export { StopMoveHeroCommand } from './StopMoveHeroCommand'

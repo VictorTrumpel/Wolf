@@ -1,170 +1,111 @@
-import { Scene } from "phaser";
-import { Ork } from "./../entities/Ork";
-import { Wolf } from "../entities/Wolf";
-import type { Types as PhaserTypes, Physics } from "phaser";
+import { Physics, Scene } from 'phaser'
+import { RusHeroContext, RusHeroKeyboardBinder, RusHeroKeyboardHandler } from '@features'
+import { RusHeroSprite } from '@entities'
+import { AttackHitbox } from '@shared'
+import { Ork } from '../entities/Ork'
+
+type Keyboard = ReturnType<RusHeroKeyboardBinder['getKeyboard']>
 
 export class GameScene extends Scene {
-  private _cursors: PhaserTypes.Input.Keyboard.CursorKeys | null = null;
+  private rusHeroSprite: RusHeroSprite | null = null
+  private rusHeroContext: RusHeroContext | null = null
+  private keyboard: Keyboard | null = null
 
-  private wolf: Wolf;
+  private enemiesGroup: Physics.Arcade.Group | null = null
 
-  private enemiesGroup: Physics.Arcade.Group | null = null;
-
-  private WKey: Phaser.Input.Keyboard.Key | null = null;
-  private AKey: Phaser.Input.Keyboard.Key | null = null;
-  private SKey: Phaser.Input.Keyboard.Key | null = null;
-  private DKey: Phaser.Input.Keyboard.Key | null = null;
-
-  countOfEnemies = 0;
-  maxCountOfEnemies = 10;
+  countOfEnemies = 0
+  maxCountOfEnemies = 10
 
   constructor() {
-    super("GameScene");
-    this.wolf = new Wolf(this);
-  }
-
-  get cursors() {
-    if (this._cursors == null) {
-      this._cursors = this.input.keyboard!.createCursorKeys();
-      return this._cursors;
-    }
-    return this._cursors;
+    super('GameScene')
   }
 
   create() {
-    this.createEnemiesGroup();
-    this.createWolf();
-    this.createCastle();
+    this.createCastle()
+    this.createEnemiesGroup()
 
-    if (!this.wolf) return;
-    if (!this.enemiesGroup) return;
+    const rusHeroSprite = new RusHeroSprite(this, 700, 200)
+    rusHeroSprite.setDepth(100)
+    this.rusHeroSprite = rusHeroSprite
+    this.rusHeroContext = new RusHeroContext(this.rusHeroSprite)
 
-    this.startWolfAttack();
-    this.startOrkAttack();
+    this.initKeyboardForHero(this.rusHeroContext)
 
-    this._cursors = this.input.keyboard!.createCursorKeys();
+    const attackHitbox = new AttackHitbox(this)
 
-    this.WKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-    this.AKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-    this.SKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-    this.DKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    if (this.enemiesGroup) {
+      attackHitbox.addOverlapWith(this.enemiesGroup, (obj) => {
+        const sprite = obj as Physics.Arcade.Sprite
+        const creator = sprite.userInfo?.get('creator')
+        if (creator instanceof Ork) {
+          creator.hurt(50)
+        }
+      })
+    }
 
-    setInterval(() => {
-      if (!this.enemiesGroup) return;
-      if (this.countOfEnemies >= this.maxCountOfEnemies) return;
-      this.countOfEnemies += 1;
-      let ork: Ork | null = new Ork(this);
-      ork.create(400, 350);
-      this.enemiesGroup.add(ork.sprite.sprite);
-      ork.onKill = () => {
-        this.countOfEnemies -= 1;
-      };
-    }, 3000);
-  }
+    this.rusHeroSprite.onFrameUpdate = (_: unknown, { frame }) => {
+      const attackFrames = new Set(['attack_2'])
+      if (attackFrames.has(frame.name)) {
+        const x = rusHeroSprite.flipX ? -38 : 38
 
-  createWolf() {
-    this.wolf.create(500, 350);
-
-    this.wolf.sprite.sprite.setCollideWorldBounds(true);
-  }
-
-  createCastle() {
-    const staticBody = this.physics.add.staticImage(200, 190, "castle");
-    staticBody.flipX = true;
-    staticBody.setCircle(225);
-    staticBody.setPushable(false);
-    staticBody.setDepth(-1);
-
-    this.physics.add.collider(this.wolf.sprite.sprite, staticBody);
-    if (this.enemiesGroup)
-      this.physics.add.collider(this.enemiesGroup, staticBody);
+        attackHitbox.enable(rusHeroSprite.x + x, rusHeroSprite.y - 5, 32)
+      }
+      attackHitbox.disable()
+    }
   }
 
   createEnemiesGroup() {
     const enemiesGroup = this.physics.add.group({
       collideWorldBounds: true,
-    });
-    this.enemiesGroup = enemiesGroup;
-  }
-
-  startWolfAttack() {
-    if (!this.enemiesGroup) return;
-
-    const hurtSet = new Set<Physics.Arcade.Sprite>();
+    })
+    this.enemiesGroup = enemiesGroup
 
     setInterval(() => {
-      if (!this.wolf.isReadyToAttack()) return;
-      this.children.bringToTop(this.wolf.redSword.sprite.sprite);
-      hurtSet.clear();
-      this.wolf.attack();
-    }, 2500);
-
-    const attackEnemy = function (
-      this: { hurtSet: Set<Physics.Arcade.Sprite> },
-      _: any,
-      enemy: Physics.Arcade.Sprite
-    ) {
-      if (this.hurtSet.has(enemy)) return;
-      const creator = enemy.userInfo?.get("creator");
-      const isOrk = creator instanceof Ork;
-      if (!isOrk) return;
-      creator.hurt(25);
-      this.hurtSet.add(enemy);
-    };
-
-    this.physics.add.overlap(
-      this.wolf.redSword.sprite.sprite,
-      this.enemiesGroup,
-      attackEnemy as any,
-      undefined,
-      { hurtSet }
-    );
+      if (this.countOfEnemies >= this.maxCountOfEnemies) return
+      this.countOfEnemies += 1
+      const ork: Ork | null = new Ork(this)
+      ork.create(400, 350)
+      enemiesGroup.add(ork.sprite.sprite)
+      ork.onKill = () => {
+        this.countOfEnemies -= 1
+      }
+    }, 3000)
   }
 
-  startOrkAttack() {
-    if (!this.enemiesGroup) return;
+  createCastle() {
+    const staticBody = this.physics.add.staticImage(200, 190, 'castle')
+    staticBody.flipX = true
+    staticBody.setCircle(225)
+    staticBody.setPushable(false)
+    staticBody.setDepth(-1)
+  }
 
-    const attackWolf = () => {
-      if (!this.wolf) return;
-      this.wolf.hurt(0.1);
-    };
+  initKeyboardForHero(heroContext: RusHeroContext) {
+    const keyboardPlugin = this.input.keyboard
+    const hero = heroContext
 
-    this.physics.add.collider(
-      this.wolf.sprite.sprite,
-      this.enemiesGroup,
-      attackWolf
-    );
+    if (!keyboardPlugin) return
+
+    const keyboardHandler = new RusHeroKeyboardHandler(keyboardPlugin)
+
+    const keyboardBinder = new RusHeroKeyboardBinder(hero, keyboardHandler)
+
+    this.keyboard = keyboardBinder.getKeyboard()
   }
 
   update(): void {
-    if (this.wolf.sprite.sprite.active) {
-      this.wolf.update();
-      this.wolf.sprite.sprite.setVelocity(0);
-
-      if (this.cursors.left.isDown || this.AKey?.isDown) {
-        this.wolf.sprite.setVelocityX(-this.wolf.characteristics.speed);
-        this.wolf.sprite.sprite.flipX = true;
-      } else if (this.cursors.right.isDown || this.DKey?.isDown) {
-        this.wolf.sprite.setVelocityX(this.wolf.characteristics.speed);
-        this.wolf.sprite.sprite.flipX = false;
-      }
-
-      if (this.cursors.up.isDown || this.WKey?.isDown) {
-        this.wolf.sprite.setVelocityY(-this.wolf.characteristics.speed);
-      } else if (this.cursors.down.isDown || this.SKey?.isDown) {
-        this.wolf.sprite.setVelocityY(this.wolf.characteristics.speed);
-      }
-    }
+    this.keyboard?.executeKeyCommands()
 
     this.enemiesGroup?.children.each((ch) => {
-      (ch as Physics.Arcade.Sprite).setVelocity(0);
-      return true;
-    });
-    if (this.wolf.sprite.sprite.active) {
+      ;(ch as Physics.Arcade.Sprite).setVelocity(0)
+      return true
+    })
+    if (this.rusHeroSprite?.active) {
       this.enemiesGroup?.children.each((ch) => {
-        this.physics.moveToObject(ch, this.wolf.sprite.sprite, 50);
-        return true;
-      });
+        if (!this.rusHeroSprite) return true
+        this.physics.moveToObject(ch, this.rusHeroSprite, 50)
+        return true
+      })
     }
   }
 }

@@ -1,0 +1,1 @@
+export { MoveHeroBottomCommand } from './MoveHeroBottomCommand'
