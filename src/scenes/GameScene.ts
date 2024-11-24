@@ -2,7 +2,6 @@ import { Physics, Scene } from 'phaser'
 import { RusHeroContext, RusHeroKeyboardBinder, RusHeroKeyboardHandler } from '@features'
 import { RusHeroSprite } from '@entities'
 import { AttackHitbox } from '@shared'
-import { Ork } from '../entities/Ork'
 
 type Keyboard = ReturnType<RusHeroKeyboardBinder['getKeyboard']>
 
@@ -22,7 +21,6 @@ export class GameScene extends Scene {
 
   create() {
     this.createCastle()
-    this.createEnemiesGroup()
 
     const rusHeroSprite = new RusHeroSprite(this, 700, 200)
     rusHeroSprite.setDepth(100)
@@ -33,16 +31,6 @@ export class GameScene extends Scene {
 
     const attackHitbox = new AttackHitbox(this)
 
-    if (this.enemiesGroup) {
-      attackHitbox.addOverlapWith(this.enemiesGroup, (obj) => {
-        const sprite = obj as Physics.Arcade.Sprite
-        const creator = sprite.userInfo?.get('creator')
-        if (creator instanceof Ork) {
-          creator.hurt(50)
-        }
-      })
-    }
-
     this.rusHeroSprite.onFrameUpdate = (_: unknown, { frame }) => {
       const attackFrames = new Set(['attack_2'])
       if (attackFrames.has(frame.name)) {
@@ -52,24 +40,6 @@ export class GameScene extends Scene {
       }
       attackHitbox.disable()
     }
-  }
-
-  createEnemiesGroup() {
-    const enemiesGroup = this.physics.add.group({
-      collideWorldBounds: true,
-    })
-    this.enemiesGroup = enemiesGroup
-
-    setInterval(() => {
-      if (this.countOfEnemies >= this.maxCountOfEnemies) return
-      this.countOfEnemies += 1
-      const ork: Ork | null = new Ork(this)
-      ork.create(400, 350)
-      enemiesGroup.add(ork.sprite.sprite)
-      ork.onKill = () => {
-        this.countOfEnemies -= 1
-      }
-    }, 3000)
   }
 
   createCastle() {

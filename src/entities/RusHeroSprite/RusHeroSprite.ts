@@ -22,6 +22,10 @@ export class RusHeroSprite extends PhysicsSprite {
     super(scene, x, y, 'heroAtlas', 'idle_0')
 
     this.setScale(2)
+    this.setOrigin(0.5, 0.54)
+
+    this.setBodyShape()
+    
 
     this.setHitboxForIdle()
 
@@ -50,6 +54,7 @@ export class RusHeroSprite extends PhysicsSprite {
 
         this.scene.time.delayedCall(ATTACK_ANIMATION_DELAY_AFTER_COMPLETE, () => {
           this.setHitboxForIdle()
+          this.playIdle()
           complete(null)
         })
       })
@@ -81,15 +86,19 @@ export class RusHeroSprite extends PhysicsSprite {
     body.setVelocity(0)
   }
 
-  private setHitboxForIdle() {
+  private setBodyShape() {
     const body = this.getBody()
     body.setCircle(HITBOX_WIDTH, IDLE_HITBOX_OFFSET_X, IDLE_HITBOX_OFFSET_Y)
   }
 
+  private setHitboxForIdle() {
+    const body = this.getBody()
+    body.setOffset(IDLE_HITBOX_OFFSET_X, IDLE_HITBOX_OFFSET_Y)
+  }
+
   private setHitboxForAttack() {
     const body = this.getBody()
-    this.setOrigin(0.5, 0.54)
-    body.setCircle(HITBOX_WIDTH, ATTACK_HITBOX_OFFSET_X, ATTACK_HITBOX_OFFSET_Y)
+    body.setOffset(ATTACK_HITBOX_OFFSET_X, ATTACK_HITBOX_OFFSET_Y)
   }
 
   private createAttackAnimation() {
