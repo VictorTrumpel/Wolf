@@ -21,7 +21,8 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@entities": ["./src/entities"],
-      "@features": ["./src/features"]
+      "@features": ["./src/features"],
+      "@shared": ["./src/shared"]
     }
   },
   "include": ["src", "index.d.ts"]

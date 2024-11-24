@@ -44,6 +44,10 @@ export default [
       'no-promise-executor-return': 'warn',
       'no-template-curly-in-string': 'warn',
       'no-unreachable-loop': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      ],
       yoda: 'warn',
     },
     ignores: ['node_modules/', 'dist/', '**/*.min.js'],

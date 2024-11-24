@@ -49,11 +49,11 @@ export class MovingHeroState implements IRusHeroState {
     sprite.playAttack()
   }
 
-  attack(): void {
+  async attack() {
     this.stopMoving()
     const attackHeroState = this.rusHeroContext.getHeroAttackState()
-    attackHeroState.attack()
     this.rusHeroContext.setState(attackHeroState)
+    await attackHeroState.attack()
   }
 
   getHurt(): void {}

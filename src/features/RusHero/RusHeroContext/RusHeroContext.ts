@@ -55,8 +55,8 @@ export class RusHeroContext implements IRusHeroState {
   stopMovingY(): void {
     this.heroState.stopMovingY()
   }
-  attack(): void {
-    this.heroState.attack()
+  async attack() {
+    return await this.heroState.attack()
   }
   getHurt(): void {
     this.heroState.getHurt()

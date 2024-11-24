@@ -1,8 +1,8 @@
-import { Scene } from 'phaser'
-import { PhysicsSprite } from '../../shared/PhysicsSprite'
+import { Animations, Scene } from 'phaser'
+import { PhysicsSprite } from '@shared'
 import {
   ATTACK_ANIMATION,
-  ATTACK_ANIMATION_DURATION,
+  ATTACK_ANIMATION_DELAY_AFTER_COMPLETE,
   ATTACK_HITBOX_OFFSET_X,
   ATTACK_HITBOX_OFFSET_Y,
   HITBOX_WIDTH,
@@ -13,6 +13,11 @@ import {
 } from './constants'
 
 export class RusHeroSprite extends PhysicsSprite {
+  onFrameUpdate: (
+    animation: Animations.Animation,
+    animationframe: Animations.AnimationFrame
+  ) => void = () => null
+
   constructor(scene: Scene, x: number, y: number) {
     super(scene, x, y, 'heroAtlas', 'idle_0')
 
@@ -34,15 +39,20 @@ export class RusHeroSprite extends PhysicsSprite {
   }
 
   playAttack() {
-    return new Promise((resolve) => {
-      this.play(ATTACK_ANIMATION, true)
-      this.setHitboxForAttack()
+    this.setHitboxForAttack()
+    this.play(ATTACK_ANIMATION, true)
 
-      setTimeout(() => {
-        this.playIdle()
-        this.setHitboxForIdle()
-        resolve(null)
-      }, ATTACK_ANIMATION_DURATION)
+    this.on(Phaser.Animations.Events.ANIMATION_UPDATE, this.onFrameUpdate)
+
+    return new Promise((complete) => {
+      this.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
+        this.off(Phaser.Animations.Events.ANIMATION_UPDATE)
+
+        this.scene.time.delayedCall(ATTACK_ANIMATION_DELAY_AFTER_COMPLETE, () => {
+          this.setHitboxForIdle()
+          complete(null)
+        })
+      })
     })
   }
 
@@ -78,14 +88,15 @@ export class RusHeroSprite extends PhysicsSprite {
 
   private setHitboxForAttack() {
     const body = this.getBody()
+    this.setOrigin(0.5, 0.54)
     body.setCircle(HITBOX_WIDTH, ATTACK_HITBOX_OFFSET_X, ATTACK_HITBOX_OFFSET_Y)
   }
 
   private createAttackAnimation() {
     const frames = this.anims.generateFrameNames('heroAtlas', {
       prefix: 'attack_',
-      start: 0,
-      end: 3,
+      start: 1,
+      end: 4,
     })
 
     this.anims.create({

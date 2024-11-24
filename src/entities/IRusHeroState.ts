@@ -9,6 +9,6 @@ export interface IRusHeroState {
   stopMovingX(): void
   stopMovingY(): void
 
-  attack(): void
+  attack(): Promise<void>
   getHurt(): void
 }
