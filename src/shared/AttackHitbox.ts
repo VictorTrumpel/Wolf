@@ -1,14 +1,19 @@
 import { GameObjects, Physics, Scene, Types } from 'phaser'
 
+type OverlapedObj = Types.Physics.Arcade.GameObjectWithBody
+
 export class AttackHitbox {
   private rectanle: GameObjects.Rectangle | null = null
   private rectangleBody: Physics.Arcade.Body | null = null
 
-  private overlapMap = new Map<Types.Physics.Arcade.ArcadeColliderType, () => void>()
+  private overlapMap = new Map<
+    Types.Physics.Arcade.ArcadeColliderType,
+    (obj: OverlapedObj) => void
+  >()
 
   constructor(private scene: Scene) {}
 
-  addOverlapWith(obj: Types.Physics.Arcade.ArcadeColliderType, cb: () => void) {
+  addOverlapWith(obj: Types.Physics.Arcade.ArcadeColliderType, cb: (obj: OverlapedObj) => void) {
     this.overlapMap.set(obj, cb)
   }
 
@@ -18,9 +23,9 @@ export class AttackHitbox {
     this.rectangleBody = this.rectanle.body as Physics.Arcade.Body
 
     for (const [overlapObj, cb] of this.overlapMap) {
-      const isOverlap = this.scene.physics.overlap(this.rectangleBody, overlapObj)
-      if (!isOverlap) return
-      cb()
+      this.scene.physics.overlap(this.rectangleBody, overlapObj, (_: unknown, obj) => {
+        cb(obj as OverlapedObj)
+      })
     }
   }
 
