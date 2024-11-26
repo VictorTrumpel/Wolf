@@ -25,7 +25,6 @@ export class RusHeroSprite extends PhysicsSprite {
     this.setOrigin(0.5, 0.54)
 
     this.setBodyShape()
-    
 
     this.setHitboxForIdle()
 

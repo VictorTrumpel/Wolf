@@ -1,4 +1,5 @@
-export * from './RusHero'
+export * from './RusHeroStateMachine'
 export * from './RusHeroKeyboardHandler'
 export * from './RusHeroCommands'
 export * from './RusHeroKeyboardBinder'
+export { ForestGroup } from './ForestGroup/ForestGroup'
