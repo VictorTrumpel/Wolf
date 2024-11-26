@@ -1,8 +1,12 @@
-import { Physics, Scene } from 'phaser'
-import { RusHeroContext, RusHeroKeyboardBinder, RusHeroKeyboardHandler } from '@features'
+import { Scene } from 'phaser'
+import {
+  ForestGroup,
+  RusHeroContext,
+  RusHeroKeyboardBinder,
+  RusHeroKeyboardHandler,
+} from '@features'
 import { RusHeroSprite } from '@entities'
 import { AttackHitbox } from '@shared'
-import { Ork } from '../entities/Ork'
 
 type Keyboard = ReturnType<RusHeroKeyboardBinder['getKeyboard']>
 
@@ -10,8 +14,7 @@ export class GameScene extends Scene {
   private rusHeroSprite: RusHeroSprite | null = null
   private rusHeroContext: RusHeroContext | null = null
   private keyboard: Keyboard | null = null
-
-  private enemiesGroup: Physics.Arcade.Group | null = null
+  private forest: ForestGroup | null = null
 
   countOfEnemies = 0
   maxCountOfEnemies = 10
@@ -22,10 +25,8 @@ export class GameScene extends Scene {
 
   create() {
     this.createCastle()
-    this.createEnemiesGroup()
 
     const rusHeroSprite = new RusHeroSprite(this, 700, 200)
-    rusHeroSprite.setDepth(100)
     this.rusHeroSprite = rusHeroSprite
     this.rusHeroContext = new RusHeroContext(this.rusHeroSprite)
 
@@ -33,43 +34,33 @@ export class GameScene extends Scene {
 
     const attackHitbox = new AttackHitbox(this)
 
-    if (this.enemiesGroup) {
-      attackHitbox.addOverlapWith(this.enemiesGroup, (obj) => {
-        const sprite = obj as Physics.Arcade.Sprite
-        const creator = sprite.userInfo?.get('creator')
-        if (creator instanceof Ork) {
-          creator.hurt(50)
-        }
-      })
-    }
-
     this.rusHeroSprite.onFrameUpdate = (_: unknown, { frame }) => {
       const attackFrames = new Set(['attack_2'])
       if (attackFrames.has(frame.name)) {
-        const x = rusHeroSprite.flipX ? -38 : 38
+        const x = rusHeroSprite.flipX ? -30 : 30
 
         attackHitbox.enable(rusHeroSprite.x + x, rusHeroSprite.y - 5, 32)
       }
       attackHitbox.disable()
     }
-  }
 
-  createEnemiesGroup() {
-    const enemiesGroup = this.physics.add.group({
-      collideWorldBounds: true,
+    const forestGroup = ForestGroup.create(this)
+    this.forest = forestGroup
+    forestGroup.setForestAreaPosition(870, 0)
+    forestGroup.setForesAreaSize(400, 719)
+
+    forestGroup.addTree(50, 200)
+    forestGroup.addTree(250, 300)
+    forestGroup.addTree(150, 400)
+    forestGroup.addTree(300, 500)
+    forestGroup.addTree(100, 600)
+
+    forestGroup.addTransparentForObject(rusHeroSprite, (treeYCord) => {
+      const isTreeOverHero = treeYCord - rusHeroSprite.height - 58 > rusHeroSprite.y
+      return isTreeOverHero
     })
-    this.enemiesGroup = enemiesGroup
 
-    setInterval(() => {
-      if (this.countOfEnemies >= this.maxCountOfEnemies) return
-      this.countOfEnemies += 1
-      const ork: Ork | null = new Ork(this)
-      ork.create(400, 350)
-      enemiesGroup.add(ork.sprite.sprite)
-      ork.onKill = () => {
-        this.countOfEnemies -= 1
-      }
-    }, 3000)
+    this.physics.add.collider(rusHeroSprite, forestGroup.group)
   }
 
   createCastle() {
@@ -95,17 +86,6 @@ export class GameScene extends Scene {
 
   update(): void {
     this.keyboard?.executeKeyCommands()
-
-    this.enemiesGroup?.children.each((ch) => {
-      ;(ch as Physics.Arcade.Sprite).setVelocity(0)
-      return true
-    })
-    if (this.rusHeroSprite?.active) {
-      this.enemiesGroup?.children.each((ch) => {
-        if (!this.rusHeroSprite) return true
-        this.physics.moveToObject(ch, this.rusHeroSprite, 50)
-        return true
-      })
-    }
+    this.forest?.update()
   }
 }

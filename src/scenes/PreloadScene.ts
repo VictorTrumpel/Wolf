@@ -1,4 +1,5 @@
 import { Scene } from 'phaser'
+import automTree from '../assets/AnimatedAutumHight.png'
 import castle from '../assets/castle.png'
 import ground from '../assets/ground.png'
 import heroRunJson from '../assets/heroAtlas/heroAtlas.json'
@@ -20,6 +21,7 @@ export class PreloadScene extends Scene {
     this.load.image('ground', ground)
     this.load.image('splash', splash)
     this.load.image('castle', castle)
+    this.load.image('automTree', automTree)
     this.load.atlas('swordSplash', swordSplash, swordSplashJson)
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
   }
