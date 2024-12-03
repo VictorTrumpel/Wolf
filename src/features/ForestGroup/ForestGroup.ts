@@ -1,31 +1,22 @@
 import { GameObjects, Physics, Scene } from 'phaser'
-import {
-  TREE_BODY_OFFSET_X,
-  TREE_BODY_OFFSET_Y,
-  TREE_HEIGHT,
-  TREE_SCALE,
-  TREE_WIDTH,
-} from './constants'
+import { FirTree, ITreeSprite } from '@entities'
+import { TreeContext } from '../TreeStateMachine/TreeContext'
 
-export class ForestGroup {
-  private transparentSpritesMap = new Map<GameObjects.Sprite, (treeCord: number) => boolean>()
+export class ForestGroup extends Physics.Arcade.StaticGroup {
+  private transparentSpritesMap = new Map<
+    GameObjects.Sprite,
+    (treeSprite: GameObjects.Sprite) => boolean
+  >()
 
   private forestArea: Physics.Arcade.Body
 
-  private constructor(
-    private scene: Scene,
-    private _group: Physics.Arcade.StaticGroup
-  ) {
+  private _deadTreeGroup: Physics.Arcade.StaticGroup
+
+  constructor(physics: Physics.Arcade.World, scene: Scene) {
+    super(physics, scene)
+
     this.forestArea = this.scene.physics.add.body(100, 100, 200, 200)
-  }
-
-  static create(scene: Scene) {
-    const staticGroup = scene.physics.add.staticGroup()
-    return new this(scene, staticGroup)
-  }
-
-  get group() {
-    return this._group
+    this._deadTreeGroup = this.scene.physics.add.staticGroup()
   }
 
   get area() {
@@ -37,24 +28,52 @@ export class ForestGroup {
     this.forestArea.y = y
   }
 
-  setForesAreaSize(width: number, height: number) {
+  setForestAreaSize(width: number, height: number) {
     this.forestArea.setSize(width, height)
   }
 
-  addTree(x: number, y: number) {
-    const sprite = this.group.create(x + this.forestArea.x, y + this.forestArea.y, 'automTree')
-    sprite.setScale(TREE_SCALE)
-    sprite.setOrigin(0.5, 1)
-    sprite.body.setSize(TREE_WIDTH, TREE_HEIGHT)
-    sprite.body.setOffset(TREE_BODY_OFFSET_X, TREE_BODY_OFFSET_Y)
-    sprite.setDepth(y)
+  addFirTree(x: number, y: number) {
+    const firTree = new FirTree(this, this.area.x + x, this.area.y + y)
+    const treeContext = new TreeContext(firTree)
+
+    const treeDepth = this.area.y + y - firTree.BODY_BOTTOM_OFFSET
+    firTree.setDepth(treeDepth)
+
+    firTree.on('becomeDead', () => {
+      this.remove(firTree)
+      this.deadTreeGroup.add(firTree)
+    })
+
+    return treeContext
+  }
+
+  removeTreeFromAlifeGroup(treeSprite: ITreeSprite) {
+    if (treeSprite instanceof GameObjects.Sprite) {
+      this.remove(treeSprite)
+    }
+  }
+
+  addTreeToDeadGroup(treeSprite: ITreeSprite) {
+    if (treeSprite instanceof GameObjects.Sprite) {
+      this.deadTreeGroup.add(treeSprite)
+    }
+  }
+
+  removeTreeFromDeadGroup(treeSprite: ITreeSprite) {
+    if (treeSprite instanceof GameObjects.Sprite) {
+      this.deadTreeGroup.remove(treeSprite)
+    }
   }
 
   addTransparentForObject(
     sprite: GameObjects.Sprite,
-    needMakeTreeTransparent: (treeYCord: number) => boolean
+    needMakeTreeTransparent: (tree: GameObjects.Sprite) => boolean
   ) {
     this.transparentSpritesMap.set(sprite, needMakeTreeTransparent)
+  }
+
+  get deadTreeGroup() {
+    return this._deadTreeGroup
   }
 
   update() {
@@ -66,10 +85,11 @@ export class ForestGroup {
     }
 
     for (const [object, needMakeTreeTransparent] of this.transparentSpritesMap) {
-      object.setDepth(object.y)
+      const objectDepthInFores = object.y + this.area.y
+      object.setDepth(objectDepthInFores)
 
       this.forEachTree((treeSprite) => {
-        if (needMakeTreeTransparent(treeSprite.y)) {
+        if (needMakeTreeTransparent(treeSprite)) {
           treeSprite.setAlpha(0.2)
           return
         }
@@ -80,7 +100,7 @@ export class ForestGroup {
   }
 
   forEachTree(cb: (tree: GameObjects.Sprite) => void) {
-    this.group.children.each((tree) => {
+    this.children.each((tree) => {
       const treeSprite = tree as GameObjects.Sprite
       cb(treeSprite)
       return true

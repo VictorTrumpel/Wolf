@@ -87,7 +87,8 @@ export class RusHeroSprite extends PhysicsSprite {
 
   private setBodyShape() {
     const body = this.getBody()
-    body.setCircle(HITBOX_WIDTH, IDLE_HITBOX_OFFSET_X, IDLE_HITBOX_OFFSET_Y)
+    body.setSize(HITBOX_WIDTH)
+    body.setOffset(IDLE_HITBOX_OFFSET_X, IDLE_HITBOX_OFFSET_Y)
   }
 
   private setHitboxForIdle() {

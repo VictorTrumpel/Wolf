@@ -1,11 +1,11 @@
-import { Scene } from 'phaser'
+import { GameObjects, Scene } from 'phaser'
 import {
   ForestGroup,
   RusHeroContext,
   RusHeroKeyboardBinder,
   RusHeroKeyboardHandler,
 } from '@features'
-import { RusHeroSprite } from '@entities'
+import { FirTree, RusHeroSprite } from '@entities'
 import { AttackHitbox } from '@shared'
 
 type Keyboard = ReturnType<RusHeroKeyboardBinder['getKeyboard']>
@@ -15,6 +15,8 @@ export class GameScene extends Scene {
   private rusHeroContext: RusHeroContext | null = null
   private keyboard: Keyboard | null = null
   private forest: ForestGroup | null = null
+
+  private _debugPoint: GameObjects.Arc | null = null
 
   countOfEnemies = 0
   maxCountOfEnemies = 10
@@ -30,7 +32,19 @@ export class GameScene extends Scene {
     this.rusHeroSprite = rusHeroSprite
     this.rusHeroContext = new RusHeroContext(this.rusHeroSprite)
 
+    this._debugPoint = this.add.circle(0, 0, 4, 0xe35349)
+
     this.initKeyboardForHero(this.rusHeroContext)
+
+    this.forest = new ForestGroup(this.physics.world, this)
+    const forestGroup = this.forest
+
+    forestGroup.setForestAreaPosition(870, 0)
+    forestGroup.setForestAreaSize(400, 719)
+
+    forestGroup.addFirTree(50, 250)
+    forestGroup.addFirTree(150, 450)
+    forestGroup.addFirTree(100, 650)
 
     const attackHitbox = new AttackHitbox(this)
 
@@ -44,23 +58,25 @@ export class GameScene extends Scene {
       attackHitbox.disable()
     }
 
-    const forestGroup = ForestGroup.create(this)
-    this.forest = forestGroup
-    forestGroup.setForestAreaPosition(870, 0)
-    forestGroup.setForesAreaSize(400, 719)
-
-    forestGroup.addTree(50, 200)
-    forestGroup.addTree(250, 300)
-    forestGroup.addTree(150, 400)
-    forestGroup.addTree(300, 500)
-    forestGroup.addTree(100, 600)
-
-    forestGroup.addTransparentForObject(rusHeroSprite, (treeYCord) => {
-      const isTreeOverHero = treeYCord - rusHeroSprite.height - 58 > rusHeroSprite.y
-      return isTreeOverHero
+    attackHitbox.addOverlapWith(forestGroup, (tree) => {
+      if (tree instanceof FirTree) {
+        const treeContext = tree.getContext()
+        treeContext?.hurt(20)
+      }
     })
 
-    this.physics.add.collider(rusHeroSprite, forestGroup.group)
+    forestGroup.addTransparentForObject(rusHeroSprite, (treeSprite) => {
+      if (treeSprite instanceof FirTree) {
+        const isTreeOverHero = treeSprite.y - treeSprite.BODY_BOTTOM_OFFSET > rusHeroSprite.y
+        return isTreeOverHero
+      }
+      return false
+    })
+
+    this.physics.add.collider(rusHeroSprite, forestGroup)
+    this.physics.add.overlap(rusHeroSprite, forestGroup.deadTreeGroup, () => {
+      console.log('pick tree')
+    })
   }
 
   createCastle() {
@@ -87,5 +103,11 @@ export class GameScene extends Scene {
   update(): void {
     this.keyboard?.executeKeyCommands()
     this.forest?.update()
+
+    if (this._debugPoint && this.rusHeroSprite) {
+      this._debugPoint.x = this.rusHeroSprite.x
+      this._debugPoint.y = this.rusHeroSprite.y
+      this._debugPoint.setDepth(this.rusHeroSprite.depth + 1)
+    }
   }
 }

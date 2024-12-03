@@ -1,4 +1,4 @@
-export class TreeState {
+export class TreeStats {
   constructor(private hp: number) {}
 
   getHp() {
