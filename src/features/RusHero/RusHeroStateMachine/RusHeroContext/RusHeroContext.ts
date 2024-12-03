@@ -1,4 +1,5 @@
 import { IRusHeroState, RusHeroSprite } from '@entities'
+import { AttackHitbox } from '@shared'
 import { HeroAttackState } from '../HeroAttackState'
 import { IdleHeroState } from '../IdleHeroState'
 import { MovingHeroState } from '../MovingHeroState'
@@ -6,8 +7,12 @@ import { MovingHeroState } from '../MovingHeroState'
 export class RusHeroContext implements IRusHeroState {
   private heroState: IRusHeroState
 
+  readonly attackHitbox: AttackHitbox
+
   constructor(private rusHeroSprite: RusHeroSprite) {
     this.heroState = new IdleHeroState(this)
+
+    this.attackHitbox = new AttackHitbox(rusHeroSprite.scene)
   }
 
   setState(state: IRusHeroState) {
