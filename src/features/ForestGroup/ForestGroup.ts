@@ -1,5 +1,5 @@
 import { GameObjects, Physics, Scene } from 'phaser'
-import { FirTree, ITreeSprite } from '@entities'
+import { DeadTreeGood, FirTree, ITreeSprite } from '@entities'
 import { TreeContext } from '../TreeStateMachine/TreeContext'
 
 export class ForestGroup extends Physics.Arcade.StaticGroup {
@@ -10,13 +10,23 @@ export class ForestGroup extends Physics.Arcade.StaticGroup {
 
   private forestArea: Physics.Arcade.Body
 
-  private _deadTreeGroup: Physics.Arcade.StaticGroup
+  private _deadTreeGroup: Physics.Arcade.Group
 
   constructor(physics: Physics.Arcade.World, scene: Scene) {
     super(physics, scene)
 
     this.forestArea = this.scene.physics.add.body(100, 100, 200, 200)
-    this._deadTreeGroup = this.scene.physics.add.staticGroup()
+    this._deadTreeGroup = this.scene.physics.add.group()
+  }
+
+  private handleTreeDead = (deadTree: GameObjects.Sprite) => {
+    this.remove(deadTree)
+    deadTree.destroy()
+
+    const deadTreeGood = new DeadTreeGood(this.scene, deadTree.x, deadTree.y)
+    this.deadTreeGroup.add(deadTreeGood)
+
+    deadTreeGood.playDead()
   }
 
   get area() {
@@ -39,30 +49,21 @@ export class ForestGroup extends Physics.Arcade.StaticGroup {
     const treeDepth = this.area.y + y - firTree.BODY_BOTTOM_OFFSET
     firTree.setDepth(treeDepth)
 
-    firTree.on('becomeDead', () => {
-      this.remove(firTree)
-      this.deadTreeGroup.add(firTree)
-    })
+    firTree.on('becomeDead', this.handleTreeDead)
 
     return treeContext
   }
 
   removeTreeFromAlifeGroup(treeSprite: ITreeSprite) {
-    if (treeSprite instanceof GameObjects.Sprite) {
-      this.remove(treeSprite)
-    }
+    this.remove(treeSprite)
   }
 
-  addTreeToDeadGroup(treeSprite: ITreeSprite) {
-    if (treeSprite instanceof GameObjects.Sprite) {
-      this.deadTreeGroup.add(treeSprite)
-    }
+  addTreeToDeadGroup(treeSprite: GameObjects.Sprite) {
+    this.deadTreeGroup.add(treeSprite)
   }
 
-  removeTreeFromDeadGroup(treeSprite: ITreeSprite) {
-    if (treeSprite instanceof GameObjects.Sprite) {
-      this.deadTreeGroup.remove(treeSprite)
-    }
+  removeTreeFromDeadGroup(treeSprite: GameObjects.Sprite) {
+    this.deadTreeGroup.remove(treeSprite)
   }
 
   addTransparentForObject(
@@ -97,6 +98,14 @@ export class ForestGroup extends Physics.Arcade.StaticGroup {
         treeSprite.setAlpha(1)
       })
     }
+  }
+
+  forEachDeadTree(cb: (tree: GameObjects.Sprite) => void) {
+    this.deadTreeGroup.children.each((good) => {
+      const goodSprite = good as GameObjects.Sprite
+      cb(goodSprite)
+      return true
+    })
   }
 
   forEachTree(cb: (tree: GameObjects.Sprite) => void) {
