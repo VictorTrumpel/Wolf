@@ -39,8 +39,9 @@ export class GameScene extends Scene {
 
   handleHeroPickTreeGood = (_: GameObject, treeGood: GameObject) => {
     const isTreeGood = treeGood instanceof DeadTreeGood
-    if (!isTreeGood || !this.forest) return
+    if (!isTreeGood || !this.forest || !this.rusHeroContext) return
     this.forest.removeTreeFromDeadGroup(treeGood)
+    this.rusHeroContext.addWoodGoodCount(1)
     treeGood.destroy()
   }
 
@@ -131,5 +132,6 @@ export class GameScene extends Scene {
   update(): void {
     this.keyboard?.executeKeyCommands()
     this.forest?.update()
+    this.rusHeroContext?.update()
   }
 }

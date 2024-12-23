@@ -10,7 +10,6 @@ export class TreeContext implements ITreeState {
   hurt(hp: number) {
     const currentHp = this.treeStats.getHp()
     this.treeStats.setHp(currentHp - hp)
-    this.treeSprite.playHurt()
 
     if (this.treeStats.getHp() <= 0) {
       this.treeSprite.emit('becomeDead', this.treeSprite)

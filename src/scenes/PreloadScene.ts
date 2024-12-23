@@ -16,6 +16,7 @@ import swordSplash from '../assets/sword-splash/splash.png'
 import wolf from '../assets/wolf.png'
 import woodChipsJson from '../assets/woodChipsAtlas/woodCipsAtlas.json'
 import woodChips from '../assets/woodChipsAtlas/woodCipsAtlas.png'
+import woodIcon from '../assets/woodIcon.png'
 
 export class PreloadScene extends Scene {
   constructor() {
@@ -29,6 +30,7 @@ export class PreloadScene extends Scene {
     this.load.image('splash', splash)
     this.load.image('castle', castle)
     this.load.image('automTree', automTree)
+    this.load.image('woodIcon', woodIcon)
     this.load.atlas('swordSplash', swordSplash, swordSplashJson)
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)
