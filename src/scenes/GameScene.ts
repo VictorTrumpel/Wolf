@@ -26,9 +26,7 @@ export class GameScene extends Scene {
 
   handleHeroAttackFrame = () => {
     if (!this.rusHeroContext) return
-    const attackHitbox = this.rusHeroContext.attackHitbox
-    attackHitbox.enable()
-    this.time.delayedCall(0, () => attackHitbox.disable())
+    this.rusHeroContext.attackHitbox.squash()
   }
 
   handleAttackTreeByAxe = async (tree: GameObjects.GameObject) => {
@@ -66,7 +64,7 @@ export class GameScene extends Scene {
     this.rusHeroContext = new RusHeroContext(rusHeroSprite)
 
     rusHeroSprite.onFrameUpdate = (_: unknown, { frame }) => {
-      const isAttack = frame.name === 'attack_2'
+      const isAttack = frame.name === RusHeroSprite.ATTACK_FRAME
       if (!isAttack) return
       this.handleHeroAttackFrame()
     }

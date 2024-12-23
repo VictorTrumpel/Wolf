@@ -13,6 +13,8 @@ import {
 } from './constants'
 
 export class RusHeroSprite extends PhysicsSprite {
+  static ATTACK_FRAME = 'attack_2'
+
   onFrameUpdate: (
     animation: Animations.Animation,
     animationframe: Animations.AnimationFrame
