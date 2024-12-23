@@ -7,6 +7,14 @@ export class AxeHitbox extends AttackHitbox {
     super(rusHeroSprite.scene)
   }
 
+  enable(..._: unknown[]): void {
+    const offsetX = this.rusHeroSprite.flipX ? -30 : 30
+    const offsetY = -5
+    const hitboxWidth = 32
+
+    super.enable(this.rusHeroSprite.x + offsetX, this.rusHeroSprite.y + offsetY, hitboxWidth)
+  }
+
   async playWoodChips() {
     const scene = this.rusHeroSprite.scene
 
