@@ -1,5 +1,6 @@
 import { Scene } from 'phaser'
 import automTree from '../assets/AnimatedAutumHight.png'
+import bathHouse from '../assets/bathHouse.png'
 import castle from '../assets/castle.png'
 import deadTreeAtlas from '../assets/deadTreeAtlas/deadTreeAtlas.png'
 import deadTreeJson from '../assets/deadTreeAtlas/deadTreeJson.json'
@@ -13,6 +14,8 @@ import splash from '../assets/splash.png'
 import swordSplashJson from '../assets/sword-splash/splash.json'
 import swordSplash from '../assets/sword-splash/splash.png'
 import wolf from '../assets/wolf.png'
+import woodChipsJson from '../assets/woodChipsAtlas/woodCipsAtlas.json'
+import woodChips from '../assets/woodChipsAtlas/woodCipsAtlas.png'
 
 export class PreloadScene extends Scene {
   constructor() {
@@ -30,6 +33,8 @@ export class PreloadScene extends Scene {
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)
     this.load.atlas('deadTreeAtlas', deadTreeAtlas, deadTreeJson)
+    this.load.image('bathHouse', bathHouse)
+    this.load.atlas('woodChips', woodChips, woodChipsJson)
   }
 
   create() {

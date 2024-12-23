@@ -1,0 +1,29 @@
+{
+  "frames": [
+    {
+      "filename": "chips_1",
+      "frame": { "x": 0, "y": 0, "w": 19, "h": 17 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 19, "h": 17 },
+      "sourceSize": { "w": 19, "h": 17 }
+    },
+    {
+      "filename": "chips_2",
+      "frame": { "x": 19, "y": 0, "w": 19, "h": 17 },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": { "x": 0, "y": 0, "w": 19, "h": 17 },
+      "sourceSize": { "w": 19, "h": 17 }
+    }
+  ],
+  "meta": {
+    "app": "https://www.codeandweb.com/texturepacker",
+    "version": "1.0",
+    "image": "woodCips.png",
+    "format": "RGBA8888",
+    "size": { "w": 38, "h": 17 },
+    "scale": "1",
+    "smartupdate": "$TexturePacker:SmartUpdate:717d423aeadd9ea25f0f012dcaf9e7fb:2e54e8fae32747649f6168f5fff7cbe5:94ece57fad352a6c318e1fa2d70f655d$"
+  }
+}

@@ -8,7 +8,7 @@ const IDLE_ANIMATION = 'FIR_IDLE_ANIMATION'
 export class FirTree extends StaticSprite implements ITreeSprite {
   private context: ITreeState | null = null
 
-  readonly BODY_BOTTOM_OFFSET = 100
+  readonly BODY_BOTTOM_OFFSET = 99
 
   constructor(forest: GameObjects.Group, x: number, y: number) {
     super(forest.scene, x, y, 'firTreeAtlas', 'fir_15')

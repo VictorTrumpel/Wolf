@@ -1,11 +1,11 @@
-import { GameObjects, Scene } from 'phaser'
+import { GameObjects, Physics, Scene } from 'phaser'
 import {
   ForestGroup,
   RusHeroContext,
   RusHeroKeyboardBinder,
   RusHeroKeyboardHandler,
 } from '@features'
-import { DeadTreeGood, FirTree, RusHeroSprite } from '@entities'
+import { BathHouse, DeadTreeGood, FirTree, RusHeroSprite } from '@entities'
 
 type Keyboard = ReturnType<RusHeroKeyboardBinder['getKeyboard']>
 type GameObject =
@@ -17,6 +17,8 @@ export class GameScene extends Scene {
   private rusHeroContext: RusHeroContext | null = null
   private keyboard: Keyboard | null = null
   private forest: ForestGroup | null = null
+  private buildings: Physics.Arcade.StaticGroup | null = null
+  private bathHouse: BathHouse | null = null
 
   constructor() {
     super('GameScene')
@@ -31,11 +33,12 @@ export class GameScene extends Scene {
     this.time.delayedCall(1, () => attackHitbox.disable())
   }
 
-  handleAttackTree = (tree: GameObjects.GameObject) => {
+  handleAttackTreeByAxe = async (tree: GameObjects.GameObject) => {
     const isFirTree = tree instanceof FirTree
-    if (!isFirTree) return
+    if (!isFirTree || !this.rusHeroContext) return
     const treeContext = tree.getContext()
     treeContext?.hurt(20)
+    this.rusHeroContext.attackHitbox.playWoodChips()
   }
 
   handleHeroPickTreeGood = (_: GameObject, treeGood: GameObject) => {
@@ -46,10 +49,17 @@ export class GameScene extends Scene {
   }
 
   create() {
+    this.initBathHouse()
     this.initHero()
     this.initForest()
     this.initializeForestTransparency()
     this.initCollisions()
+  }
+
+  initBathHouse() {
+    this.buildings = this.physics.add.staticGroup()
+    this.bathHouse = new BathHouse(this.buildings, 270, 230)
+    this.buildings.add(this.bathHouse)
   }
 
   initHero() {
@@ -73,22 +83,26 @@ export class GameScene extends Scene {
     forestGroup.setForestAreaPosition(870, 0)
     forestGroup.setForestAreaSize(400, 719)
 
-    forestGroup.addFirTree(50, 250)
-    forestGroup.addFirTree(150, 450)
-    forestGroup.addFirTree(100, 650)
+    forestGroup.addFirTree(100, 200)
+    forestGroup.addFirTree(300, 150)
+    forestGroup.addFirTree(210, 350)
+    forestGroup.addFirTree(320, 430)
+    forestGroup.addFirTree(100, 550)
+    forestGroup.addFirTree(220, 680)
   }
 
   initCollisions() {
-    if (!this.rusHeroContext || !this.forest) return
+    if (!this.rusHeroContext || !this.forest || !this.buildings) return
 
     const rusHeroSprite = this.rusHeroContext.getSprite()
     const attackHitbox = this.rusHeroContext.attackHitbox
     const forestGroup = this.forest
     const deadForesGroup = forestGroup.deadTreeGroup
 
+    this.physics.add.collider(rusHeroSprite, this.buildings)
     this.physics.add.collider(rusHeroSprite, forestGroup)
     this.physics.add.overlap(rusHeroSprite, deadForesGroup, this.handleHeroPickTreeGood)
-    attackHitbox.addOverlapWith(forestGroup, this.handleAttackTree)
+    attackHitbox.addOverlapWith(forestGroup, this.handleAttackTreeByAxe)
   }
 
   initKeyboardForHero(heroContext: RusHeroContext) {
