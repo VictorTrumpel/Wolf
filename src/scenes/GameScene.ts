@@ -1,5 +1,6 @@
 import { GameObjects, Physics, Scene } from 'phaser'
 import {
+  BathHouseContext,
   ForestGroup,
   RusHeroContext,
   RusHeroKeyboardBinder,
@@ -18,7 +19,7 @@ export class GameScene extends Scene {
   private keyboard: Keyboard | null = null
   private forest: ForestGroup | null = null
   private buildings: Physics.Arcade.StaticGroup | null = null
-  private bathHouse: BathHouse | null = null
+  private bathHouseContex: BathHouseContext | null = null
 
   constructor() {
     super('GameScene')
@@ -55,8 +56,9 @@ export class GameScene extends Scene {
 
   initBathHouse() {
     this.buildings = this.physics.add.staticGroup()
-    this.bathHouse = new BathHouse(this.buildings, 270, 230)
-    this.buildings.add(this.bathHouse)
+    const bathHouseSprite = new BathHouse(this.buildings, 270, 230)
+    this.bathHouseContex = new BathHouseContext(bathHouseSprite)
+    this.buildings.add(bathHouseSprite)
   }
 
   initHero() {
@@ -133,5 +135,6 @@ export class GameScene extends Scene {
     this.keyboard?.executeKeyCommands()
     this.forest?.update()
     this.rusHeroContext?.update()
+    this.bathHouseContex?.update()
   }
 }

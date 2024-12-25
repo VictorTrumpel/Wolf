@@ -1,6 +1,6 @@
 import { GameObjects, Physics, Scene } from 'phaser'
 import { DeadTreeGood, FirTree, ITreeSprite } from '@entities'
-import { TreeContext } from '../TreeStateMachine/TreeContext'
+import { TreeContext } from '../TreeContext'
 
 export class ForestGroup extends Physics.Arcade.StaticGroup {
   private transparentSpritesMap = new Map<

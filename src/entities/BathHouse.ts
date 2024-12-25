@@ -9,4 +9,12 @@ export class BathHouse extends StaticSprite {
 
     this.setScale(2)
   }
+
+  playSmolder() {}
+
+  playWeak() {}
+
+  playMedium() {}
+
+  playStrong() {}
 }
