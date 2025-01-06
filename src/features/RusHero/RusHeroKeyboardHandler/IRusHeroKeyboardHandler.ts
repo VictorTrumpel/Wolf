@@ -6,6 +6,7 @@ export interface IRusHeroKeyboardHandler {
   bindMoveLeftKey(keyCode: number): void
   bindMoveRightKey(keyCode: number): void
   bindAttackKey(keyCode: number): void
+  bindPushWoodsInStoveKey(keyCode: number): void
 
   bindMoveTopCommand(command: ICommand): void
   bindMoveBottomCommand(command: ICommand): void
@@ -16,6 +17,8 @@ export interface IRusHeroKeyboardHandler {
   bindStopMoveCommand(command: ICommand): void
 
   bindAttackCommand(command: ICommand): void
+
+  bindPushWoodsInStoveCommand(command: ICommand): void
 
   executeKeyCommands(): void
 }

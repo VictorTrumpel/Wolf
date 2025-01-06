@@ -11,6 +11,7 @@ import {
   StopMoveYHeroCommand,
 } from '@features'
 import { IRusHeroState } from '@entities'
+import { PushWoodsInStoveCommand } from '../RusHeroCommands/PushWoodsInStoveCommand'
 
 export class RusHeroKeyboardBinder {
   constructor(
@@ -22,6 +23,7 @@ export class RusHeroKeyboardBinder {
     this.keyboard.bindMoveRightKey(Input.Keyboard.KeyCodes.D)
     this.keyboard.bindMoveLeftKey(Input.Keyboard.KeyCodes.A)
     this.keyboard.bindAttackKey(Input.Keyboard.KeyCodes.ENTER)
+    this.keyboard.bindPushWoodsInStoveKey(Input.Keyboard.KeyCodes.E)
 
     const moveTopCommand = new MoveHeroTopCommand(this.rusHero)
     const moveBottomCommand = new MoveHeroBottomCommand(this.rusHero)
@@ -33,6 +35,10 @@ export class RusHeroKeyboardBinder {
 
     const stopMoveCommand = new StopMoveHeroCommand(this.rusHero)
 
+    const attackCommand = new HeroAttackCommand(this.rusHero)
+
+    const pushWoodsInStoveCommand = new PushWoodsInStoveCommand(this.rusHero)
+
     this.keyboard.bindMoveTopCommand(moveTopCommand)
     this.keyboard.bindMoveBottomCommand(moveBottomCommand)
     this.keyboard.bindStopMoveYCommand(stopMoveYCommand)
@@ -40,10 +46,8 @@ export class RusHeroKeyboardBinder {
     this.keyboard.bindMoveRightCommand(moveRightCommand)
     this.keyboard.bindStopMoveXCommand(stopMoveXCommand)
     this.keyboard.bindStopMoveCommand(stopMoveCommand)
-
-    const attackCommand = new HeroAttackCommand(this.rusHero)
-
     this.keyboard.bindAttackCommand(attackCommand)
+    this.keyboard.bindPushWoodsInStoveCommand(pushWoodsInStoveCommand)
   }
 
   getKeyboard() {

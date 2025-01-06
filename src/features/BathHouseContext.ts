@@ -5,12 +5,16 @@ export class BathHouseContext {
 
   constructor(private bathHouseSprite: BathHouse) {}
 
+  getSprite() {
+    return this.bathHouseSprite
+  }
+
   addPower(woodCount: number) {
     this.power += woodCount
   }
 
   update() {
-    this.power -= 0.01
+    this.power -= 0.001
 
     if (this.power < 0) {
       this.power = 0

@@ -46,6 +46,19 @@ export class GameScene extends Scene {
     treeGood.destroy()
   }
 
+  handlePutWoodInTheStorve = () => {
+    if (!this.bathHouseContex || !this.rusHeroContext) return
+    const rusHeroSprite = this.rusHeroContext.getSprite()
+    const stoveBody = this.bathHouseContex.getSprite().getStoveBody()
+    const isOverlap = this.physics.overlap(rusHeroSprite, stoveBody)
+
+    if (!isOverlap) return
+
+    const woodCount = this.rusHeroContext.getWoodGoodCount()
+    this.bathHouseContex.addPower(woodCount)
+    this.rusHeroContext.addWoodGoodCount(-woodCount)
+  }
+
   create() {
     this.initBathHouse()
     this.initHero()
@@ -71,6 +84,8 @@ export class GameScene extends Scene {
       if (!isAttack) return
       this.handleHeroAttackFrame()
     }
+
+    this.rusHeroContext.onPushWoodsInStove = this.handlePutWoodInTheStorve
 
     this.initKeyboardForHero(this.rusHeroContext)
   }

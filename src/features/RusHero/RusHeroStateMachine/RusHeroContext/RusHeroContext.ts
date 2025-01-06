@@ -12,6 +12,8 @@ export class RusHeroContext implements IRusHeroState {
 
   readonly heroWoodCounter: HeroWoodCounterText
 
+  onPushWoodsInStove: () => void = () => null
+
   constructor(private rusHeroSprite: RusHeroSprite) {
     this.heroState = new IdleHeroState(this)
 
@@ -78,6 +80,11 @@ export class RusHeroContext implements IRusHeroState {
   }
   getHurt(): void {
     this.heroState.getHurt()
+  }
+  pushWoodsInStove() {
+    if (this.heroState instanceof IdleHeroState) {
+      this.onPushWoodsInStove()
+    }
   }
 
   update() {

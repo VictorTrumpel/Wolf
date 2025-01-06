@@ -57,4 +57,6 @@ export class MovingHeroState implements IRusHeroState {
   }
 
   getHurt(): void {}
+
+  pushWoodsInStove() {}
 }

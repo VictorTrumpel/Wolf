@@ -10,5 +10,8 @@ export interface IRusHeroState {
   stopMovingY(): void
 
   attack(): Promise<void>
+
+  pushWoodsInStove(): void
+
   getHurt(): void
 }

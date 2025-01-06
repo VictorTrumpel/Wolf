@@ -51,4 +51,8 @@ export class IdleHeroState implements IRusHeroState {
   }
 
   getHurt(): void {}
+
+  pushWoodsInStove() {
+    this.rusHeroContext.pushWoodsInStove()
+  }
 }

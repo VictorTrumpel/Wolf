@@ -15,11 +15,14 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
 
   private attackCommand: ICommand | null = null
 
+  private pushWoodsInStoveCommand: ICommand | null = null
+
   private moveTopKey: Phaser.Input.Keyboard.Key | null = null
   private moveBottomKey: Phaser.Input.Keyboard.Key | null = null
   private moveLeftKey: Phaser.Input.Keyboard.Key | null = null
   private moveRightKey: Phaser.Input.Keyboard.Key | null = null
   private attackKey: Phaser.Input.Keyboard.Key | null = null
+  private pushWoodsInStoveKey: Phaser.Input.Keyboard.Key | null = null
 
   constructor(private keyboard: Input.Keyboard.KeyboardPlugin) {}
 
@@ -59,6 +62,13 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
     this.attackKey = this.keyboard.addKey(keyCode)
   }
 
+  bindPushWoodsInStoveKey(keyCode: number) {
+    this.pushWoodsInStoveKey = this.keyboard.addKey(keyCode)
+    this.pushWoodsInStoveKey.on('down', () => {
+      this.pushWoodsInStoveCommand?.execute()
+    })
+  }
+
   bindMoveRightCommand(command: ICommand) {
     this.moveRightCommand = command
   }
@@ -73,6 +83,10 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
 
   bindAttackCommand(command: ICommand) {
     this.attackCommand = command
+  }
+
+  bindPushWoodsInStoveCommand(command: ICommand): void {
+    this.pushWoodsInStoveCommand = command
   }
 
   executeKeyCommands() {
