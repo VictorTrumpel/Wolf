@@ -80,6 +80,9 @@ export class GameScene extends Scene {
 
     new WoodFence(this.buildings, 515, 338, { type: 'horizontal', collumns: 3 })
     new WoodFence(this.buildings, 562, 338, { type: 'horizontal', collumns: 3 })
+
+    new WoodFence(this.buildings, 130, 440, { type: 'vertical', collumns: 8 })
+    new WoodFence(this.buildings, 130, 630, { type: 'vertical', collumns: 8 })
   }
 
   initHero() {
@@ -107,7 +110,6 @@ export class GameScene extends Scene {
 
     forestGroup.addFirTree(100, 200)
 
-    this.add.circle(870 + 100, 200, 2, 0xfff).depth = 2000
     forestGroup.addFirTree(300, 150)
     forestGroup.addFirTree(210, 350)
     forestGroup.addFirTree(320, 430)
