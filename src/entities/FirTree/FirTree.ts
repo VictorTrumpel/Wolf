@@ -8,15 +8,13 @@ const IDLE_ANIMATION = 'FIR_IDLE_ANIMATION'
 export class FirTree extends StaticSprite implements ITreeSprite {
   private context: ITreeState | null = null
 
-  readonly BODY_BOTTOM_OFFSET = 99
-
   constructor(forest: GameObjects.Group, x: number, y: number) {
     super(forest.scene, x, y, 'firTreeAtlas', 'fir_15')
 
     forest.add(this)
 
     this.setScale(2)
-    this.setOrigin(0.5, 1)
+    this.setOrigin(0.48, 0.92)
 
     this.createHitboxBody()
     this.createIdleAnimation()
@@ -51,7 +49,7 @@ export class FirTree extends StaticSprite implements ITreeSprite {
   private createHitboxBody() {
     const body = this.getHitboxBody()
     body.setSize(56, 40)
-    body.setOffset(52.5, 25)
+    body.setOffset(60.5, 55)
   }
 
   private createIdleAnimation() {

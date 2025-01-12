@@ -6,7 +6,7 @@ import {
   RusHeroKeyboardBinder,
   RusHeroKeyboardHandler,
 } from '@features'
-import { BathHouse, DeadTreeGood, FirTree, RusHeroSprite } from '@entities'
+import { BathHouse, DeadTreeGood, FirTree, RusHeroSprite, WoodFence } from '@entities'
 
 type Keyboard = ReturnType<RusHeroKeyboardBinder['getKeyboard']>
 type GameObject =
@@ -72,10 +72,18 @@ export class GameScene extends Scene {
     const bathHouseSprite = new BathHouse(this.buildings, 270, 230)
     this.bathHouseContex = new BathHouseContext(bathHouseSprite)
     this.buildings.add(bathHouseSprite)
+
+    new WoodFence(this.buildings, 600, 96, { type: 'vertical', collumns: 8 })
+    new WoodFence(this.buildings, 600, 240, { type: 'vertical', collumns: 4 })
+    new WoodFence(this.buildings, 600, 310, { type: 'vertical', collumns: 2 })
+    new WoodFence(this.buildings, 600, 338, { type: 'vertical', collumns: 1 })
+
+    new WoodFence(this.buildings, 515, 338, { type: 'horizontal', collumns: 3 })
+    new WoodFence(this.buildings, 562, 338, { type: 'horizontal', collumns: 3 })
   }
 
   initHero() {
-    const rusHeroSprite = new RusHeroSprite(this, 700, 200)
+    const rusHeroSprite = new RusHeroSprite(this, 700, 400)
 
     this.rusHeroContext = new RusHeroContext(rusHeroSprite)
 
@@ -98,6 +106,8 @@ export class GameScene extends Scene {
     forestGroup.setForestAreaSize(400, 719)
 
     forestGroup.addFirTree(100, 200)
+
+    this.add.circle(870 + 100, 200, 2, 0xfff).depth = 2000
     forestGroup.addFirTree(300, 150)
     forestGroup.addFirTree(210, 350)
     forestGroup.addFirTree(320, 430)
@@ -139,8 +149,10 @@ export class GameScene extends Scene {
 
     this.forest.addTransparentForObject(rusHeroSprite, (treeSprite) => {
       if (treeSprite instanceof FirTree) {
-        const treeBodyYPos = treeSprite.y - treeSprite.BODY_BOTTOM_OFFSET
-        return treeBodyYPos > rusHeroSprite.y
+        const heroInfelicityPX = 5
+        const heroSpriteY = rusHeroSprite.y - heroInfelicityPX
+        const treeSpriteY = treeSprite.y - treeSprite.getBodyHeight()
+        return heroSpriteY < treeSpriteY
       }
       return false
     })

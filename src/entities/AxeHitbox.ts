@@ -11,8 +11,8 @@ export class AxeHitbox extends AttackHitbox {
     const heroX = this.rusHeroSprite.x
     const heroY = this.rusHeroSprite.y
 
-    const offsetX = this.rusHeroSprite.flipX ? -30 : 30
-    const offsetY = -5
+    const offsetX = this.rusHeroSprite.flipX ? -35 : 30
+    const offsetY = -35
     const hitboxWidth = 32
 
     this.enable(heroX + offsetX, heroY + offsetY, hitboxWidth)

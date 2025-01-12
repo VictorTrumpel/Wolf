@@ -10,4 +10,8 @@ export class StaticSprite extends GameObjects.Sprite {
   getBody() {
     return this.body as Physics.Arcade.StaticBody
   }
+
+  getBodyHeight() {
+    return this.getBody().height
+  }
 }

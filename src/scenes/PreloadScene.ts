@@ -18,6 +18,12 @@ import swordSplash from '../assets/sword-splash/splash.png'
 import wolf from '../assets/wolf.png'
 import woodChipsJson from '../assets/woodChipsAtlas/woodCipsAtlas.json'
 import woodChips from '../assets/woodChipsAtlas/woodCipsAtlas.png'
+import woodenFence1CollumnsHorizontal from '../assets/woodenFence1CollumnsHorizontal.png'
+import woodenFence1CollumnsVertical from '../assets/woodenFence1CollumnsVertical.png'
+import woodenFence2CollumnsVertical from '../assets/woodenFence2CollumnsVertical.png'
+import woodenFence3CollumnsHorizontal from '../assets/woodenFence3CollumnsHorizontal.png'
+import woodenFence4CollumnsVertical from '../assets/woodenFence4CollumnsVertical.png'
+import woodenFence8CollumnsVertical from '../assets/woodenFence8CollumnsVertical.png'
 import woodIcon from '../assets/woodIcon.png'
 
 export class PreloadScene extends Scene {
@@ -33,6 +39,14 @@ export class PreloadScene extends Scene {
     this.load.image('castle', castle)
     this.load.image('automTree', automTree)
     this.load.image('woodIcon', woodIcon)
+
+    this.load.image('woodenFence8CollumnsVertical', woodenFence8CollumnsVertical)
+    this.load.image('woodenFence4CollumnsVertical', woodenFence4CollumnsVertical)
+    this.load.image('woodenFence2CollumnsVertical', woodenFence2CollumnsVertical)
+    this.load.image('woodenFence1CollumnsVertical', woodenFence1CollumnsVertical)
+    this.load.image('woodenFence3CollumnsHorizontal', woodenFence3CollumnsHorizontal)
+    this.load.image('woodenFence1CollumnsHorizontal', woodenFence1CollumnsHorizontal)
+
     this.load.atlas('swordSplash', swordSplash, swordSplashJson)
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)

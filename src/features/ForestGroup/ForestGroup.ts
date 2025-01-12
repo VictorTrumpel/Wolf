@@ -46,7 +46,7 @@ export class ForestGroup extends Physics.Arcade.StaticGroup {
     const firTree = new FirTree(this, this.area.x + x, this.area.y + y)
     const treeContext = new TreeContext(firTree)
 
-    const treeDepth = this.area.y + y - firTree.BODY_BOTTOM_OFFSET
+    const treeDepth = this.area.y + y - firTree.getBodyHeight()
     firTree.setDepth(treeDepth)
 
     firTree.on('becomeDead', this.handleTreeDead)

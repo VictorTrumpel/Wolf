@@ -6,12 +6,13 @@ export class HeroWoodCounterText extends GameObjects.Text {
 
   private value = 1
 
-  static OFFSET_TEXT_Y = -50
+  static OFFSET_TEXT_Y = -45
 
   constructor(private hero: RusHeroSprite) {
     super(hero.scene, hero.x, hero.y, `x${0}`, {
       fontSize: '12px',
       fontFamily: 'Arial',
+      color: '0x000000',
     })
 
     this.woodIcon = this.scene.add.image(this.hero.x, this.hero.y, 'woodIcon')
@@ -45,7 +46,10 @@ export class HeroWoodCounterText extends GameObjects.Text {
   update() {
     this.text = `×${this.value}`
     this.setVisible(this.value === 0 ? false : true)
-    this.setPosition(this.hero.x, this.hero.y + HeroWoodCounterText.OFFSET_TEXT_Y)
+    this.setPosition(
+      this.hero.x,
+      this.hero.y - this.hero.getBody().height + HeroWoodCounterText.OFFSET_TEXT_Y
+    )
     this.woodIcon?.setDepth(this.hero.depth)
     this.setDepth(this.hero.depth)
   }
