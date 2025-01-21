@@ -65,6 +65,6 @@ export class PreloadScene extends Scene {
   }
 
   create() {
-    this.scene.start('BanyaScene')
+    this.scene.start('GameScene')
   }
 }

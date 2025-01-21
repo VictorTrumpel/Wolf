@@ -134,6 +134,12 @@ export class GameScene extends Scene {
     this.physics.add.overlap(rusHeroSprite, deadForesGroup, this.handleHeroPickTreeGood)
     this.physics.add.overlap(rusHeroSprite, doorBody, this.handleEnterIntoBathHouse)
     attackHitbox.addOverlapWith(forestGroup, this.handleAttackTreeByAxe)
+
+    const body = this.physics.add.staticImage(250, 280, '', 200)
+    body.visible = false
+    body.setOrigin(0, 0)
+    body.setSize(255, 200)
+    this.buildings.add(body)
   }
 
   initKeyboardForHero(heroContext: RusHeroContext | null) {
