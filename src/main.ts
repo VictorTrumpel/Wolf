@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser'
+import { BanyaScene } from './scenes/BanyaScene'
 import { GameScene } from './scenes/GameScene'
 import { PreloadScene } from './scenes/PreloadScene'
 import './style.css'
@@ -13,10 +14,10 @@ const config: Phaser.Types.Core.GameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      // debug: true,
+      debug: true,
     },
   },
-  scene: [PreloadScene, GameScene],
+  scene: [PreloadScene, GameScene, BanyaScene],
 }
 
 new Phaser.Game(config)

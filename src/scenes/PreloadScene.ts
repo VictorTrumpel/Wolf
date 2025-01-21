@@ -1,20 +1,24 @@
 import { Scene } from 'phaser'
 import automTree from '../assets/AnimatedAutumHight.png'
+import banyaLocation from '../assets/Banyalocation.png'
 import bathHouse from '../assets/bathHouse.png'
 import bathHouseJson from '../assets/bathHouseAtlas/bathHouseAtlas.json'
 import bathHouseAtlas from '../assets/bathHouseAtlas/bathHouseAtlas.png'
 import castle from '../assets/castle.png'
 import deadTreeAtlas from '../assets/deadTreeAtlas/deadTreeAtlas.png'
 import deadTreeJson from '../assets/deadTreeAtlas/deadTreeJson.json'
+import door from '../assets/door.png'
 import firTreeJson from '../assets/firTreeAtlas/firTreeAtlas.json'
 import firTreeAtlas from '../assets/firTreeAtlas/firTreeAtlas.png'
 import ground from '../assets/ground.png'
 import heroRunJson from '../assets/heroAtlas/heroAtlas.json'
 import heroRunAtlas from '../assets/heroAtlas/heroAtlas.png'
+import ladder from '../assets/ladder.png'
 import ork from '../assets/ork.png'
 import splash from '../assets/splash.png'
 import swordSplashJson from '../assets/sword-splash/splash.json'
 import swordSplash from '../assets/sword-splash/splash.png'
+import window from '../assets/window.png'
 import wolf from '../assets/wolf.png'
 import woodChipsJson from '../assets/woodChipsAtlas/woodCipsAtlas.json'
 import woodChips from '../assets/woodChipsAtlas/woodCipsAtlas.png'
@@ -39,6 +43,10 @@ export class PreloadScene extends Scene {
     this.load.image('castle', castle)
     this.load.image('automTree', automTree)
     this.load.image('woodIcon', woodIcon)
+    this.load.image('banyaInside', banyaLocation)
+    this.load.image('door', door)
+    this.load.image('ladder', ladder)
+    this.load.image('window', window)
 
     this.load.image('woodenFence8CollumnsVertical', woodenFence8CollumnsVertical)
     this.load.image('woodenFence4CollumnsVertical', woodenFence4CollumnsVertical)
@@ -57,6 +65,6 @@ export class PreloadScene extends Scene {
   }
 
   create() {
-    this.scene.start('GameScene')
+    this.scene.start('BanyaScene')
   }
 }

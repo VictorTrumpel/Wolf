@@ -24,6 +24,8 @@ export class RusHeroKeyboardHandler implements IRusHeroKeyboardHandler {
   private attackKey: Phaser.Input.Keyboard.Key | null = null
   private pushWoodsInStoveKey: Phaser.Input.Keyboard.Key | null = null
 
+  static _instance: RusHeroKeyboardHandler | null = null
+
   constructor(private keyboard: Input.Keyboard.KeyboardPlugin) {}
 
   bindMoveTopKey(keyCode: number) {

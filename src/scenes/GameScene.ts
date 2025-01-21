@@ -59,9 +59,14 @@ export class GameScene extends Scene {
     this.rusHeroContext.addWoodGoodCount(-woodCount)
   }
 
+  handleEnterIntoBathHouse = () => {
+    this.scene.start('BanyaScene', { keyboard: this.keyboard })
+  }
+
   create() {
     this.initBathHouse()
     this.initHero()
+    this.initKeyboardForHero(this.rusHeroContext)
     this.initForest()
     this.initializeForestTransparency()
     this.initCollisions()
@@ -97,8 +102,6 @@ export class GameScene extends Scene {
     }
 
     this.rusHeroContext.onPushWoodsInStove = this.handlePutWoodInTheStorve
-
-    this.initKeyboardForHero(this.rusHeroContext)
   }
 
   initForest() {
@@ -118,20 +121,24 @@ export class GameScene extends Scene {
   }
 
   initCollisions() {
-    if (!this.rusHeroContext || !this.forest || !this.buildings) return
+    if (!this.rusHeroContext || !this.forest || !this.buildings || !this.bathHouseContex) return
 
     const rusHeroSprite = this.rusHeroContext.getSprite()
     const attackHitbox = this.rusHeroContext.attackHitbox
     const forestGroup = this.forest
     const deadForesGroup = forestGroup.deadTreeGroup
+    const doorBody = this.bathHouseContex.getSprite().getDoorBody()
 
     this.physics.add.collider(rusHeroSprite, this.buildings)
     this.physics.add.collider(rusHeroSprite, forestGroup)
     this.physics.add.overlap(rusHeroSprite, deadForesGroup, this.handleHeroPickTreeGood)
+    this.physics.add.overlap(rusHeroSprite, doorBody, this.handleEnterIntoBathHouse)
     attackHitbox.addOverlapWith(forestGroup, this.handleAttackTreeByAxe)
   }
 
-  initKeyboardForHero(heroContext: RusHeroContext) {
+  initKeyboardForHero(heroContext: RusHeroContext | null) {
+    if (!heroContext) return
+
     const keyboardPlugin = this.input.keyboard
     const hero = heroContext
 
