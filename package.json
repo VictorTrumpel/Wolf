@@ -31,6 +31,6 @@
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8",
-    "phaser": "^3.87.0"
+    "phaser": "^3.85.0"
   }
 }

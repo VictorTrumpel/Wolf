@@ -1,29 +1,31 @@
 import { IRusHeroState } from '@entities'
 import { RusHeroContext } from '../RusHeroContext'
 
+const HERO_SPEED = 100
+
 export class MovingHeroState implements IRusHeroState {
   constructor(private rusHeroContext: RusHeroContext) {}
 
   moveBottom(): void {
     const heroSprite = this.rusHeroContext.getSprite()
-    heroSprite.moveY(100)
+    heroSprite.moveY(HERO_SPEED)
     heroSprite.playRun()
   }
   moveTop(): void {
     const heroSprite = this.rusHeroContext.getSprite()
-    heroSprite.moveY(-100)
+    heroSprite.moveY(-HERO_SPEED)
     heroSprite.playRun()
   }
 
   moveLeft(): void {
     const heroSprite = this.rusHeroContext.getSprite()
-    heroSprite.moveX(-100)
+    heroSprite.moveX(-HERO_SPEED)
     heroSprite.flipX = true
     heroSprite.playRun()
   }
   moveRight(): void {
     const heroSprite = this.rusHeroContext.getSprite()
-    heroSprite.moveX(100)
+    heroSprite.moveX(HERO_SPEED)
     heroSprite.flipX = false
     heroSprite.playRun()
   }

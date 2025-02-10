@@ -1,0 +1,101 @@
+<script src="https://pay.yandex.ru/sdk/v1/pay.js"></script>
+
+<style>
+  .split-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+</style>
+
+<script>
+  setInterval(() => {
+    const splitInfoContainers = document.querySelectorAll('.split-info-container')
+
+    updateSplitInfo('card', mountBage)
+    updateSplitInfo('popup', mountWidget)
+  }, 500)
+
+  function updateSplitInfo(type, mountWidgetFunc) {
+    const isValidType = type === 'card' || type === 'popup'
+    if (!isValidType) return
+
+    const PRODUCT_CARD_SELECTOR =
+      type === 'card'
+        ? '[data-product-uid]:not(.t-store__product-popup)'
+        : '[data-product-uid].t-store__product-popup'
+
+    const allProductsContainer = document.querySelectorAll(PRODUCT_CARD_SELECTOR)
+
+    allProductsContainer.forEach((productContainer) => {
+      const priceContainer = productContainer.querySelector('[data-product-price-def]')
+
+      const oldSplitInfoContainer = productContainer.querySelector('.split-info-container')
+
+      if (oldSplitInfoContainer) {
+        return
+      }
+
+      const priceValue = `${priceContainer.innerHTML}.00`.replace(' ', '')
+
+      const splitInfoContainer = document.createElement('div')
+
+      splitInfoContainer.classList.add('split-info-container')
+
+      const popupPriceContainer = productContainer.querySelector('.js-store-price-wrapper')
+
+      popupPriceContainer.append(splitInfoContainer)
+
+      mountWidgetFunc(priceValue, splitInfoContainer)
+    })
+  }
+
+  function mountBage(price, mountContainer) {
+    YaPay.mountBadge(mountContainer, {
+      type: 'cashback',
+      amount: price,
+      size: 'l',
+      variant: 'detailed',
+      color: 'primary',
+      merchantId: 'c5df765b-4e3b-495e-9657-14671df54b17',
+    })
+
+    YaPay.mountBadge(mountContainer, {
+      type: 'bnpl',
+      amount: price,
+      size: 'l',
+      variant: 'detailed',
+      color: 'primary',
+      merchantId: 'c5df765b-4e3b-495e-9657-14671df54b17',
+    })
+  }
+
+  function mountWidget(price, mountContainer) {
+    const YaPay = window.YaPay
+
+    const onPayButtonClick = () => null
+    const onFormOpenError = () => null
+
+    const borderRadius = 8
+
+    const paymentData = {
+      env: YaPay.PaymentEnv.Sandbox,
+      version: 4,
+      currencyCode: YaPay.CurrencyCode.Rub,
+      merchantId: 'c5df765b-4e3b-495e-9657-14671df54b17',
+      totalAmount: price,
+      availablePaymentMethods: ['CARD', 'SPLIT'],
+    }
+
+    YaPay.createSession(paymentData, { onPayButtonClick, onFormOpenError }).then(
+      (paymentSession) => {
+        paymentSession.mountWidget(mountContainer, {
+          widgetType: YaPay.WidgetType.Simple,
+          widgetTheme: YaPay.WidgetTheme.Light,
+          borderRadius,
+        })
+      }
+    )
+  }
+</script>

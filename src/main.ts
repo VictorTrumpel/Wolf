@@ -6,15 +6,15 @@ import './style.css'
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 1280,
-  height: 720,
+  width: window.innerWidth,
+  height: window.innerHeight,
   roundPixels: false,
   pixelArt: true,
-  backgroundColor: 0xffffff,
+  backgroundColor: 0x9da19e,
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true,
+      // debug: true,
     },
   },
   scene: [PreloadScene, GameScene, BanyaScene],
