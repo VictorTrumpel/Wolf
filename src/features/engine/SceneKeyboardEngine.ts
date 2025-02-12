@@ -1,15 +1,15 @@
 import { Scene } from 'phaser'
 import { ISceneConnector } from '../ISceneConnector'
+import { HeroSceneMounter } from '../mounters/HeroSceneMounter'
 import { RusHeroKeyboardBinder } from '../RusHero/RusHeroKeyboardBinder'
 import { RusHeroKeyboardHandler } from '../RusHero/RusHeroKeyboardHandler'
-import { HeroSceneEngine } from './HeroSceneEngine'
 
 export class SceneKeyboardEngine {
-  private heroEngine: HeroSceneEngine
+  private heroEngine: HeroSceneMounter
   private scene: Scene
 
   constructor(sceneConnector: ISceneConnector) {
-    this.heroEngine = sceneConnector.getHeroEngine()
+    this.heroEngine = sceneConnector.getHeroMounter()
     this.scene = sceneConnector.getScene()
 
     this.create()

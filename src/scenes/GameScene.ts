@@ -1,12 +1,12 @@
 import { Scene } from 'phaser'
 import {
   EnemiesMovingToHeroEngine,
-  EnemiesSceneEngine,
-  ForestSceneEngine,
+  EnemiesSceneMounter,
+  ForestSceneMounter,
   HeroAttackEnemyEngine,
   HeroAttackTreeEngine,
   HeroPickWoodEngine,
-  HeroSceneEngine,
+  HeroSceneMounter,
   ISceneConnector,
   SceneColliderEngine,
   SceneKeyboardEngine,
@@ -25,14 +25,14 @@ export class GameScene extends Scene {
 
     this.add.image(1000, 1000, 'bonfire').setScale(0.2)
 
-    const heroSceneEngine = new HeroSceneEngine(this)
-    const forestSceneEngine = new ForestSceneEngine(this)
-    const enemiesSceneEngine = new EnemiesSceneEngine(this)
+    const heroSceneMounter = new HeroSceneMounter(this)
+    const forestSceneMounter = new ForestSceneMounter(this)
+    const enemiesSceneEngine = new EnemiesSceneMounter(this)
 
     this.sceneConnector = {
-      getForestEngine: () => forestSceneEngine,
-      getHeroEngine: () => heroSceneEngine,
-      getEnemiesEngine: () => enemiesSceneEngine,
+      getForestMounter: () => forestSceneMounter,
+      getHeroMounter: () => heroSceneMounter,
+      getEnemiesMounter: () => enemiesSceneEngine,
       getScene: () => this,
     }
 

@@ -4,7 +4,7 @@ import { EnemyContext } from '../EnemyContext'
 
 const MAX_ENEMY_COUNT = 10
 
-export class EnemiesSceneEngine {
+export class EnemiesSceneMounter {
   private enemiesGroup: GameObjects.Group
 
   constructor(private scene: Scene) {

@@ -1,7 +1,7 @@
 import { Scene } from 'phaser'
 import { ForestGroup } from '../ForestGroup/ForestGroup'
 
-export class ForestSceneEngine {
+export class ForestSceneMounter {
   private forest: ForestGroup
 
   constructor(scene: Scene) {

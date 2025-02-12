@@ -1,11 +1,9 @@
 import { Scene } from 'phaser'
-import { EnemiesSceneEngine } from './engine'
-import { ForestSceneEngine } from './engine/ForestSceneEngine'
-import { HeroSceneEngine } from './engine/HeroSceneEngine'
+import { EnemiesSceneMounter, ForestSceneMounter, HeroSceneMounter } from './mounters'
 
 export interface ISceneConnector {
-  getForestEngine(): ForestSceneEngine
-  getHeroEngine(): HeroSceneEngine
-  getEnemiesEngine(): EnemiesSceneEngine
+  getForestMounter(): ForestSceneMounter
+  getHeroMounter(): HeroSceneMounter
+  getEnemiesMounter(): EnemiesSceneMounter
   getScene(): Scene
 }

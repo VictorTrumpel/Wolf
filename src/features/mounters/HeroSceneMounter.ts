@@ -2,7 +2,7 @@ import { Scene } from 'phaser'
 import { RusHeroSprite } from '@entities'
 import { RusHeroContext } from '../RusHero/RusHeroStateMachine'
 
-export class HeroSceneEngine {
+export class HeroSceneMounter {
   private rusHeroSprite: RusHeroSprite
   private rusHeroContext: RusHeroContext
 

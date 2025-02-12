@@ -1,8 +1,8 @@
 import { Scene } from 'phaser'
 import { DeadTreeGood } from '@entities'
 import { ISceneConnector } from '../ISceneConnector'
-import { ForestSceneEngine } from './ForestSceneEngine'
-import { HeroSceneEngine } from './HeroSceneEngine'
+import { ForestSceneMounter } from '../mounters/ForestSceneMounter'
+import { HeroSceneMounter } from '../mounters/HeroSceneMounter'
 
 type GameObject =
   | Phaser.Types.Physics.Arcade.GameObjectWithBody
@@ -10,13 +10,13 @@ type GameObject =
   | Phaser.Tilemaps.Tile
 
 export class HeroPickWoodEngine {
-  private heroEngine: HeroSceneEngine
-  private forestEngine: ForestSceneEngine
+  private heroEngine: HeroSceneMounter
+  private forestEngine: ForestSceneMounter
   private scene: Scene
 
   constructor(sceneConnector: ISceneConnector) {
-    this.heroEngine = sceneConnector.getHeroEngine()
-    this.forestEngine = sceneConnector.getForestEngine()
+    this.heroEngine = sceneConnector.getHeroMounter()
+    this.forestEngine = sceneConnector.getForestMounter()
     this.scene = sceneConnector.getScene()
 
     this.create()
