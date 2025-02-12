@@ -9,7 +9,7 @@ NC='\033[0m'
 commit_message=$(cat "$1")
 
 # Регулярное выражение для проверки сообщения коммита
-commit_regex='^(feat|fix|style|refactor|test): [A-Zaz].{1,250}$'
+commit_regex='^(feat|fix|style|refactor|test): [A-Za-z].{1,250}$'
 
 echo $commit_regex "GLKDSDGJLSDJGKL"
 

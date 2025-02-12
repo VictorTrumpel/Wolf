@@ -20,6 +20,8 @@ export class RusHeroContext implements IRusHeroState {
     this.attackHitbox = new AxeHitbox(rusHeroSprite)
 
     this.heroWoodCounter = new HeroWoodCounterText(rusHeroSprite)
+
+    this.matchAttackHitboxWithSpriteFrame()
   }
 
   getWoodGoodCount() {
@@ -40,6 +42,10 @@ export class RusHeroContext implements IRusHeroState {
 
   getSprite() {
     return this.rusHeroSprite
+  }
+
+  getAttackHitbox() {
+    return this.attackHitbox
   }
 
   getMovingHeroState(): IRusHeroState {
@@ -82,13 +88,20 @@ export class RusHeroContext implements IRusHeroState {
     this.heroState.getHurt()
   }
   pushWoodsInStove() {
-    if (this.heroState instanceof IdleHeroState) {
-      this.onPushWoodsInStove()
-    }
+    this.onPushWoodsInStove()
   }
 
   update() {
+    this.rusHeroSprite.setDepth(this.rusHeroSprite.y)
     this.heroWoodCounter.setValue(this.woodGoodCount)
     this.heroWoodCounter.update()
+  }
+
+  private matchAttackHitboxWithSpriteFrame() {
+    this.rusHeroSprite.onFrameUpdate = (_, { frame }) => {
+      const isAttack = frame.name === RusHeroSprite.ATTACK_FRAME
+      if (!isAttack) return
+      this.attackHitbox.squash()
+    }
   }
 }

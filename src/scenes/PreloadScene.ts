@@ -4,6 +4,7 @@ import banyaLocation from '../assets/Banyalocation.png'
 import bathHouse from '../assets/bathHouse.png'
 import bathHouseJson from '../assets/bathHouseAtlas/bathHouseAtlas.json'
 import bathHouseAtlas from '../assets/bathHouseAtlas/bathHouseAtlas.png'
+import bonfire from '../assets/bonfire-Photoroom.png'
 import castle from '../assets/castle.png'
 import deadTreeAtlas from '../assets/deadTreeAtlas/deadTreeAtlas.png'
 import deadTreeJson from '../assets/deadTreeAtlas/deadTreeJson.json'
@@ -54,6 +55,7 @@ export class PreloadScene extends Scene {
     this.load.image('woodenFence1CollumnsVertical', woodenFence1CollumnsVertical)
     this.load.image('woodenFence3CollumnsHorizontal', woodenFence3CollumnsHorizontal)
     this.load.image('woodenFence1CollumnsHorizontal', woodenFence1CollumnsHorizontal)
+    this.load.image('bonfire', bonfire)
 
     this.load.atlas('swordSplash', swordSplash, swordSplashJson)
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)

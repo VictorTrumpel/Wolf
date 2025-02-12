@@ -53,6 +53,10 @@ export class FirTree extends StaticSprite implements ITreeSprite {
   }
 
   private createIdleAnimation() {
+    const isAnimationExist = this.scene.anims.exists(IDLE_ANIMATION)
+
+    if (isAnimationExist) return
+
     const frames = this.anims.generateFrameNames('firTreeAtlas', {
       prefix: 'fir_',
       start: 1,

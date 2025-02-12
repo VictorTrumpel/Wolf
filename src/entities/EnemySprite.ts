@@ -7,7 +7,7 @@ export class EnemySprite extends PhysicsSprite implements IEnemySprite {
   private context: IEnemyState | null = null
 
   constructor(scene: Scene, x: number, y: number, enemy: 'wolf' | 'ork') {
-    super(scene, x, y, enemy, enemy)
+    super(scene, x, y, enemy, '')
 
     this.setOrigin(0.5, 1)
   }

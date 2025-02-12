@@ -3,11 +3,6 @@ import { DeadTreeGood, FirTree, ITreeSprite } from '@entities'
 import { TreeContext } from '../TreeContext'
 
 export class ForestGroup extends Physics.Arcade.StaticGroup {
-  private transparentSpritesMap = new Map<
-    GameObjects.Sprite,
-    (treeSprite: GameObjects.Sprite) => boolean
-  >()
-
   private forestArea: Physics.Arcade.Body
 
   private _deadTreeGroup: Physics.Arcade.Group
@@ -27,6 +22,11 @@ export class ForestGroup extends Physics.Arcade.StaticGroup {
     this.deadTreeGroup.add(deadTreeGood)
 
     deadTreeGood.playDead()
+
+    this.scene.time.addEvent({
+      delay: 100000,
+      callback: () => this.addFirTree(deadTree.x, deadTree.y),
+    })
   }
 
   get area() {
@@ -66,38 +66,12 @@ export class ForestGroup extends Physics.Arcade.StaticGroup {
     this.deadTreeGroup.remove(treeSprite)
   }
 
-  addTransparentForObject(
-    sprite: GameObjects.Sprite,
-    needMakeTreeTransparent: (tree: GameObjects.Sprite) => boolean
-  ) {
-    this.transparentSpritesMap.set(sprite, needMakeTreeTransparent)
-  }
-
   get deadTreeGroup() {
     return this._deadTreeGroup
   }
 
-  update() {
-    const hasObjectsIfForest = this.hasObjectsInForestArea()
-
-    if (!hasObjectsIfForest) {
-      this.makeAllTreesNotTransparent()
-      return
-    }
-
-    for (const [object, needMakeTreeTransparent] of this.transparentSpritesMap) {
-      const objectDepthInFores = object.y + this.area.y
-      object.setDepth(objectDepthInFores)
-
-      this.forEachTree((treeSprite) => {
-        if (needMakeTreeTransparent(treeSprite)) {
-          treeSprite.setAlpha(0.2)
-          return
-        }
-
-        treeSprite.setAlpha(1)
-      })
-    }
+  getDeadTreeGroup() {
+    return this._deadTreeGroup
   }
 
   forEachDeadTree(cb: (tree: GameObjects.Sprite) => void) {
@@ -108,26 +82,11 @@ export class ForestGroup extends Physics.Arcade.StaticGroup {
     })
   }
 
-  forEachTree(cb: (tree: GameObjects.Sprite) => void) {
+  forEachTree(cb: (tree: FirTree) => void) {
     this.children.each((tree) => {
-      const treeSprite = tree as GameObjects.Sprite
+      const treeSprite = tree as FirTree
       cb(treeSprite)
       return true
     })
-  }
-
-  private makeAllTreesNotTransparent() {
-    this.forEachTree((tree) => {
-      const treeSprite = tree as GameObjects.Sprite
-      treeSprite.setAlpha(1)
-    })
-  }
-
-  private hasObjectsInForestArea() {
-    for (const [object] of this.transparentSpritesMap) {
-      const isOverlap = this.scene.physics.overlap(this.forestArea, object)
-      if (isOverlap) return true
-    }
-    return false
   }
 }

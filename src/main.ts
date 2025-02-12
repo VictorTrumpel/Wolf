@@ -18,6 +18,10 @@ const config: Phaser.Types.Core.GameConfig = {
     },
   },
   scene: [PreloadScene, GameScene, BanyaScene],
+  scale: {
+    mode: Phaser.Scale.RESIZE,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
 }
 
 new Phaser.Game(config)

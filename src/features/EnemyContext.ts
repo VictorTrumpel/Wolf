@@ -12,7 +12,7 @@ export class EnemyContext implements IEnemyState {
 
   moveToObject(heroSprite: GameObjects.GameObject) {
     if (this.isHurting) return
-    heroSprite.scene.physics.moveToObject(this.enemySprite, heroSprite)
+    heroSprite.scene.physics.moveToObject(this.enemySprite, heroSprite, 50)
   }
 
   async hurt(damage: number) {
