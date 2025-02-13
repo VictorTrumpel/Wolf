@@ -1,3 +1,7 @@
+### DEMO -
+
+https://wolf-psi.vercel.app/
+
 ### Собрать проект:
 
 ```

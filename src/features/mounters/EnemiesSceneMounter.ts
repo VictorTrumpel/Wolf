@@ -2,7 +2,7 @@ import { GameObjects, Scene } from 'phaser'
 import { EnemySprite } from '@entities'
 import { EnemyContext } from '../EnemyContext'
 
-const MAX_ENEMY_COUNT = 10
+const MAX_ENEMY_COUNT = 50
 
 export class EnemiesSceneMounter {
   private enemiesGroup: GameObjects.Group
@@ -34,7 +34,7 @@ export class EnemiesSceneMounter {
 
   private create() {
     this.scene.time.addEvent({
-      delay: 3000,
+      delay: 5000,
       callback: this.handleCreateEnemy,
       loop: true,
     })
