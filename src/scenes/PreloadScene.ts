@@ -15,7 +15,10 @@ import ground from '../assets/ground.png'
 import heroRunJson from '../assets/heroAtlas/heroAtlas.json'
 import heroRunAtlas from '../assets/heroAtlas/heroAtlas.png'
 import ladder from '../assets/ladder.png'
+import largeFireJson from '../assets/largeFireAtlas/largeFire.json'
+import largeFireAtlas from '../assets/largeFireAtlas/largeFire.png'
 import ork from '../assets/ork.png'
+import snowParticle from '../assets/snowParticle.png'
 import splash from '../assets/splash.png'
 import swordSplashJson from '../assets/sword-splash/splash.json'
 import swordSplash from '../assets/sword-splash/splash.png'
@@ -56,14 +59,16 @@ export class PreloadScene extends Scene {
     this.load.image('woodenFence3CollumnsHorizontal', woodenFence3CollumnsHorizontal)
     this.load.image('woodenFence1CollumnsHorizontal', woodenFence1CollumnsHorizontal)
     this.load.image('bonfire', bonfire)
+    this.load.image('snowParticle', snowParticle)
+    this.load.image('bathHouse', bathHouse)
 
     this.load.atlas('swordSplash', swordSplash, swordSplashJson)
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)
     this.load.atlas('deadTreeAtlas', deadTreeAtlas, deadTreeJson)
     this.load.atlas('bathHouseAtlas', bathHouseAtlas, bathHouseJson)
-    this.load.image('bathHouse', bathHouse)
     this.load.atlas('woodChips', woodChips, woodChipsJson)
+    this.load.atlas('largeFire', largeFireAtlas, largeFireJson)
   }
 
   create() {

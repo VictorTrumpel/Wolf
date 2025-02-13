@@ -14,11 +14,11 @@ export class HeroAttackEnemyEngine {
     this.create()
   }
 
-  private handleHurtEnemy = (enemy: EnemySprite) => {
+  private handleHurtEnemy = async (enemy: EnemySprite) => {
     const inpulseSpeed = this.heroSprite.flipX ? -10 : 10
     const enemyContext = enemy.getContext()
     enemy.getBody().setVelocityX(inpulseSpeed)
-    enemyContext?.hurt(25)
+    await enemyContext?.hurt(25)
   }
 
   private get heroSprite() {

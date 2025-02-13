@@ -5,8 +5,47 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + TS</title>
+    <style>
+      body {
+        position: relative;
+      }
+
+      .onboarding {
+        top: 20px;
+        left: 20px;
+        padding: 10px;
+        position: absolute;
+        background-color: gray;
+        opacity: 0.5;
+        color: black;
+        border-radius: 8px;
+      }
+
+      .star1 {
+        position: absolute;
+        top: 10px;
+        left: 290px;
+        width: 30px;
+        transform: rotate(30deg);
+      }
+
+      .star2 {
+        position: absolute;
+        top: 95px;
+        left: 8px;
+        width: 30px;
+        transform: rotate(30deg);
+      }
+    </style>
   </head>
   <body>
     <script type="module" src="/src/main.ts"></script>
+    <div class="onboarding">
+      <h4>Рубите деревья и убивайте орков</h4>
+      <p>WASD - перемещение</p>
+      <p>ENTER - атака</p>
+    </div>
+    <img class="star1" src="./star.png" alt="star" />
+    <img class="star2" src="./star.png" alt="star" />
   </body>
 </html>

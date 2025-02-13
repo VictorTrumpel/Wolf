@@ -11,6 +11,7 @@ import {
   SceneColliderEngine,
   SceneKeyboardEngine,
   SceneOpacityEngine,
+  SnowParticleMounter,
 } from '@features'
 
 export class GameScene extends Scene {
@@ -23,11 +24,10 @@ export class GameScene extends Scene {
   create() {
     this.cameras.main.setBounds(0, 0, 2000, 2000)
 
-    this.add.image(1000, 1000, 'bonfire').setScale(0.2)
-
     const heroSceneMounter = new HeroSceneMounter(this)
     const forestSceneMounter = new ForestSceneMounter(this)
     const enemiesSceneEngine = new EnemiesSceneMounter(this)
+    new SnowParticleMounter(this)
 
     this.sceneConnector = {
       getForestMounter: () => forestSceneMounter,
