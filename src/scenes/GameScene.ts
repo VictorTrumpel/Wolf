@@ -13,6 +13,7 @@ import {
   SceneOpacityEngine,
   SnowParticleMounter,
 } from '@features'
+import { FireSprite } from '@entities'
 
 export class GameScene extends Scene {
   private sceneConnector: ISceneConnector | null = null
@@ -23,6 +24,10 @@ export class GameScene extends Scene {
 
   create() {
     this.cameras.main.setBounds(0, 0, 2000, 2000)
+
+    const fireSprite = new FireSprite(this, 1000, 1000)
+
+    fireSprite.playLargeFire()
 
     const heroSceneMounter = new HeroSceneMounter(this)
     const forestSceneMounter = new ForestSceneMounter(this)

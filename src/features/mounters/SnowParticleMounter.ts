@@ -7,7 +7,7 @@ export class SnowParticleMounter {
 
   private create() {
     this.scene.add.particles(0, 0, 'snowParticle', {
-      x: { min: 0, max: window.innerWidth },
+      x: { min: -window.innerWidth, max: window.innerWidth },
       y: 0,
       emitZone: {
         source: new Phaser.Geom.Rectangle(0, 0, window.innerWidth, window.innerHeight * 2),
