@@ -22,14 +22,32 @@ export class FireSprite extends PhysicsSprite {
 
   playLargeFire() {
     this.play(LARGE_FIRE_ANIMATION, true)
+    this.setBodyOffsetForLargeFire()
   }
 
   playMediumFire() {
     this.play(MEDIUM_FIRE_ANIMATION, true)
+    this.setBodyOffsetForMediumFire()
   }
 
   playSmallFire() {
     this.play(SMALL_FIRE_ANIMATION, true)
+    this.setBodyOffsetForSmallFire()
+  }
+
+  private setBodyOffsetForLargeFire() {
+    const body = this.getBody()
+    body.setOffset(0, 0)
+  }
+
+  private setBodyOffsetForMediumFire() {
+    const body = this.getBody()
+    body.setOffset(-8, 1)
+  }
+
+  private setBodyOffsetForSmallFire() {
+    const body = this.getBody()
+    body.setOffset(-6, 1)
   }
 
   private createLargeFireAnimation() {

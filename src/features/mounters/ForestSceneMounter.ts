@@ -24,11 +24,11 @@ export class ForestSceneMounter {
     const SIZE = 2000
     const STEP = 350
 
-    const START_DEAD_ZONE_X = 500
-    const END_DEAD_ZONE_X = 1400
+    const START_DEAD_ZONE_X = 600
+    const END_DEAD_ZONE_X = 1300
 
-    const START_DEAD_ZONE_Y = 650
-    const END_DEAD_ZONE_Y = 1350
+    const START_DEAD_ZONE_Y = 800
+    const END_DEAD_ZONE_Y = 1250
 
     for (let x = 0; x <= SIZE; x += STEP) {
       for (let y = 0; y <= SIZE; y += STEP) {
