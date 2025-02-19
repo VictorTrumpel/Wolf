@@ -4,11 +4,6 @@ import { ISceneConnector } from '../ISceneConnector'
 import { ForestSceneMounter } from '../mounters/ForestSceneMounter'
 import { HeroSceneMounter } from '../mounters/HeroSceneMounter'
 
-type GameObject =
-  | Phaser.Types.Physics.Arcade.GameObjectWithBody
-  | Phaser.Physics.Arcade.Body
-  | Phaser.Tilemaps.Tile
-
 export class HeroPickWoodEngine {
   private heroEngine: HeroSceneMounter
   private forestEngine: ForestSceneMounter
@@ -22,7 +17,7 @@ export class HeroPickWoodEngine {
     this.create()
   }
 
-  private handleHeroPickTreeGood = (_: unknown, treeGood: GameObject) => {
+  private handleHeroPickTreeGood = (_: unknown, treeGood: unknown) => {
     const isTreeGood = treeGood instanceof DeadTreeGood
     if (!isTreeGood) return
     this.forestGroup.removeTreeFromDeadGroup(treeGood)
