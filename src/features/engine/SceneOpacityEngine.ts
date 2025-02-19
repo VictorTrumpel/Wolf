@@ -1,20 +1,27 @@
 import { Scene } from 'phaser'
 import { FirTree } from '@entities'
 import { ISceneConnector } from '../ISceneConnector'
+import { FireSceneMounter } from '../mounters'
 import { ForestSceneMounter } from '../mounters/ForestSceneMounter'
 import { HeroSceneMounter } from '../mounters/HeroSceneMounter'
 
 export class SceneOpacityEngine {
   private heroEngine: HeroSceneMounter
-  private forestEngine: ForestSceneMounter
+  private forestMounter: ForestSceneMounter
+  private mainFireMounter: FireSceneMounter
   private scene: Scene
 
   constructor(sceneConnector: ISceneConnector) {
     this.heroEngine = sceneConnector.getHeroMounter()
-    this.forestEngine = sceneConnector.getForestMounter()
+    this.forestMounter = sceneConnector.getForestMounter()
+    this.mainFireMounter = sceneConnector.getMainFireMounter()
     this.scene = sceneConnector.getScene()
 
     this.create()
+  }
+
+  private get mainFireSprite() {
+    return this.mainFireMounter.getFireContext().getSprite()
   }
 
   private get heroSprite() {
@@ -32,10 +39,19 @@ export class SceneOpacityEngine {
 
   private update() {
     this.updateForestOpacity()
+    this.updateMainFireOpacity()
+  }
+
+  private updateMainFireOpacity() {
+    const fireArea = this.mainFireSprite.getFireArea()
+
+    const isOverlap = this.scene.physics.overlap(fireArea, this.heroSprite)
+
+    this.mainFireSprite.setOpacityForBackground(isOverlap ? 0.2 : 1)
   }
 
   private updateForestOpacity() {
-    const forestGroup = this.forestEngine.getForestGroup()
+    const forestGroup = this.forestMounter.getForestGroup()
 
     forestGroup.forEachTree((treeSprite) => {
       if (this.needMakeTreeTransparent(treeSprite)) {

@@ -26,9 +26,10 @@ export class PutWoodIntoFireEngine {
 
   private handlePutWoodsInTheStove = () => {
     const fireSprite = this.fireContext.getSprite()
+    const fireArea = fireSprite.getFireArea()
     const heroSprite = this.heroContext.getSprite()
 
-    const isHeroOverlapFire = this.scene.physics.overlap(fireSprite, heroSprite)
+    const isHeroOverlapFire = this.scene.physics.overlap(fireArea, heroSprite)
 
     if (!isHeroOverlapFire) return
 

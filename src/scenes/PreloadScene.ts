@@ -24,8 +24,10 @@ import smallFireJson from '../assets/smallFireAtlas/smallFire.json'
 import smallFireAtlas from '../assets/smallFireAtlas/smallFire.png'
 import snowParticle from '../assets/snowParticle.png'
 import splash from '../assets/splash.png'
+import stone1 from '../assets/stone1.png'
 import swordSplashJson from '../assets/sword-splash/splash.json'
 import swordSplash from '../assets/sword-splash/splash.png'
+import tothemStoun from '../assets/tothemStoun.png'
 import window from '../assets/window.png'
 import wolf from '../assets/wolf.png'
 import woodChipsJson from '../assets/woodChipsAtlas/woodCipsAtlas.json'
@@ -37,6 +39,7 @@ import woodenFence3CollumnsHorizontal from '../assets/woodenFence3CollumnsHorizo
 import woodenFence4CollumnsVertical from '../assets/woodenFence4CollumnsVertical.png'
 import woodenFence8CollumnsVertical from '../assets/woodenFence8CollumnsVertical.png'
 import woodIcon from '../assets/woodIcon.png'
+import woodStones from '../assets/woodStones.png'
 
 export class PreloadScene extends Scene {
   constructor() {
@@ -65,6 +68,9 @@ export class PreloadScene extends Scene {
     this.load.image('bonfire', bonfire)
     this.load.image('snowParticle', snowParticle)
     this.load.image('bathHouse', bathHouse)
+    this.load.image('woodStones', woodStones)
+    this.load.image('stone1', stone1)
+    this.load.image('tothemStoun', tothemStoun)
 
     this.load.atlas('swordSplash', swordSplash, swordSplashJson)
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
