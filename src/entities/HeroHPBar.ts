@@ -12,9 +12,9 @@ const BASE_HP_VALUE = 100
 export class HeroHPBar extends GameObjects.Rectangle {
   private heroSprite: RusHeroSprite
 
-  private value = BASE_HP_VALUE
+  private value: number
 
-  constructor(heroSprite: RusHeroSprite) {
+  constructor(heroSprite: RusHeroSprite, hpBaseValue = BASE_HP_VALUE) {
     super(
       heroSprite.scene,
       heroSprite.x + HP_BAR_OFFSET_X,
@@ -23,6 +23,8 @@ export class HeroHPBar extends GameObjects.Rectangle {
       HP_BAR_HEIGHT,
       0xad2828
     )
+
+    this.value = hpBaseValue
 
     this.heroSprite = heroSprite
 

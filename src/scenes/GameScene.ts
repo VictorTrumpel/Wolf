@@ -2,6 +2,7 @@ import { Scene } from 'phaser'
 import {
   EnemiesMovingToHeroEngine,
   EnemiesSceneMounter,
+  EnemyAttackHeroEngine,
   FireSceneMounter,
   ForestSceneMounter,
   HeroAttackEnemyEngine,
@@ -48,5 +49,6 @@ export class GameScene extends Scene {
     new HeroAttackEnemyEngine(this.sceneConnector)
     new EnemiesMovingToHeroEngine(this.sceneConnector)
     new PutWoodIntoFireEngine(this.sceneConnector)
+    new EnemyAttackHeroEngine(this.sceneConnector)
   }
 }

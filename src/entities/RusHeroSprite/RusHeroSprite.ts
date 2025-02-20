@@ -16,6 +16,8 @@ import {
 export class RusHeroSprite extends PhysicsSprite {
   static ATTACK_FRAME = 'attack_2'
 
+  private isHurtAnimationPlaying = false
+
   onFrameUpdate: (
     animation: Animations.Animation,
     animationframe: Animations.AnimationFrame
@@ -34,8 +36,6 @@ export class RusHeroSprite extends PhysicsSprite {
     this.createIdleAnimation()
     this.createRunAnimation()
     this.createAttackAnimation()
-
-    console.log('this :>> ', this)
   }
 
   playIdle() {
@@ -63,6 +63,26 @@ export class RusHeroSprite extends PhysicsSprite {
           this.playIdle()
           complete(null)
         })
+      })
+    })
+  }
+
+  async playHurt(): Promise<void> {
+    if (this.isHurtAnimationPlaying) return
+    return new Promise((resolve) => {
+      this.isHurtAnimationPlaying = true
+      const defaultTint = this.tint
+
+      this.setTint(0xff0000)
+
+      this.scene.time.addEvent({
+        delay: 300,
+        callback: () => {
+          this.setTint(defaultTint)
+          this.isHurtAnimationPlaying = false
+          resolve(undefined)
+        },
+        callbackScope: this,
       })
     })
   }

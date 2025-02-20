@@ -5,6 +5,7 @@ import { MovingHeroState } from '../MovingHeroState'
 
 export class RusHeroContext implements IRusHeroState {
   private woodGoodCount = 0
+  private healthCount = 100
 
   private heroState: IRusHeroState
 
@@ -23,9 +24,17 @@ export class RusHeroContext implements IRusHeroState {
 
     this.heroWoodCounter = new HeroWoodCounterText(rusHeroSprite)
 
-    this.heroHpBar = new HeroHPBar(rusHeroSprite)
+    this.heroHpBar = new HeroHPBar(rusHeroSprite, this.healthCount)
 
     this.matchAttackHitboxWithSpriteFrame()
+  }
+
+  addhealthCountCount(value: number) {
+    this.healthCount += value
+  }
+
+  gethealthCountCount() {
+    return this.healthCount
   }
 
   getWoodGoodCount() {
@@ -88,6 +97,10 @@ export class RusHeroContext implements IRusHeroState {
   async attack() {
     return await this.heroState.attack()
   }
+  hurt(damage: number) {
+    this.healthCount -= damage
+    this.rusHeroSprite.playHurt()
+  }
   getHurt(): void {
     this.heroState.getHurt()
   }
@@ -97,8 +110,11 @@ export class RusHeroContext implements IRusHeroState {
 
   update() {
     this.rusHeroSprite.setDepth(this.rusHeroSprite.y)
+
     this.heroWoodCounter.setValue(this.woodGoodCount)
     this.heroWoodCounter.update()
+
+    this.heroHpBar.setValue(this.healthCount)
     this.heroHpBar.update()
   }
 
