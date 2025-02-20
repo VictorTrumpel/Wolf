@@ -34,6 +34,8 @@ export class RusHeroSprite extends PhysicsSprite {
     this.createIdleAnimation()
     this.createRunAnimation()
     this.createAttackAnimation()
+
+    console.log('this :>> ', this)
   }
 
   playIdle() {

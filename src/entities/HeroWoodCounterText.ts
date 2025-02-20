@@ -1,12 +1,13 @@
 import { GameObjects } from 'phaser'
 import { RusHeroSprite } from './RusHeroSprite'
 
+const OFFSET_X = 25
+const OFFSET_Y = -35
+
 export class HeroWoodCounterText extends GameObjects.Text {
   private woodIcon: GameObjects.Image | null = null
 
   private value = 1
-
-  static OFFSET_TEXT_Y = -45
 
   constructor(private hero: RusHeroSprite) {
     super(hero.scene, hero.x, hero.y, `x${0}`, {
@@ -29,28 +30,32 @@ export class HeroWoodCounterText extends GameObjects.Text {
 
   setVisible(value: boolean): this {
     super.setVisible(value)
-
     this.woodIcon?.setVisible(value)
-
     return this
   }
 
   setPosition(x?: number, y?: number, z?: number, w?: number) {
     super.setPosition(x, y, z, w)
-
     this.woodIcon?.setPosition(x, y, z, w)
+    return this
+  }
 
+  setDepth(value: number): this {
+    super.setDepth(value)
+    this.woodIcon?.setDepth(this.hero.depth)
     return this
   }
 
   update() {
     this.text = `×${this.value}`
     this.setVisible(this.value === 0 ? false : true)
-    this.setPosition(
-      this.hero.x,
-      this.hero.y - this.hero.getBody().height + HeroWoodCounterText.OFFSET_TEXT_Y
-    )
-    this.woodIcon?.setDepth(this.hero.depth)
+
+    const heroBody = this.hero.getBody()
+    const positionX = heroBody.x + OFFSET_X
+    const positionY = heroBody.y + OFFSET_Y
+
+    this.setPosition(positionX, positionY)
+
     this.setDepth(this.hero.depth)
   }
 }

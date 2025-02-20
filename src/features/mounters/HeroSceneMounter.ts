@@ -18,7 +18,7 @@ export class HeroSceneMounter {
   }
 
   private create() {
-    this.scene.cameras.main.startFollow(this.rusHeroSprite, true, 0.1, 0.1)
+    this.scene.cameras.main.startFollow(this.rusHeroSprite)
 
     this.rusHeroContext.onPushWoodsInStove = () => {
       this.scene.events.emit('PushWoodsInStove')

@@ -1,4 +1,4 @@
-import { AxeHitbox, HeroWoodCounterText, IRusHeroState, RusHeroSprite } from '@entities'
+import { AxeHitbox, HeroHPBar, HeroWoodCounterText, IRusHeroState, RusHeroSprite } from '@entities'
 import { HeroAttackState } from '../HeroAttackState'
 import { IdleHeroState } from '../IdleHeroState'
 import { MovingHeroState } from '../MovingHeroState'
@@ -7,6 +7,8 @@ export class RusHeroContext implements IRusHeroState {
   private woodGoodCount = 0
 
   private heroState: IRusHeroState
+
+  private heroHpBar: HeroHPBar
 
   readonly attackHitbox: AxeHitbox
 
@@ -20,6 +22,8 @@ export class RusHeroContext implements IRusHeroState {
     this.attackHitbox = new AxeHitbox(rusHeroSprite)
 
     this.heroWoodCounter = new HeroWoodCounterText(rusHeroSprite)
+
+    this.heroHpBar = new HeroHPBar(rusHeroSprite)
 
     this.matchAttackHitboxWithSpriteFrame()
   }
@@ -95,6 +99,7 @@ export class RusHeroContext implements IRusHeroState {
     this.rusHeroSprite.setDepth(this.rusHeroSprite.y)
     this.heroWoodCounter.setValue(this.woodGoodCount)
     this.heroWoodCounter.update()
+    this.heroHpBar.update()
   }
 
   private matchAttackHitboxWithSpriteFrame() {
