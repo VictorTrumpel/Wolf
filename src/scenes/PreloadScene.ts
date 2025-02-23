@@ -1,9 +1,9 @@
 import { Scene } from 'phaser'
 import {
   FireSceneMounter,
+  ForestOpacityEngine,
   ForestSceneMounter,
   HeroSceneMounter,
-  SceneOpacityEngine,
   SnowParticleMounter,
   StartMenu,
 } from '@features'
@@ -104,7 +104,7 @@ export class PreloadScene extends Scene {
       getScene: () => this,
     }
 
-    new SceneOpacityEngine(sceneConnector)
+    new ForestOpacityEngine(sceneConnector)
 
     const startMenu = new StartMenu()
     startMenu.eventEmitter.on('on-start-button-click', () => {

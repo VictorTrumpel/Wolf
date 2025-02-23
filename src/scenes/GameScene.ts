@@ -4,16 +4,17 @@ import {
   EnemiesSceneMounter,
   EnemyAttackHeroEngine,
   FireSceneMounter,
+  ForestOpacityEngine,
   ForestSceneMounter,
   HeroAttackEnemyEngine,
   HeroAttackTreeEngine,
   HeroPickWoodEngine,
   HeroSceneMounter,
   ISceneConnector,
+  MainFireOpacityEngine,
   PutWoodIntoFireEngine,
   SceneColliderEngine,
   SceneKeyboardEngine,
-  SceneOpacityEngine,
   SnowParticleMounter,
 } from '@features'
 
@@ -41,7 +42,8 @@ export class GameScene extends Scene {
       getScene: () => this,
     }
 
-    new SceneOpacityEngine(this.sceneConnector)
+    new ForestOpacityEngine(this.sceneConnector)
+    new MainFireOpacityEngine(this.sceneConnector)
     new SceneColliderEngine(this.sceneConnector)
     new HeroAttackTreeEngine(this.sceneConnector)
     new HeroPickWoodEngine(this.sceneConnector)
