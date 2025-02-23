@@ -5,13 +5,18 @@ import { FireSceneMounter } from '../mounters'
 import { ForestSceneMounter } from '../mounters/ForestSceneMounter'
 import { HeroSceneMounter } from '../mounters/HeroSceneMounter'
 
+type ISceneConnectorForOpacityEngine = Pick<
+  ISceneConnector,
+  'getHeroMounter' | 'getMainFireMounter' | 'getForestMounter' | 'getScene'
+>
+
 export class SceneOpacityEngine {
   private heroEngine: HeroSceneMounter
   private forestMounter: ForestSceneMounter
   private mainFireMounter: FireSceneMounter
   private scene: Scene
 
-  constructor(sceneConnector: ISceneConnector) {
+  constructor(sceneConnector: ISceneConnectorForOpacityEngine) {
     this.heroEngine = sceneConnector.getHeroMounter()
     this.forestMounter = sceneConnector.getForestMounter()
     this.mainFireMounter = sceneConnector.getMainFireMounter()

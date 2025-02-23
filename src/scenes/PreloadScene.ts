@@ -1,4 +1,12 @@
 import { Scene } from 'phaser'
+import {
+  FireSceneMounter,
+  ForestSceneMounter,
+  HeroSceneMounter,
+  SceneOpacityEngine,
+  SnowParticleMounter,
+  StartMenu,
+} from '@features'
 import automTree from '../assets/AnimatedAutumHight.png'
 import banyaLocation from '../assets/Banyalocation.png'
 import bathHouse from '../assets/bathHouse.png'
@@ -84,6 +92,24 @@ export class PreloadScene extends Scene {
   }
 
   create() {
-    this.scene.start('GameScene')
+    const fireMounter = new FireSceneMounter(this)
+    const heroSceneMounter = new HeroSceneMounter(this)
+    const forestMounter = new ForestSceneMounter(this)
+    new SnowParticleMounter(this)
+
+    const sceneConnector = {
+      getHeroMounter: () => heroSceneMounter,
+      getForestMounter: () => forestMounter,
+      getMainFireMounter: () => fireMounter,
+      getScene: () => this,
+    }
+
+    new SceneOpacityEngine(sceneConnector)
+
+    const startMenu = new StartMenu()
+    startMenu.eventEmitter.on('on-start-button-click', () => {
+      this.scene.start('GameScene')
+      startMenu.dispose()
+    })
   }
 }

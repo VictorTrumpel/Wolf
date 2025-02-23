@@ -7,7 +7,7 @@ export class HeroSceneMounter {
   private rusHeroContext: RusHeroContext
 
   constructor(private scene: Scene) {
-    this.rusHeroSprite = new RusHeroSprite(this.scene, 1000, 1300)
+    this.rusHeroSprite = new RusHeroSprite(this.scene, 1000, 1080)
     this.rusHeroContext = new RusHeroContext(this.rusHeroSprite)
 
     this.create()

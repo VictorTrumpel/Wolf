@@ -1,16 +1,33 @@
+import { Events } from 'phaser'
+import './StartMenu.css'
+
 export class StartMenu {
+  private startButton: HTMLButtonElement | null = null
+
+  eventEmitter = new Events.EventEmitter()
+
   constructor() {
     this.create()
   }
 
-  create() {
-    const startButton = document.createElement('button')
-    startButton.innerText = 'START'
-    startButton.style.width = '300px'
-    startButton.style.height = '200px'
-
-    document.body.append(startButton)
+  private create() {
+    this.createStartButton()
   }
 
-  dispose() {}
+  private createStartButton() {
+    this.startButton = document.createElement('button')
+    this.startButton.classList.add('start-button-menu')
+    this.startButton.innerText = 'START'
+
+    this.startButton.onclick = () => {
+      this.eventEmitter.emit('on-start-button-click')
+    }
+
+    document.body.append(this.startButton)
+  }
+
+  dispose() {
+    this.startButton?.remove()
+    this.startButton = null
+  }
 }
