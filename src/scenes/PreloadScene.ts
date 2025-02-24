@@ -108,8 +108,8 @@ export class PreloadScene extends Scene {
 
     const startMenu = new StartMenu()
     startMenu.eventEmitter.on('on-start-button-click', () => {
-      this.scene.start('GameScene')
       startMenu.dispose()
+      this.scene.start('GameScene')
     })
   }
 }
