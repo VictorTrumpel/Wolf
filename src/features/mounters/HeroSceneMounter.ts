@@ -24,10 +24,14 @@ export class HeroSceneMounter {
       this.scene.events.emit('PushWoodsInStove')
     }
 
-    this.scene.events.on('update', this.udpdate.bind(this))
+    this.rusHeroContext.onHeroDead = () => {
+      this.scene.events.emit('HeroDead')
+    }
+
+    this.scene.events.on('update', this.update.bind(this))
   }
 
-  private udpdate() {
+  private update() {
     this.rusHeroContext.update()
   }
 }

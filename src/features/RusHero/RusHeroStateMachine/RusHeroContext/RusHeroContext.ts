@@ -1,4 +1,5 @@
 import { AxeHitbox, HeroHPBar, HeroWoodCounterText, IRusHeroState, RusHeroSprite } from '@entities'
+import { DeadHeroState } from '../DeadHeroState'
 import { HeroAttackState } from '../HeroAttackState'
 import { IdleHeroState } from '../IdleHeroState'
 import { MovingHeroState } from '../MovingHeroState'
@@ -16,6 +17,7 @@ export class RusHeroContext implements IRusHeroState {
   readonly heroWoodCounter: HeroWoodCounterText
 
   onPushWoodsInStove: () => void = () => null
+  onHeroDead: () => void = () => null
 
   constructor(private rusHeroSprite: RusHeroSprite) {
     this.heroState = new IdleHeroState(this)
@@ -73,6 +75,10 @@ export class RusHeroContext implements IRusHeroState {
     return new HeroAttackState(this)
   }
 
+  getDeadHeroState(): IRusHeroState {
+    return new DeadHeroState(this)
+  }
+
   moveBottom(): void {
     this.heroState.moveBottom()
   }
@@ -98,8 +104,16 @@ export class RusHeroContext implements IRusHeroState {
     return await this.heroState.attack()
   }
   hurt(damage: number) {
+    if (this.getState() instanceof DeadHeroState) return
+
     this.healthCount -= damage
     this.rusHeroSprite.playHurt()
+
+    if (this.healthCount >= 0) return
+
+    const deadHeroState = this.getDeadHeroState()
+    this.setState(deadHeroState)
+    this.onHeroDead()
   }
   getHurt(): void {
     this.heroState.getHurt()

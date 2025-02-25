@@ -15,6 +15,7 @@ import {
   PutWoodIntoFireEngine,
   SceneColliderEngine,
   SceneKeyboardEngine,
+  ShowLooseMenuEngine,
   SnowParticleMounter,
 } from '@features'
 
@@ -52,5 +53,10 @@ export class GameScene extends Scene {
     new EnemiesMovingToHeroEngine(this.sceneConnector)
     new PutWoodIntoFireEngine(this.sceneConnector)
     new EnemyAttackHeroEngine(this.sceneConnector)
+    new ShowLooseMenuEngine(this.sceneConnector)
+
+    this.events.on('shutdown', () => {
+      this.events.removeListener('update')
+    })
   }
 }

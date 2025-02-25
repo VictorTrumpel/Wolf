@@ -5,8 +5,8 @@ import {
   ForestSceneMounter,
   HeroSceneMounter,
   SnowParticleMounter,
-  StartMenu,
 } from '@features'
+import { StartMenu } from '@entities/ui'
 import automTree from '../assets/AnimatedAutumHight.png'
 import banyaLocation from '../assets/Banyalocation.png'
 import bathHouse from '../assets/bathHouse.png'
@@ -107,9 +107,14 @@ export class PreloadScene extends Scene {
     new ForestOpacityEngine(sceneConnector)
 
     const startMenu = new StartMenu()
+
     startMenu.eventEmitter.on('on-start-button-click', () => {
       startMenu.dispose()
       this.scene.start('GameScene')
+    })
+
+    this.events.on('shutdown', () => {
+      this.events.removeListener('update')
     })
   }
 }

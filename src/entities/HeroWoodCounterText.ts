@@ -49,13 +49,10 @@ export class HeroWoodCounterText extends GameObjects.Text {
   update() {
     this.text = `×${this.value}`
     this.setVisible(this.value === 0 ? false : true)
-
     const heroBody = this.hero.getBody()
     const positionX = heroBody.x + OFFSET_X
     const positionY = heroBody.y + OFFSET_Y
-
     this.setPosition(positionX, positionY)
-
     this.setDepth(this.hero.depth)
   }
 }

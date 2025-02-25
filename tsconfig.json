@@ -20,6 +20,7 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "@entities": ["./src/entities"],
+      "@entities/ui": ["./src/entities/ui"],
       "@features": ["./src/features"],
       "@shared": ["./src/shared"]
     }

@@ -24,7 +24,7 @@ export class EnemyAttackHeroEngine {
   }
 
   private handleHurtHero = async () => {
-    this.heroContext.hurt(0.1)
+    this.heroContext.hurt(1)
   }
 
   create() {
