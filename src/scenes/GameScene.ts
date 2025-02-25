@@ -15,6 +15,7 @@ import {
   PutWoodIntoFireEngine,
   SceneColliderEngine,
   SceneKeyboardEngine,
+  ShowHelperTextWhenHeroNearEngine,
   ShowLooseMenuEngine,
   SnowParticleMounter,
 } from '@features'
@@ -28,6 +29,10 @@ export class GameScene extends Scene {
 
   create() {
     this.cameras.main.setBounds(0, 0, 2000, 2000)
+
+    this.events.on('shutdown', () => {
+      this.events.removeListener('update')
+    })
 
     const heroSceneMounter = new HeroSceneMounter(this)
     const forestSceneMounter = new ForestSceneMounter(this)
@@ -54,9 +59,6 @@ export class GameScene extends Scene {
     new PutWoodIntoFireEngine(this.sceneConnector)
     new EnemyAttackHeroEngine(this.sceneConnector)
     new ShowLooseMenuEngine(this.sceneConnector)
-
-    this.events.on('shutdown', () => {
-      this.events.removeListener('update')
-    })
+    new ShowHelperTextWhenHeroNearEngine(this.sceneConnector)
   }
 }
