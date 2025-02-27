@@ -1,3 +1,4 @@
+import debounce from 'lodash.debounce'
 import { GameObjects, Scene } from 'phaser'
 import { ISceneConnector } from '../ISceneConnector'
 import { FireSceneMounter } from '../mounters'
@@ -26,6 +27,11 @@ export class ShowHelperTextWhenHeroNearEngine {
     return this.mainFireMounter.getFireContext().getSprite()
   }
 
+  private handleHideHelperTextForDropWoods = debounce(() => {
+    if (!this.dropWoodsHelperText) return
+    this.dropWoodsHelperText.alpha = 0
+  }, 300)
+
   private handleShowHelperTextForDropWoods = () => {
     if (!this.dropWoodsHelperText) return
 
@@ -40,10 +46,7 @@ export class ShowHelperTextWhenHeroNearEngine {
     this.scene.time.addEvent({
       delay: 100,
       loop: false,
-      callback: () => {
-        if (!this.dropWoodsHelperText) return
-        this.dropWoodsHelperText.alpha = 0
-      },
+      callback: this.handleHideHelperTextForDropWoods,
     })
   }
 
