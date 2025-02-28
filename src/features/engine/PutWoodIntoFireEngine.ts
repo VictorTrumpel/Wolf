@@ -34,7 +34,7 @@ export class PutWoodIntoFireEngine {
     if (!isHeroOverlapFire) return
 
     const woodCount = this.heroContext.getWoodGoodCount()
-    this.mainFireMounter.getFireContext().addPower(woodCount)
+    this.mainFireMounter.getFireContext().addWoodForHealth(woodCount)
     this.heroContext.addWoodGoodCount(-1 * woodCount)
   }
 

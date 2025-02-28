@@ -1,5 +1,6 @@
 import { Scene } from 'phaser'
 import {
+  ColdHurtBathEngine,
   EnemiesMovingToHeroEngine,
   EnemiesSceneMounter,
   EnemyAttackHeroEngine,
@@ -11,6 +12,7 @@ import {
   HeroPickWoodEngine,
   HeroSceneMounter,
   ISceneConnector,
+  MainFireHurtEngine,
   MainFireOpacityEngine,
   PutWoodIntoFireEngine,
   SceneColliderEngine,
@@ -48,6 +50,7 @@ export class GameScene extends Scene {
       getScene: () => this,
     }
 
+    new MainFireHurtEngine(this.sceneConnector)
     new ForestOpacityEngine(this.sceneConnector)
     new MainFireOpacityEngine(this.sceneConnector)
     new SceneColliderEngine(this.sceneConnector)
@@ -60,5 +63,6 @@ export class GameScene extends Scene {
     new EnemyAttackHeroEngine(this.sceneConnector)
     new ShowLooseMenuEngine(this.sceneConnector)
     new ShowHelperTextWhenHeroNearEngine(this.sceneConnector)
+    new ColdHurtBathEngine(this.sceneConnector)
   }
 }

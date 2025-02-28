@@ -1,37 +1,49 @@
 import { FireSprite } from '@entities'
 
 export class MainFireContext {
-  private power = 8
+  private health = 100
 
-  constructor(private fireSprite: FireSprite) {}
+  constructor(private fireSprite: FireSprite) {
+    fireSprite.playLargeFire()
+  }
 
   getSprite() {
     return this.fireSprite
   }
 
-  addPower(woodCount: number) {
-    this.power += woodCount
+  getHealth() {
+    return this.health
   }
 
-  update() {
-    this.power -= 0.001
+  addWoodForHealth(woodCount: number) {
+    const addedHp = woodCount * 10
 
-    if (this.power < 0) {
-      this.power = 0
+    this.health += addedHp
+
+    this.updateHealthAnimation()
+  }
+
+  hurt(hp: number) {
+    this.health -= hp
+
+    if (this.health <= 0) {
+      this.health = 0
     }
 
-    if (this.power > 5) {
+    this.updateHealthAnimation()
+  }
+
+  updateHealthAnimation() {
+    if (this.health >= 70) {
       this.fireSprite.playLargeFire()
       return
     }
 
-    if (this.power > 3) {
+    if (this.health >= 30) {
       this.fireSprite.playMediumFire()
       return
     }
 
-    if (this.power > 0) {
-      this.fireSprite.playSmallFire()
-    }
+    this.fireSprite.playSmallFire()
   }
 }

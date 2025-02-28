@@ -9,6 +9,6 @@ export const IDLE_HITBOX_OFFSET_X = 3.5
 export const IDLE_HITBOX_OFFSET_Y = 10
 
 export const ATTACK_HITBOX_OFFSET_X = 19.5
-export const ATTACK_HITBOX_OFFSET_Y = 26.5
+export const ATTACK_HITBOX_OFFSET_Y = 27
 
 export const ATTACK_ANIMATION_DELAY_AFTER_COMPLETE = 30

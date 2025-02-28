@@ -22,6 +22,7 @@ import mediumFireAtlas from '../assets/mediumFireAtlas/mediumFire.png'
 import ork from '../assets/ork.png'
 import smallFireJson from '../assets/smallFireAtlas/smallFire.json'
 import smallFireAtlas from '../assets/smallFireAtlas/smallFire.png'
+import snowFlake from '../assets/snowFlake.png'
 import snowParticle from '../assets/snowParticle.png'
 import splash from '../assets/splash.png'
 import stone1 from '../assets/stone1.png'
@@ -63,6 +64,7 @@ export class PreloadScene extends Scene {
     this.load.image('woodStones', woodStones)
     this.load.image('stone1', stone1)
     this.load.image('tothemStoun', tothemStoun)
+    this.load.image('snowFlake', snowFlake)
 
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)
