@@ -18,6 +18,7 @@ export class EnemyContext implements IEnemyState {
   async hurt(damage: number) {
     this.isHurting = true
     this.hp -= damage
+    this.enemySprite.scene.sound.play('axeHitSound')
     await this.enemySprite.playHurt()
     this.isHurting = false
     if (this.hp <= 0) {

@@ -8,6 +8,7 @@ import {
   SnowParticleMounter,
 } from '@features'
 import { StartMenu } from '@entities/ui'
+import axeHitSound from '../assets/axeHitsound.mp3'
 import bathHouse from '../assets/bathHouse.png'
 import bonfire from '../assets/bonfire-Photoroom.png'
 import deadTreeAtlas from '../assets/deadTreeAtlas/deadTreeAtlas.png'
@@ -39,6 +40,7 @@ import woodenFence2CollumnsVertical from '../assets/woodenFence2CollumnsVertical
 import woodenFence3CollumnsHorizontal from '../assets/woodenFence3CollumnsHorizontal.png'
 import woodenFence4CollumnsVertical from '../assets/woodenFence4CollumnsVertical.png'
 import woodenFence8CollumnsVertical from '../assets/woodenFence8CollumnsVertical.png'
+import woodHitSound from '../assets/woodHitSound.mp3'
 import woodIcon from '../assets/woodIcon.png'
 import woodStones from '../assets/woodStones.png'
 
@@ -68,6 +70,9 @@ export class PreloadScene extends Scene {
     this.load.image('tothemStoun', tothemStoun)
     this.load.image('snowFlake', snowFlake)
     this.load.image('iceGroundAsset', iceGroundAsset)
+
+    this.load.audio('woodHitSound', woodHitSound)
+    this.load.audio('axeHitSound', axeHitSound)
 
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)
