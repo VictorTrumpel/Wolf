@@ -23,6 +23,8 @@ import largeFireAtlas from '../assets/largeFireAtlas/largeFire.png'
 import mediumFireJson from '../assets/mediumFireAtlas/mediumFire.json'
 import mediumFireAtlas from '../assets/mediumFireAtlas/mediumFire.png'
 import ork from '../assets/ork.png'
+import pickUpSound from '../assets/pickUpSound.mp3'
+import putWoodsInTheStorveSound from '../assets/putWoodsInTheStorveSound.mp3'
 import smallFireJson from '../assets/smallFireAtlas/smallFire.json'
 import smallFireAtlas from '../assets/smallFireAtlas/smallFire.png'
 import snowFlake from '../assets/snowflake_small.png'
@@ -73,6 +75,8 @@ export class PreloadScene extends Scene {
 
     this.load.audio('woodHitSound', woodHitSound)
     this.load.audio('axeHitSound', axeHitSound)
+    this.load.audio('pickUpSound', pickUpSound)
+    this.load.audio('putWoodsInTheStorveSound', putWoodsInTheStorveSound)
 
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)

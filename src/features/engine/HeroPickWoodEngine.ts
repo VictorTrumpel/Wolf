@@ -23,6 +23,7 @@ export class HeroPickWoodEngine {
     this.forestGroup.removeTreeFromDeadGroup(treeGood)
     this.heroContext.addWoodGoodCount(1)
     treeGood.destroy()
+    this.scene.sound.play('pickUpSound')
   }
 
   private get heroContext() {

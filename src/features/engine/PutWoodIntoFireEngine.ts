@@ -36,6 +36,7 @@ export class PutWoodIntoFireEngine {
     const woodCount = this.heroContext.getWoodGoodCount()
     this.mainFireMounter.getFireContext().addWoodForHealth(woodCount)
     this.heroContext.addWoodGoodCount(-1 * woodCount)
+    this.scene.sound.play('putWoodsInTheStorveSound', { volume: 0.5 })
   }
 
   private create() {
