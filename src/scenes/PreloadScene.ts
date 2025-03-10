@@ -3,6 +3,7 @@ import {
   FireSceneMounter,
   ForestOpacityEngine,
   ForestSceneMounter,
+  GroundSceneMounter,
   HeroSceneMounter,
   SnowParticleMounter,
 } from '@features'
@@ -15,6 +16,7 @@ import firTreeJson from '../assets/firTreeAtlas/firTreeAtlas.json'
 import firTreeAtlas from '../assets/firTreeAtlas/firTreeAtlas.png'
 import heroRunJson from '../assets/heroAtlas/heroAtlas.json'
 import heroRunAtlas from '../assets/heroAtlas/heroAtlas.png'
+import iceGroundAsset from '../assets/iceGroundAsset.png'
 import largeFireJson from '../assets/largeFireAtlas/largeFire.json'
 import largeFireAtlas from '../assets/largeFireAtlas/largeFire.png'
 import mediumFireJson from '../assets/mediumFireAtlas/mediumFire.json'
@@ -22,7 +24,7 @@ import mediumFireAtlas from '../assets/mediumFireAtlas/mediumFire.png'
 import ork from '../assets/ork.png'
 import smallFireJson from '../assets/smallFireAtlas/smallFire.json'
 import smallFireAtlas from '../assets/smallFireAtlas/smallFire.png'
-import snowFlake from '../assets/snowFlake.png'
+import snowFlake from '../assets/snowflake_small.png'
 import snowParticle from '../assets/snowParticle.png'
 import splash from '../assets/splash.png'
 import stone1 from '../assets/stone1.png'
@@ -65,6 +67,7 @@ export class PreloadScene extends Scene {
     this.load.image('stone1', stone1)
     this.load.image('tothemStoun', tothemStoun)
     this.load.image('snowFlake', snowFlake)
+    this.load.image('iceGroundAsset', iceGroundAsset)
 
     this.load.atlas('heroAtlas', heroRunAtlas, heroRunJson)
     this.load.atlas('firTreeAtlas', firTreeAtlas, firTreeJson)
@@ -76,6 +79,7 @@ export class PreloadScene extends Scene {
   }
 
   create() {
+    new GroundSceneMounter(this)
     const fireMounter = new FireSceneMounter(this)
     const heroSceneMounter = new HeroSceneMounter(this)
     const forestMounter = new ForestSceneMounter(this)

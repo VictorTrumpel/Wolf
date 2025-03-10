@@ -53,7 +53,8 @@ export class ShowHelperTextWhenHeroNearEngine {
   private create() {
     this.dropWoodsHelperText = this.scene.add.text(0, 0, 'press "E" to drop woods', {
       fontSize: '20px',
-      color: '#ffffff',
+      color: '#000000',
+      backgroundColor: 'white',
     })
 
     this.dropWoodsHelperText.alpha = 0

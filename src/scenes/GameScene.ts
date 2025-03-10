@@ -7,6 +7,7 @@ import {
   FireSceneMounter,
   ForestOpacityEngine,
   ForestSceneMounter,
+  GroundSceneMounter,
   HeroAttackEnemyEngine,
   HeroAttackTreeEngine,
   HeroPickWoodEngine,
@@ -36,6 +37,7 @@ export class GameScene extends Scene {
       this.events.removeListener('update')
     })
 
+    new GroundSceneMounter(this)
     const heroSceneMounter = new HeroSceneMounter(this)
     const forestSceneMounter = new ForestSceneMounter(this)
     const enemiesSceneMounter = new EnemiesSceneMounter(this)

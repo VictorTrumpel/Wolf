@@ -37,7 +37,7 @@ export class ColdHurtBathEngine {
 
   private createSnowFlake() {
     this.snowFlake = this.scene.add.image(0, 0, 'snowFlake')
-    this.snowFlake.setScale(0.03)
+    // this.snowFlake.setScale(0.5)
     this.hurtIfCold()
   }
 
@@ -61,17 +61,12 @@ export class ColdHurtBathEngine {
 
     const heroBody = this.heroSprite.getBody()
 
-    this.snowFlake.x = heroBody.x
-    this.snowFlake.y = heroBody.y - 35
+    this.snowFlake.x = heroBody.x + 25
+    this.snowFlake.y = heroBody.y + 20
 
-    this.snowFlake.setDepth(this.heroSprite.depth)
+    this.snowFlake.setDepth(this.heroSprite.depth + 1)
 
-    if (this.isCold()) {
-      this.snowFlake.alpha = 1
-      return
-    }
-
-    this.snowFlake.alpha = 0
+    this.snowFlake.alpha = this.isCold() ? 1 : 0
   }
 
   private isCold() {

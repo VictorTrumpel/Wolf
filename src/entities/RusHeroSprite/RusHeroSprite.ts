@@ -18,8 +18,6 @@ export class RusHeroSprite extends PhysicsSprite {
 
   private isHurtAnimationPlaying = false
 
-  // container: GameObjects.Container
-
   onFrameUpdate: (
     animation: Animations.Animation,
     animationframe: Animations.AnimationFrame
@@ -27,9 +25,6 @@ export class RusHeroSprite extends PhysicsSprite {
 
   constructor(scene: Scene, x: number, y: number) {
     super(scene, x, y, 'heroAtlas', 'idle_0')
-
-    // this.container = this.scene.add.container(x, y)
-    // this.container.add(this)
 
     this.setScale(2)
     this.setOriginForIdle()
@@ -93,7 +88,6 @@ export class RusHeroSprite extends PhysicsSprite {
   }
 
   moveX(speed: number) {
-    // this.container.setVelo
     const body = this.getBody()
     body.setVelocityX(speed)
   }
