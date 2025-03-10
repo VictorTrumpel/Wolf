@@ -21,7 +21,7 @@ export class MainFireHurtEngine {
     this.scene.time.addEvent({
       delay: 3000,
       callback: () => {
-        this.fireContext.hurt(5)
+        this.fireContext.hurt(3)
       },
       loop: true,
     })
