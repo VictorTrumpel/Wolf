@@ -1,0 +1,26 @@
+.load-info-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.load-info-container .load-info-title {
+  font-size: 32px;
+}
+
+.load-info-container .load-bar-container {
+  height: 50px;
+  width: 300px;
+  border: 4px solid black;
+}
+
+.load-info-container .loadb-bar-fill {
+  width: 100%;
+  height: 100%;
+  background-color: #ad2828;
+  transition: 0.3s ease-in-out width;
+}

@@ -7,7 +7,7 @@ import {
   HeroSceneMounter,
   SnowParticleMounter,
 } from '@features'
-import { StartMenu } from '@entities/ui'
+import { LoadAssetsMenu, StartMenu } from '@entities/ui'
 import axeHitSound from '../assets/axeHitsound.mp3'
 import bathHouse from '../assets/bathHouse.png'
 import bonfire from '../assets/bonfire-Photoroom.png'
@@ -52,6 +52,16 @@ export class PreloadScene extends Scene {
   }
 
   preload() {
+    const loadAssetsMenu = new LoadAssetsMenu()
+
+    this.load.on('progress', (value: number) => {
+      loadAssetsMenu.setPercent(value * 100)
+    })
+
+    this.load.on('complete', () => {
+      loadAssetsMenu.dispose()
+    })
+
     this.load.image('wolf', wolf)
     this.load.image('ork', ork)
     this.load.image('splash', splash)
@@ -93,23 +103,18 @@ export class PreloadScene extends Scene {
     const heroSceneMounter = new HeroSceneMounter(this)
     const forestMounter = new ForestSceneMounter(this)
     new SnowParticleMounter(this)
-
     const sceneConnector = {
       getHeroMounter: () => heroSceneMounter,
       getForestMounter: () => forestMounter,
       getMainFireMounter: () => fireMounter,
       getScene: () => this,
     }
-
     new ForestOpacityEngine(sceneConnector)
-
     const startMenu = new StartMenu()
-
     startMenu.eventEmitter.on('on-start-button-click', () => {
       startMenu.dispose()
       this.scene.start('GameScene')
     })
-
     this.events.on('shutdown', () => {
       this.events.removeListener('update')
     })
